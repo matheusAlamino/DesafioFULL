@@ -5,7 +5,7 @@ export const environment = {
     production: false,
     api: {
         local: `${protocolo}${url}/`,
-        login: `${protocolo}${url}/login`,
+        login: `${protocolo}localhost:4201`,
         mpx: `${protocolo}api-multiplx.localhost/api/v1/`
     }
 };

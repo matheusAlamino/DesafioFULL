@@ -10,6 +10,11 @@ const routes: Routes = [
         canActivate: [AuthGuard]
     },
     {
+        path: '',
+        component: DashboardComponent,
+        canActivate: [AuthGuard]
+    },
+    {
         path: '**',
         component: DashboardComponent,
         canActivate: [AuthGuard]

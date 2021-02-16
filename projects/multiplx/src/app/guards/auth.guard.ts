@@ -30,28 +30,20 @@ export class AuthGuard implements CanActivate {
         return true
     }
 
-    private storage(key) {
-        return this.storageService.getStorage(key)
-    }
-
     private redirectLogin() {
         window.location.href = this.api.login + '?l=' + this.url
         return false
     }
 
-    private redirectLogout() {
-        window.location.href = this.api.logout + '?l=' + this.url
-        return false
-    }
-
     public clearStorage(redirect: string) {
         this.storageService.removeStorage('user')
-/*
-        if (redirect == 'login') this.redirectLogin()
-        else if (redirect == 'logout') this.redirectLogout()
-        else this.url = btoa(this.api.local + redirect)
-        this.redirectLogout()
-        */
+
+        if (redirect == 'login') {
+            this.redirectLogin()
+        } else {
+            this.url = btoa(this.api.local + redirect)
+            this.redirectLogin()
+        }
     }
 
     private verificaStorage() {

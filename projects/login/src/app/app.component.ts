@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { environment } from '../environments/environment';
 import { LoginService } from './services/login.service';
 
@@ -16,10 +17,20 @@ export class AppComponent {
     msg: string
     user = {email: null, password: null }
     error: boolean = false
+    url: string
 
     constructor(
-        private loginService: LoginService
+        private loginService: LoginService,
+        private route: ActivatedRoute
     ) {}
+
+    ngOnInit() {
+        this.route.queryParams.subscribe((params: any) => {
+            if (params.l) {
+                this.url = atob(params.l)
+            }
+        });
+    }
 
     login() {
         if (!this.$form.valid) {
@@ -30,12 +41,14 @@ export class AppComponent {
         this.loginService.login(this.user).subscribe(
             (response) => {
                 if (response.ret == 1) {
-                    let a = document.createElement('a')
-                    a.target = '_self'
-                    a.href = this.api.local + '/home?t=' + response.token
-                    a.click()
+                    let params = '?t=' + response.token
+                    if (!this.url) {
+                        this.url = this.api.local
+                    }
+                    window.location.href = this.url + params
                 } else {
                     this.msg = response.msg
+                    this.user.password = null
                 }
             },
             (error) => {
