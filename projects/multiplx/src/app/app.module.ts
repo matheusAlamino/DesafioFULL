@@ -12,7 +12,8 @@ import { LocalStorageService } from './guards/storage.service';
 import { Swal } from './utils/index';
 import { registerLocaleData } from '@angular/common'
 import localePt from '@angular/common/locales/pt'
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HeaderInterceptor } from './guards/auth.interceptor';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -37,7 +38,8 @@ registerLocaleData(localePt, 'pt-BR');
         {
             provide: LOCALE_ID,
             useValue: 'pt-BR',
-        }
+        },
+        { provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true }
     ],
     bootstrap: [AppComponent]
 })

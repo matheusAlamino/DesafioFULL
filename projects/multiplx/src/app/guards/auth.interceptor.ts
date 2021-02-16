@@ -14,11 +14,11 @@ export class HeaderInterceptor implements HttpInterceptor {
 
         let storage = this.storageService.getStorage('user')
         if (!storage.token) {
-            this.authGuard.limpaStorage('login')
+            this.authGuard.clearStorage('login')
         }
 
         const headers = req.headers.set('Content-Type', 'application/json')
-
+        console.log('entrei')
         const authReq = req.clone({
             headers: headers.append('Authorization', `Bearer ${storage.token}`)
         })
@@ -28,7 +28,7 @@ export class HeaderInterceptor implements HttpInterceptor {
                 const status = httpErrorResponse.status
 
                 if (status == 401) {
-                    this.authGuard.limpaStorage('login')
+                    this.authGuard.clearStorage('login')
                 }
 
                 return throwError(httpErrorResponse)

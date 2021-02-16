@@ -46,11 +46,12 @@ export class AuthGuard implements CanActivate {
 
     public clearStorage(redirect: string) {
         this.storageService.removeStorage('user')
-
+/*
         if (redirect == 'login') this.redirectLogin()
         else if (redirect == 'logout') this.redirectLogout()
         else this.url = btoa(this.api.local + redirect)
         this.redirectLogout()
+        */
     }
 
     private verificaStorage() {
@@ -59,7 +60,7 @@ export class AuthGuard implements CanActivate {
         return (_user == null || _user == undefined) ? false : true
     }
 
-    private async getUsuario(token) {
+    private async getUser(token) {
         await this.storageService.getDataStorage(token).then(async (data: any) => {
             if (data != null) {
                 data.token = token
@@ -83,7 +84,7 @@ export class AuthGuard implements CanActivate {
             await this.storageService
                 .getRefreshToken(this.params.t)
                 .then(async (data) => {
-                    await this.getUsuario(data.token)
+                    await this.getUser(data.token)
                 })
                 .catch((error) => {
                     if (error.ok == false && error.status == 500) this.pagina ? this.clearStorage(this.pagina) : this.clearStorage('login')

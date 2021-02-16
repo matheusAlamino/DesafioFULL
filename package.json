@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --port=4200",
+    "start_all": "npm run start_login && npm run start_multiplx",
+    "start_login": "ng serve login --port=4201",
+    "start_multiplx": "ng serve multiplx --port=4200",
     "build_deploy": "npm run build && npm run deploy",
     "build": "ng build --prod --outputPath=dist",
     "deploy": "npx angular-cli-ghpages --message='deploy prod' --repo=https://github.com/matheusAlamino/multiplx-build --branch=producao --no-silent --dir=dist",
