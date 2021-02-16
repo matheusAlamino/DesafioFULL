@@ -3,8 +3,10 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
+    "start": "ng serve --port=4200",
+    "build_deploy": "npm run build && npm run deploy",
+    "build": "ng build --prod --outputPath=dist",
+    "deploy": "npx angular-cli-ghpages --message='deploy prod' --repo=https://github.com/matheusAlamino/multiplx-build --branch=producao --no-silent --dir=dist",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -19,7 +21,10 @@
     "@angular/platform-browser": "~11.2.0",
     "@angular/platform-browser-dynamic": "~11.2.0",
     "@angular/router": "~11.2.0",
+    "angular-cli-ghpages": "^1.0.0-rc.1",
+    "ngx-webstorage-service": "^4.1.0",
     "rxjs": "~6.6.0",
+    "sweetalert2": "^10.15.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.3"
   },
