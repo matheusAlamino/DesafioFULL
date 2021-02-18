@@ -4,6 +4,7 @@ import { UsersComponent } from './users.component';
 import { RouterModule, Routes } from '@angular/router';
 import { HeaderInterceptor } from '../guards/auth.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { UserService } from '../services/user.service';
 
 const ROUTES: Routes = [
   { path: '', component: UsersComponent },
@@ -18,6 +19,7 @@ const ROUTES: Routes = [
         RouterModule.forChild(ROUTES),
     ],
     providers: [
+        UserService,
         { provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true }
     ]
 })
