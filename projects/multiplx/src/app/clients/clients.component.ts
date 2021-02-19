@@ -105,7 +105,7 @@ export class ClientsComponent implements OnInit {
                 client.status = status == 1 ? 0 : 1
             }
         }, error => {
-            this.swal.msgAlert('Atenção', 'Ocorreu um problema ao tentar atualizar o status do cliente!', 'warning', 'Ok')
+            this.swal.msgAlert('Atenção', 'Ocorreu um problema ao tentar atualizar o status do cliente!', 'error', 'Ok')
             client.status = status == 1 ? 0 : 1
             if (error.status == 401) {
                 this.app.logout('clientes')
@@ -114,21 +114,17 @@ export class ClientsComponent implements OnInit {
     }
 
     onSave() {
-        console.log(this.$form)
         if (!this.$form.valid) {
             this.error = true
             return
         }
+
         let msg = 'Deseja realmente salvar este cliente?'
         if (this.client.id != null) {
             msg = 'Deseja realmente atualizar os dados do cliente?'
         }
-        this.swal.confirmAlertCustom('Atenção',
-        msg,
-        'info',
-        'Sim',
-        'Cancelar',
-        { callback: () => this.save() })
+
+        this.swal.confirmAlertCustom('Atenção', msg, 'info', 'Sim', 'Cancelar', { callback: () => this.save() })
     }
 
     save() {
@@ -157,7 +153,7 @@ export class ClientsComponent implements OnInit {
                 this.swal.msgAlert('Atenção', response.msg, 'warning', 'Ok')
             }
         }, error => {
-            this.swal.msgAlert('Atenção', 'Ocorreu um problema ao tentar cadastrar o cliente!', 'warning', 'Ok')
+            this.swal.msgAlert('Atenção', 'Ocorreu um problema ao tentar cadastrar o cliente!', 'error', 'Ok')
             if (error.status == 401) {
                 this.app.logout('clientes')
             }
@@ -183,7 +179,27 @@ export class ClientsComponent implements OnInit {
                 this.swal.msgAlert('Atenção', response.msg, 'warning', 'Ok')
             }
         }, error => {
-            this.swal.msgAlert('Atenção', 'Ocorreu um problema ao tentar atualizar os dados do cliente!', 'warning', 'Ok')
+            this.swal.msgAlert('Atenção', 'Ocorreu um problema ao tentar atualizar os dados do cliente!', 'error', 'Ok')
+            if (error.status == 401) {
+                this.app.logout('clientes')
+            }
+        })
+    }
+
+    onDelete(client_id) {
+        this.swal.confirmAlertCustom('Atenção', 'Deseja realmente remover este cliente?', 'info', 'Sim', 'Cancelar', { callback: () => this.delete(client_id) })
+    }
+
+    delete(client_id) {
+        this.clientService.delete(client_id).subscribe(response => {
+            if (response.ret == 1) {
+                this.swal.msgAlert('Sucesso', 'Cliente removido com sucesso', 'success')
+                this.loadClients()
+            } else {
+                this.swal.msgAlert('Atenção', response.msg, 'warning', 'Ok')
+            }
+        }, error => {
+            this.swal.msgAlert('Atenção', 'Ocorreu um problema ao tentar remover este cliente!', 'error', 'Ok')
             if (error.status == 401) {
                 this.app.logout('clientes')
             }
@@ -191,12 +207,21 @@ export class ClientsComponent implements OnInit {
     }
 
     openModal(client = null) {
+        this.error = false
         if (client == null) {
             this.clearObject()
             client = this.client
         }
 
-        this.client = client
+        this.client = {
+            id: client.id,
+            name: client.name,
+            cpf: client.cpf,
+            birth_date: client.birth_date,
+            phone: client.phone,
+            email: client.email,
+            status: client.status
+        }
     }
 
     clearObject() {

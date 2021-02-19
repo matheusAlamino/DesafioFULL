@@ -14,6 +14,7 @@ import localePt from '@angular/common/locales/pt'
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HeaderInterceptor } from './guards/auth.interceptor';
 import { FormsModule } from '@angular/forms';
+import { PaginationComponent } from './utils/pagination/pagination.component';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -21,7 +22,8 @@ registerLocaleData(localePt, 'pt-BR');
     declarations: [
         AppComponent,
         MenuLeftComponent,
-        DashboardComponent
+        DashboardComponent,
+        PaginationComponent
     ],
     imports: [
         BrowserModule,

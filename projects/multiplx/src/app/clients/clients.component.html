@@ -107,30 +107,30 @@
                             <div class="form-group row">
                                 <div class="col-lg-6">
                                     <label>Nome Completo*:</label>
-                                    <input type="text" class="form-control" name="name" #name [(ngModel)]="client.name" [ngClass]="{'is-invalid': !name.valid && error}" placeholder="Informe o nome completo" required/>
+                                    <input type="text" class="form-control" name="name" #name="ngModel" [(ngModel)]="client.name" [ngClass]="{'is-invalid': !name.valid && error}" placeholder="Informe o nome completo" required/>
                                     <!-- <span class="form-text text-muted">Please enter your full name</span> -->
                                 </div>
                                 <div class="col-lg-6">
                                     <label>CPF*:</label>
-                                    <input type="text" class="form-control" name="cpf" #cpf [(ngModel)]="client.cpf" [ngClass]="{'is-invalid': !cpf.valid && error}" placeholder="000.000.000-00" mask="000.000.000-00" required/>
+                                    <input type="text" class="form-control" name="cpf" #cpf="ngModel" [(ngModel)]="client.cpf" [ngClass]="{'is-invalid': !cpf.valid && error}" placeholder="000.000.000-00" mask="000.000.000-00" required/>
                                     <!-- <span class="form-text text-muted">Please enter your contact number</span> -->
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="col-lg-6">
                                     <label>Data de Nascimento*:</label>
-                                    <input type="date" class="form-control" name="birth_date" #birth_date [(ngModel)]="client.birth_date" [ngClass]="{'is-invalid': !birth_date.valid && error}" required/>
+                                    <input type="date" class="form-control" name="birth_date" #birth_date="ngModel" [(ngModel)]="client.birth_date" [ngClass]="{'is-invalid': !birth_date.valid && error}" required/>
                                     <!-- <span class="form-text text-muted">Please enter your full name</span> -->
                                 </div>
-                                <!-- <div class="col-lg-6">
+                                <div class="col-lg-6">
                                     <label>Telefone:</label>
-                                    <input type="text" class="form-control" name="phone" [(ngModel)]="client.phone" placeholder="(00) 0000-00000" mask="(00) 0000-0000?0"/>
-                                </div> -->
+                                    <input type="text" class="form-control" name="phone" #phone="ngModel" [(ngModel)]="client.phone" placeholder="(00) 0000-00000" mask="(00) 0000-00009" [ngClass]="{'is-invalid': !phone.valid && client.phone != null && error}"/>
+                                </div>
                             </div>
                             <div class="separator separator-dashed my-5"></div>
                             <div class="form-group">
                                 <label>E-mail*:</label>
-                                <input type="email" class="form-control" name="email" #email [(ngModel)]="client.email" [ngClass]="{'is-invalid': !email.valid && error}" placeholder="email@exemplo.com" email required/>
+                                <input type="email" class="form-control" name="email" #email="ngModel" [(ngModel)]="client.email" [ngClass]="{'is-invalid': !email.valid && error}" placeholder="email@exemplo.com" email required/>
                                 <!-- <span class="form-text text-muted">Please enter your full name</span> -->
                             </div>
                         </div>
@@ -139,13 +139,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" (click)="clearObject()" #closeModal class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Cancelar</button>
-                <button type="button" (click)="onSave()" class="btn btn-primary font-weight-bold">
-                    <span *ngIf="client.id; else saveClient">Editar</span>
-                    <ng-template #saveClient>
-                        <span>Salvar</span>
-                    </ng-template>
-
-                </button>
+                <button type="button" (click)="onSave()" class="btn btn-primary font-weight-bold">Salvar</button>
             </div>
         </div>
     </div>
@@ -224,7 +218,7 @@
                                             </td>
                                             <td>
                                                 {{ client.email }}
-                                                <span *ngIf="client.phone" class="d-block">{{ client.phone | mask: "(00) 0000-0000?0" }}</span>
+                                                <span *ngIf="client.phone" class="d-block">{{ client.phone | mask: "(00) 0000-00009" }}</span>
                                             </td>
                                             <td>
                                                 <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
@@ -248,7 +242,7 @@
                                                         </g>
                                                     </svg><!--end::Svg Icon--></span>
                                                 </a>
-                                                <a href="#" class="btn btn-icon btn-sm btn-outline-danger">
+                                                <a href="javascript:;" (click)="onDelete(client.id)" class="btn btn-icon btn-sm btn-outline-danger">
                                                     <span class="svg-icon"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\General\Trash.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                                             <rect x="0" y="0" width="24" height="24"/>

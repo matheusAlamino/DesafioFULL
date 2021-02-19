@@ -34,4 +34,8 @@ export class ClientService {
     update(client_id, data): Observable<any> {
         return this.http.put(`${this.api.mpx}clients/${client_id}`, data).pipe(map(response => response));
     }
+
+    delete(client_id): Observable<any> {
+        return this.http.delete(`${this.api.mpx}clients/${client_id}`).pipe(map(response => response));
+    }
 }
