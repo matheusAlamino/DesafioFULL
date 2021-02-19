@@ -6,7 +6,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MenuLeftComponent } from './menu-left/menu-left.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { ProcessComponent } from './process/process.component';
 import { AuthGuard } from './guards/auth.guard';
 import { LocalStorageService } from './guards/storage.service';
 import { Swal } from './utils/index';
@@ -14,6 +13,7 @@ import { registerLocaleData } from '@angular/common'
 import localePt from '@angular/common/locales/pt'
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HeaderInterceptor } from './guards/auth.interceptor';
+import { FormsModule } from '@angular/forms';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -21,14 +21,14 @@ registerLocaleData(localePt, 'pt-BR');
     declarations: [
         AppComponent,
         MenuLeftComponent,
-        DashboardComponent,
-        ProcessComponent
+        DashboardComponent
     ],
     imports: [
         BrowserModule,
         AppRoutingModule,
         RouterModule,
         HttpClientModule,
+        FormsModule,
     ],
     providers: [
         LocalStorageService,

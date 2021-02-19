@@ -46,7 +46,7 @@ export class AppComponent {
         return this.authGuard
     }
 
-    logout() {
-        this.authGuard.clearStorage('login')
+    logout(path = 'login') {
+        this.authGuard.clearStorage(path)
     }
 }

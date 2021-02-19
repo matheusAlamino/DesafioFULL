@@ -1,0 +1,26 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ClientsComponent } from './clients.component';
+import { RouterModule, Routes } from '@angular/router';
+import { MaskPipe, NgxMaskModule } from 'ngx-mask';
+import { FormsModule } from '@angular/forms';
+
+const ROUTES: Routes = [
+    { path: '', component: ClientsComponent },
+]
+
+@NgModule({
+    declarations: [
+        ClientsComponent
+    ],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(ROUTES),
+        NgxMaskModule.forRoot(),
+        FormsModule
+    ],
+    providers: [
+        MaskPipe,
+    ]
+})
+export class ClientsModule { }
