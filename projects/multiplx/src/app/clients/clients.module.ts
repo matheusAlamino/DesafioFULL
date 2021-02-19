@@ -4,6 +4,7 @@ import { ClientsComponent } from './clients.component';
 import { RouterModule, Routes } from '@angular/router';
 import { MaskPipe, NgxMaskModule } from 'ngx-mask';
 import { FormsModule } from '@angular/forms';
+import { PaginationModule } from '../utils/pagination/pagination.module';
 
 const ROUTES: Routes = [
     { path: '', component: ClientsComponent },
@@ -17,7 +18,8 @@ const ROUTES: Routes = [
         CommonModule,
         RouterModule.forChild(ROUTES),
         NgxMaskModule.forRoot(),
-        FormsModule
+        FormsModule,
+        PaginationModule
     ],
     providers: [
         MaskPipe,

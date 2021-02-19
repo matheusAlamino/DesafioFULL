@@ -259,9 +259,14 @@
 
                             <!--end::Table-->
                         </div>
+
+                        <div class="col-12">
+                            <app-pagination [total]="10" [currentPage]="currentPage" [pageSize]="10" language="br" (pageChanged)="pageChanged($event)"></app-pagination>
+                        </div>
                     </div>
 
                     <!--end::Body-->
+
                 </div>
 
                 <!--end::Advance Table Widget 4-->

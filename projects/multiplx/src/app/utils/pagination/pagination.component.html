@@ -1,9 +1,7 @@
-<div class="paginator-wrap">
+<!-- <div class="paginator-wrap">
     <span>{{ (currentPage - 1) * pageSize + 1 }} {{txt5}} {{ (currentPage - 1) * pageSize + pageSize > total ? total : (currentPage - 1) * pageSize + pageSize }} {{txt6}} {{ total }} {{txt7}}</span>
 
     <ul class="paginator">
-        <!--<li *ngIf="currentPage == 1"><a title="{{txt1}}" class="paginator__item m-datatable__pager-link--first m-datatable__pager-link--disabled" data-page="1" disabled="disabled"><i class="la la-angle-double-left"></i></a></li>
-        <li *ngIf="currentPage != 1"><a (click)="goFirst()" title="{{txt1}}" class="paginator__item m-datatable__pager-link--first"><i class="la la-angle-double-left"></i></a></li>-->
         <li *ngIf="currentPage == 1" class="paginator__item paginator__item--prev m-datatable__pager-link--disabled"><a title="{{txt2}}" disabled="disabled"><i class="icon ion-ios-arrow-back"></i></a></li>
         <li *ngIf="currentPage != 1" class="paginator__item paginator__item--prev "><a (click)="prevPage()" title="{{txt2}}" href="javascript:;"><i class="icon ion-ios-arrow-back"></i></a></li>
 
@@ -14,10 +12,8 @@
 
         <li *ngIf="currentPage == pages.length" class="paginator__item paginator__item--next m-datatable__pager-link--disabled"><a title="{{txt3}}" disabled="disabled"><i class="icon ion-ios-arrow-forward"></i></a></li>
         <li *ngIf="currentPage != pages.length" class="paginator__item paginator__item--next"><a (click)="nextPage()" title="{{txt3}}" href="javascript:;"><i class="icon ion-ios-arrow-forward"></i></a></li>
-        <!--<li *ngIf="currentPage != pages.length"><a (click)="goLast()" title="{{txt4}}" class="paginator__item m-datatable__pager-link--last"><i class="la la-angle-double-right"></i></a></li>
-        <li *ngIf="currentPage == pages.length"><a title="{{txt4}}" class="mpaginator__item m-datatable__pager-link--last m-datatable__pager-link--disabled" disabled="disabled"><i class="la la-angle-double-right"></i></a></li>-->
     </ul>
-</div>
+</div> -->
 
 <div class="d-flex justify-content-between align-items-center flex-wrap">
     <div class="d-flex flex-wrap py-2 mr-3">
@@ -30,18 +26,18 @@
         <a href="javascript:;" *ngIf="currentPage == pages.length" title="{{txt3}}" class="btn btn-icon btn-sm btn-light-primary mr-2 my-1 disabled"><i class="ki ki-bold-double-arrow-next icon-xs"></i></a>
     </div>
     <div class="d-flex align-items-center py-3">
-        <div class="d-flex align-items-center">
+        <!-- <div class="d-flex align-items-center">
             <div class="mr-2 text-muted">Carregando...</div>
             <div class="spinner spinner-primary mr-10"></div>
-        </div>
+        </div> -->
 
-        <select class="form-control form-control-sm text-primary font-weight-bold mr-4 border-0 bg-light-primary" style="width: 75px;">
+        <!-- <select class="form-control form-control-sm text-primary font-weight-bold mr-4 border-0 bg-light-primary" style="width: 75px;">
             <option value="10">10</option>
             <option value="20">20</option>
             <option value="30">30</option>
             <option value="50">50</option>
             <option value="100">100</option>
-        </select>
+        </select> -->
         <span class="text-muted">{{ (currentPage - 1) * pageSize + 1 }} {{txt5}} {{ (currentPage - 1) * pageSize + pageSize > total ? total : (currentPage - 1) * pageSize + pageSize }} {{txt6}} {{ total }} {{txt7}}</span>
     </div>
 </div>

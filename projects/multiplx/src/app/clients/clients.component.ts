@@ -16,6 +16,7 @@ export class ClientsComponent implements OnInit {
     status: any
     statusLeg: any
     error: boolean = false
+    currentPage
     client: any = {
         id: null,
         name: null,
@@ -234,5 +235,10 @@ export class ClientsComponent implements OnInit {
             email: null,
             status: 1
         }
+    }
+
+    pageChanged(e: number) {
+        this.currentPage = e
+        this.loadClients()
     }
 }
