@@ -18,7 +18,6 @@ export class HeaderInterceptor implements HttpInterceptor {
         }
 
         const headers = req.headers.set('Content-Type', 'application/json')
-        console.log('entrei')
         const authReq = req.clone({
             headers: headers.append('Authorization', `Bearer ${storage.token}`)
         })

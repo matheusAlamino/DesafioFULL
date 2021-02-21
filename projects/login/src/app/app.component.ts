@@ -5,7 +5,8 @@ import { LoginService } from './services/login.service';
 
 @Component({
     selector: 'app-root',
-    templateUrl: './app.component.html'
+    templateUrl: './app.component.html',
+    host: { 'class': 'componentTag' }
 })
 export class AppComponent {
     @ViewChild('form') $form: any
