@@ -12,15 +12,16 @@ export class ClientService {
 
     constructor(private http: HttpClient) { }
 
-    list(filter: string = null, status: number = null): Observable<any> {
-        let params = '?'
+    list(page, pageSize, filter: string = null, status: number = null): Observable<any> {
+        let params = 'page=' + page + '&pageSize=' + pageSize
         if (filter != null) {
-            params += 'filter=' + filter
+            params += '&filter=' + filter
         }
         if (status != null) {
             params += '&status=' + status
         }
-        return this.http.get(`${this.api.mpx}clients${params}`).pipe(map(response => response));
+
+        return this.http.get(`${this.api.mpx}clients?${params}`).pipe(map(response => response));
     }
 
     updateStatus(client_id, status): Observable<any> {

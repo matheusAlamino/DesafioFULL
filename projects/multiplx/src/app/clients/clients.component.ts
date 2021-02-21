@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AppComponent } from 'projects/multiplx/src/app/app.component';
 import { ClientService } from '../services/client.service';
 import { Swal } from '../utils';
+import { PageSizeEnum } from '../enums/page-size.enum'
 
 @Component({
     selector: 'app-clients',
@@ -11,12 +12,12 @@ export class ClientsComponent implements OnInit {
 
     @ViewChild("form") $form: any
     @ViewChild('closeModal') $closeModal: ElementRef
+
     clients: any
     filter: any
     status: any
     statusLeg: any
     error: boolean = false
-    currentPage
     client: any = {
         id: null,
         name: null,
@@ -27,6 +28,9 @@ export class ClientsComponent implements OnInit {
         password: null,
         status: null
     }
+
+    currentPage: number = 1
+    pageSize: number = 1
 
     constructor(
         private app: AppComponent,
@@ -52,13 +56,9 @@ export class ClientsComponent implements OnInit {
     }
 
     loadClients() {
-        this.clientService.list(this.filter, this.status).subscribe(response => {
+        this.clientService.list(this.currentPage, this.pageSize, this.filter, this.status).subscribe(response => {
             this.app.toggleLoading(false)
-            if (response.ret == 1) {
-                this.clients = response.data
-            } else {
-
-            }
+            this.clients = response
         }, error => {
             this.app.toggleLoading(false)
             if (error.status == 401) {
@@ -237,8 +237,9 @@ export class ClientsComponent implements OnInit {
         }
     }
 
-    pageChanged(e: number) {
-        this.currentPage = e
+    pageChanged(data) {
+        this.currentPage = data.currentPage
+        this.pageSize = data.pageSize
         this.loadClients()
     }
 }

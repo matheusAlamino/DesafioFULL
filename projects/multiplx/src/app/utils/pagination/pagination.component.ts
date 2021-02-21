@@ -12,7 +12,10 @@ export class PaginationComponent implements OnInit, OnChanges {
     @Input() total: number
     @Input() pageSize: number
     @Input() currentPage: number
-    @Input() language: string = "br"
+
+    object: any = {
+        pageSize: 10
+    }
 
     txt1: string = "Primeira página"
     txt2: string = "Anterior"
@@ -22,11 +25,12 @@ export class PaginationComponent implements OnInit, OnChanges {
     txt6: string = "de"
     txt7: string = "itens"
 
-    @Output() pageChanged = new EventEmitter<number>()
+    @Output() pageChanged = new EventEmitter<object>()
 
     constructor() {}
 
     ngOnInit(): void {
+        this.object.pageSize = this.pageSize
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -46,15 +50,21 @@ export class PaginationComponent implements OnInit, OnChanges {
 
     // dispara a página atual
     private emitPage() {
-        this.pageChanged.emit(this.currentPage)
+        let data = { 'currentPage': this.currentPage, 'pageSize': this.pageSize }
+        this.pageChanged.emit(data)
         this.generatePages()
     }
 
     goto(index: number) {
         if (this.currentPage !== index) {
-        this.currentPage = index
-        this.emitPage()
+            this.currentPage = index
+            this.emitPage()
         }
+    }
+
+    changePageSize() {
+        this.pageSize = this.object.pageSize
+        this.emitPage()
     }
 
     nextPage() {
@@ -90,13 +100,13 @@ export class PaginationComponent implements OnInit, OnChanges {
         m = Number(this.pages[this.pages.length - 1])
 
         var current = c,
-        last = m,
-        delta = 2,
-        left = current - delta,
-        right = current + delta + 1,
-        range = [],
-        rangeWithDots = [],
-        l
+            last = m,
+            delta = 1,
+            left = current - delta,
+            right = current + delta + 1,
+            range = [],
+            rangeWithDots = [],
+            l
 
         for (let i = 1; i <= last; i++) {
             if (i == 1 || i == last || (i >= left && i < right)) {
@@ -107,9 +117,9 @@ export class PaginationComponent implements OnInit, OnChanges {
         for (let i of range) {
             if (l) {
                 if (i - l === 2) {
-                rangeWithDots.push(l + 1)
+                    rangeWithDots.push(l + 1)
                 } else if (i - l !== 1) {
-                rangeWithDots.push('...')
+                    rangeWithDots.push('...')
                 }
             }
             rangeWithDots.push(i)
