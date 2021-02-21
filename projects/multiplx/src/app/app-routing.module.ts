@@ -10,6 +10,11 @@ const routes: Routes = [
         canActivate: [AuthGuard]
     },
     {
+        path: 'clientes',
+        loadChildren: () => import('./clients/clients.module').then(m => m.ClientsModule),
+        canActivate: [AuthGuard]
+    },
+    {
         path: '',
         component: DashboardComponent,
         canActivate: [AuthGuard]
