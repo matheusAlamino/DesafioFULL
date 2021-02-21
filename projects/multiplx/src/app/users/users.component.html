@@ -15,7 +15,7 @@
             <div class="bg-white rounded p-4 d-flex flex-grow-1 flex-sm-grow-0">
 
                 <!--begin::Form-->
-                <form (submit)="loadUsers()" class="form d-flex align-items-md-center flex-sm-row flex-column flex-grow-1 flex-sm-grow-0" #form="ngForm">
+                <form (submit)="loadUsers()" class="form d-flex align-items-md-center flex-sm-row flex-column flex-grow-1 flex-sm-grow-0" #formSearch="ngForm">
 
                     <!--begin::Input-->
                     <div class="d-flex align-items-center py-3 py-sm-0 px-sm-3">
@@ -120,19 +120,13 @@
                                 <div class="col-lg-6">
                                     <label>Nome Completo*:</label>
                                     <input type="text" class="form-control" name="name" #name="ngModel" [(ngModel)]="user.name" [ngClass]="{'is-invalid': !name.valid && error}" placeholder="Informe o nome completo" required/>
-                                    <!-- <span class="form-text text-muted">Please enter your full name</span> -->
                                 </div>
                                 <div class="col-lg-6">
                                     <label>CPF*:</label>
                                     <input type="text" class="form-control" name="cpf" #cpf="ngModel" [(ngModel)]="user.cpf" [ngClass]="{'is-invalid': !cpf.valid && error}" placeholder="000.000.000-00" mask="000.000.000-00" required/>
-                                    <!-- <span class="form-text text-muted">Please enter your contact number</span> -->
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <!-- <div class="col-lg-6">
-                                    <label>Data de Nascimento*:</label>
-                                    <input type="date" class="form-control" name="birth_date" #birth_date="ngModel" [(ngModel)]="user.birth_date" [ngClass]="{'is-invalid': !birth_date.valid && error}" required/>
-                                </div> -->
                                 <div class="col-lg-6">
                                     <label>Telefone:</label>
                                     <input type="text" class="form-control" name="phone" #phone="ngModel" [(ngModel)]="user.phone" placeholder="(00) 0000-00000" mask="(00) 0000-00009" [ngClass]="{'is-invalid': !phone.valid && user.phone != null && error}"/>
@@ -234,7 +228,7 @@
                                                 </span>
                                             </td>
                                             <td>
-                                                <a href="#" (click)="editUser(user)" class="btn btn-icon btn-sm btn-outline-warning mr-2" data-toggle="modal" aria-haspopup="true" aria-expanded="false" data-target="#subheader7Modal">
+                                                <a href="javascript:;" (click)="editUser(user)" class="btn btn-icon btn-sm btn-outline-warning mr-2" data-toggle="modal" aria-haspopup="true" aria-expanded="false" data-target="#subheader7Modal">
                                                     <span class="svg-icon"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\Design\Edit.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                                             <rect x="0" y="0" width="24" height="24"/>
@@ -243,7 +237,7 @@
                                                         </g>
                                                     </svg><!--end::Svg Icon--></span>
                                                 </a>
-                                                <a href="#" class="btn btn-icon btn-sm btn-outline-danger">
+                                                <a href="javascript:;" (click)="onDelete(user.id)" class="btn btn-icon btn-sm btn-outline-danger">
                                                     <span class="svg-icon"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\General\Trash.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                                             <rect x="0" y="0" width="24" height="24"/>
@@ -269,6 +263,9 @@
                                 </div>
                             </ng-template>
                             <!-- end::Users Not Found -->
+                        </div>
+                        <div *ngIf="usersPag?.total > 0" class="col-12">
+                            <app-pagination [total]="usersPag.total" [currentPage]="currentPage" [pageSize]="pageSize" (pageChanged)="pageChanged($event)"></app-pagination>
                         </div>
                     </div>
 

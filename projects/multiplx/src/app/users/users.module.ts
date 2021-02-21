@@ -6,6 +6,8 @@ import { HeaderInterceptor } from '../guards/auth.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { UserService } from '../services/user.service';
 import { FormsModule } from '@angular/forms';
+import { PaginationModule } from '../utils/pagination/pagination.module';
+import { MaskPipe, NgxMaskModule } from 'ngx-mask';
 
 const ROUTES: Routes = [
   { path: '', component: UsersComponent },
@@ -18,10 +20,13 @@ const ROUTES: Routes = [
     imports: [
         CommonModule,
         RouterModule.forChild(ROUTES),
-        FormsModule
+        NgxMaskModule.forRoot(),
+        FormsModule,
+        PaginationModule
     ],
     providers: [
         UserService,
+        MaskPipe,
         { provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true }
     ]
 })

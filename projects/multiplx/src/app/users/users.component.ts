@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AppComponent } from '../app.component';
+import { PageSizeEnum } from '../enums/page-size.enum';
 import { User } from '../models/user.model';
 import { UserService } from '../services/user.service';
 import { Swal } from '../utils';
@@ -14,6 +15,7 @@ export class UsersComponent implements OnInit {
     @ViewChild('closeModal') $closeModal: ElementRef
 
     users: User[] = []
+    usersPag: any
     user: User = {
         id: null,
         name: '',
@@ -27,6 +29,8 @@ export class UsersComponent implements OnInit {
     status: any
     statusLeg: any
     error: boolean = false
+    currentPage: number = 1
+    pageSize: number = PageSizeEnum.default
 
     constructor(
         private userService: UserService,
@@ -48,11 +52,10 @@ export class UsersComponent implements OnInit {
 
     loadUsers(): void {
         this.app.toggleLoading(true)
-        this.userService.getAllUsers(this.termo, this.status).subscribe(data => {
+        this.userService.getAllUsers(this.termo, this.status, this.currentPage, this.pageSize).subscribe(data => {
             this.app.toggleLoading(false)
-            if (data.ret) {
-                this.users = data.users
-            }
+            this.users = data.data
+            this.usersPag = data
         })
     }
 
@@ -97,9 +100,9 @@ export class UsersComponent implements OnInit {
             this.app.toggleLoading(false)
             this.swal.msgAlert('Atenção', 'Ocorreu um problema ao tentar atualizar o status do usuário!', 'warning', 'Ok')
             user.status = status == 1 ? 0 : 1
-            // if (error.status == 401) {
-            //     this.app.logout('usuarios')
-            // }
+            if (error.status == 401) {
+                this.app.logout('usuarios')
+            }
         })
     }
 
@@ -151,9 +154,9 @@ export class UsersComponent implements OnInit {
             }
         }, error => {
             this.swal.msgAlert('Atenção', 'Ocorreu um problema ao tentar cadastrar o usuário!', 'error', 'Ok')
-            // if (error.status == 401) {
-            //     this.app.logout('clientes')
-            // }
+            if (error.status == 401) {
+                this.app.logout('usuarios')
+            }
         })
     }
 
@@ -169,9 +172,35 @@ export class UsersComponent implements OnInit {
         }, error => {
             this.app.toggleLoading(false)
             this.swal.msgAlert('Atenção', 'Ocorreu um problema ao tentar atualizar o usuário!', 'warning', 'Ok')
-            // if (error.status == 401) {
-            //     this.app.logout('usuarios')
-            // }
+            if (error.status == 401) {
+                this.app.logout('usuarios')
+            }
         })
+    }
+
+    onDelete(user_id) {
+        this.swal.confirmAlertCustom('Atenção', 'Deseja realmente remover este usuário?', 'info', 'Sim', 'Cancelar', { callback: () => this.delete(user_id) })
+    }
+
+    delete(user_id) {
+        this.userService.delete(user_id).subscribe(response => {
+            if (response.ret == 1) {
+                this.swal.msgAlert('Sucesso', 'Usuário removido com sucesso!', 'success')
+                this.loadUsers()
+            } else {
+                this.swal.msgAlert('Atenção', response.msg, 'warning', 'Ok')
+            }
+        }, error => {
+            this.swal.msgAlert('Atenção', 'Ocorreu um problema ao tentar remover este usuário!', 'error', 'Ok')
+            if (error.status == 401) {
+                this.app.logout('usuarios')
+            }
+        })
+    }
+
+    pageChanged(data) {
+        this.currentPage = data.currentPage
+        this.pageSize = data.pageSize
+        this.loadUsers()
     }
 }

@@ -12,7 +12,7 @@ export class UserService {
 
     constructor(private http: HttpClient) { }
 
-    getAllUsers(termo: string = '', status: any): Observable<any> {
+    getAllUsers(termo: string = '', status: any, page, pageSize): Observable<any> {
         let data: any = {}
 
         if (termo) {
@@ -23,7 +23,10 @@ export class UserService {
             data.status = status
         }
 
-        return this.http.get<any>(`${this.api.mpx}users`, { params: data }).pipe(map((response) => response));
+        let params = '?page=' + page
+        data.pageSize = pageSize
+
+        return this.http.get<any>(`${this.api.mpx}users${params}`, { params: data }).pipe(map((response) => response));
     }
 
     save(data): Observable<any> {
@@ -33,5 +36,9 @@ export class UserService {
     update(user_id, data): Observable<any> {
 
         return this.http.put<any>(`${this.api.mpx}users/${user_id}`, data).pipe(map((response) => response));
+    }
+
+    delete(user_id): Observable<any> {
+        return this.http.delete(`${this.api.mpx}users/${user_id}`).pipe(map(response => response));
     }
 }
