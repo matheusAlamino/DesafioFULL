@@ -4,5 +4,6 @@ export interface User {
     cpf: string,
     email: string,
     admin: boolean,
-    status: boolean
+    status: boolean,
+    phone: string
 }

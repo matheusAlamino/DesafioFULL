@@ -14,6 +14,7 @@ import { registerLocaleData } from '@angular/common'
 import localePt from '@angular/common/locales/pt'
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HeaderInterceptor } from './guards/auth.interceptor';
+import { FormsModule } from '@angular/forms';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -29,6 +30,7 @@ registerLocaleData(localePt, 'pt-BR');
         AppRoutingModule,
         RouterModule,
         HttpClientModule,
+        FormsModule
     ],
     providers: [
         LocalStorageService,
