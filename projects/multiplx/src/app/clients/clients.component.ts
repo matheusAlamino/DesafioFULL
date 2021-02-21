@@ -30,7 +30,7 @@ export class ClientsComponent implements OnInit {
     }
 
     currentPage: number = 1
-    pageSize: number = 1
+    pageSize: number = PageSizeEnum.default
 
     constructor(
         private app: AppComponent,
