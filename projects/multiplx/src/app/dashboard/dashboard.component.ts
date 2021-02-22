@@ -68,7 +68,6 @@ export class DashboardComponent implements OnInit {
     }
 
     getChartOptions(amount, months) {
-        console.log(amount, months)
         this.chartOptions = {
             series: [
                 {
