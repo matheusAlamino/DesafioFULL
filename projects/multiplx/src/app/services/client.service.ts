@@ -39,4 +39,8 @@ export class ClientService {
     delete(client_id): Observable<any> {
         return this.http.delete(`${this.api.mpx}clients/${client_id}`).pipe(map(response => response));
     }
+
+    count(): Observable<any> {
+        return this.http.get(`${this.api.mpx}clients/reports/count`).pipe(map(response => response));
+    }
 }
