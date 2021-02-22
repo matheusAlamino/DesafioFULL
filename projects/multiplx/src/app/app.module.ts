@@ -15,6 +15,7 @@ import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common
 import { HeaderInterceptor } from './guards/auth.interceptor';
 import { FormsModule } from '@angular/forms';
 import { PaginationComponent } from './utils/pagination/pagination.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -30,6 +31,7 @@ registerLocaleData(localePt, 'pt-BR');
         RouterModule,
         HttpClientModule,
         FormsModule,
+        NgApexchartsModule
     ],
     providers: [
         LocalStorageService,
