@@ -4,7 +4,11 @@ import { UploadFileComponent } from './upload-file/upload-file.component';
 import { FormsModule } from '@angular/forms';
 import { DropzoneConfigInterface, DropzoneModule, DROPZONE_CONFIG } from 'ngx-dropzone-wrapper';
 
-export const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {}
+export const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
+    url: 'https://httpbin.org/post',
+    acceptedFiles: 'image/*',
+    createImageThumbnails: true
+}
 
 @NgModule({
   declarations: [
