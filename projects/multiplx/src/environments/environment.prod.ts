@@ -1,11 +1,11 @@
-let url: string = 'localhost:4200'
-let protocolo: string = 'http://'
+let url: string = 'multiplx.com.br'
+let protocolo: string = 'https://'
 
 export const environment = {
     production: true,
     api: {
-        local: `${protocolo}${url}/`,
-        login: `${protocolo}${url}/login`,
-        mpx: `${protocolo}api-multiplx.localhost/api/v1/`
+        local: `${protocolo}sistema.${url}/`,
+        login: `${protocolo}login.${url}/`,
+        mpx: `${protocolo}api-multiplx.${url}/api/v1/`
     }
 };
