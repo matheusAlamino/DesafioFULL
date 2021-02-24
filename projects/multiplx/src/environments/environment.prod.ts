@@ -6,6 +6,6 @@ export const environment = {
     api: {
         local: `${protocolo}sistema.${url}/`,
         login: `${protocolo}login.${url}/`,
-        mpx: `${protocolo}api-multiplx.${url}/api/v1/`
+        mpx: `${protocolo}api.${url}/api/v1/`
     }
 };

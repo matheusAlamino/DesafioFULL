@@ -5,6 +5,6 @@ export const environment = {
     production: true,
     api: {
         local: `${protocolo}${url}/`,
-        mpx: `${protocolo}api-multiplx.multiplx.com.br/api/v1/`
+        mpx: `${protocolo}api.multiplx.com.br/api/v1/`
     }
 };
