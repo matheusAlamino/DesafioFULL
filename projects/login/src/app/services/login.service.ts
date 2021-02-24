@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { config, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
@@ -13,6 +13,8 @@ export class LoginService {
     constructor(private http: HttpClient) { }
 
     login(data) : Observable<any> {
-        return this.http.post<any>(`${this.api.mpx}login`, data).pipe(map((response) => response));
+        const headers = new HttpHeaders();
+        headers.set('Access-Control-Allow-Origin', '*')
+        return this.http.post<any>(`${this.api.mpx}login`, data, { headers }).pipe(map((response) => response));
     }
 }
