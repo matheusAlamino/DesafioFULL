@@ -3,9 +3,12 @@ import { CommonModule } from '@angular/common';
 import { UploadFileComponent } from './upload-file/upload-file.component';
 import { FormsModule } from '@angular/forms';
 import { DropzoneConfigInterface, DropzoneModule, DROPZONE_CONFIG } from 'ngx-dropzone-wrapper';
+import { environment } from '../../environments/environment';
+
+const api: any = environment.api
 
 export const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
-    url: 'https://httpbin.org/post',
+    url: api.mpx,
     acceptedFiles: 'image/*',
     createImageThumbnails: true
 }

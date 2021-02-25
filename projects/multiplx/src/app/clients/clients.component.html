@@ -159,7 +159,7 @@
             </div>
             <div class="modal-body">
                 <div id="kt_subheader_leaflet" style="width: 100%;">
-                    <upload-file></upload-file>
+                    <upload-file [config]="config" #dzoneUpload></upload-file>
                 </div>
             </div>
             <div class="modal-footer">
@@ -275,7 +275,7 @@
                                                         </g>
                                                     </svg><!--end::Svg Icon--></span>
                                                 </a>
-                                                <a href="javascript:;" class="btn btn-icon btn-sm btn-outline-info" data-toggle="modal" aria-haspopup="true" aria-expanded="false" data-target="#filesModal">
+                                                <a href="javascript:;" (click)="setParamsClientUpload(client.id)" class="btn btn-icon btn-sm btn-outline-info" data-toggle="modal" aria-haspopup="true" aria-expanded="false" data-target="#filesModal">
                                                     <span class="svg-icon svg-icon-2x">
                                                         <!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\Files\Cloud-upload.svg--><svg
                                                             xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px"

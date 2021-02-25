@@ -3,15 +3,20 @@ import { AppComponent } from 'projects/multiplx/src/app/app.component';
 import { ClientService } from '../services/client.service';
 import { Swal } from '../utils';
 import { PageSizeEnum } from '../enums/page-size.enum'
+import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
+import { environment } from '../../environments/environment';
+import { UploadFileComponent } from '../components/upload-file/upload-file.component';
 
 @Component({
     selector: 'app-clients',
     templateUrl: './clients.component.html'
 })
 export class ClientsComponent implements OnInit {
+    api: any = environment.api
 
     @ViewChild("form") $form: any
     @ViewChild('closeModal') $closeModal: ElementRef
+    @ViewChild('dzoneUpload') $dzoneUpload: UploadFileComponent
 
     clients: any
     filter: any
@@ -31,6 +36,14 @@ export class ClientsComponent implements OnInit {
 
     currentPage: number = 1
     pageSize: number = PageSizeEnum.default
+
+    config: DropzoneConfigInterface = {
+        clickable: true,
+        url: `${this.api.mpx}clients-files`,
+        createImageThumbnails: false,
+        maxFilesize: 300
+    }
+    paramsClient: any
 
     constructor(
         private app: AppComponent,
@@ -241,5 +254,14 @@ export class ClientsComponent implements OnInit {
         this.currentPage = data.currentPage
         this.pageSize = data.pageSize
         this.loadClients()
+    }
+
+    setParamsClientUpload(client_id) {
+        this.paramsClient = {
+            client_id: client_id
+        }
+        this.$dzoneUpload.params.emit({
+            client_id: client_id
+        })
     }
 }
