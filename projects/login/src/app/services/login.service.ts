@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { config, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -13,8 +13,6 @@ export class LoginService {
     constructor(private http: HttpClient) { }
 
     login(data) : Observable<any> {
-        const headers = new HttpHeaders();
-        headers.set('Access-Control-Allow-Origin', '*')
-        return this.http.post<any>(`${this.api.mpx}login`, data, { headers }).pipe(map((response) => response));
+        return this.http.post<any>(`${this.api.mpx}login`, data).pipe(map((response) => response));
     }
 }
