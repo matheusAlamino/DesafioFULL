@@ -1,10 +1,10 @@
-let url: string = 'login.multiplx.com.br'
+let url: string = 'multiplx.com.br'
 let protocolo: string = 'https://'
 
 export const environment = {
     production: true,
     api: {
-        local: `${protocolo}${url}/`,
-        mpx: `${protocolo}api.multiplx.com.br/api/v1/`
+        local: `${protocolo}sistema.${url}/`,
+        mpx: `${protocolo}api.${url}/api/v1/`
     }
 };
