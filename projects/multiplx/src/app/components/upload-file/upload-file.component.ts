@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, ViewChild } from '@angular/core';
 import { DropzoneComponent , DropzoneDirective,
   DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
 import { AppComponent } from '../../app.component';
+import { File } from '../../models/file.model';
 
 @Component({
   selector: 'upload-file',
@@ -11,6 +12,9 @@ export class UploadFileComponent implements OnInit {
 
     public disabled: boolean = false;
     public params = new EventEmitter()
+    public files: File[] = []
+
+    @ViewChild(DropzoneComponent) componentRef?: DropzoneComponent;
 
     @Input() config: DropzoneConfigInterface = {
         clickable: false,
@@ -42,6 +46,13 @@ export class UploadFileComponent implements OnInit {
     }
 
     public onUploadSuccess(args: any): void {
-        // console.log('onUploadSuccess:', args);
+        if (args[1].ret) {
+            this.files.push(args[1].data)
+        }
+    }
+
+    public resetDropzone() {
+        this.componentRef.directiveRef.reset();
+        this.files = []
     }
 }
