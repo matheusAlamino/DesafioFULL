@@ -14,7 +14,7 @@ export class UploadFileComponent implements OnInit {
     public params = new EventEmitter()
     public files: File[] = []
 
-    @ViewChild(DropzoneComponent) componentRef?: DropzoneComponent;
+    @ViewChild('dropzoneUpload') componentRef?: DropzoneComponent;
 
     @Input() config: DropzoneConfigInterface = {
         clickable: false,

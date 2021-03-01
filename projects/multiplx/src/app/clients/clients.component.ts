@@ -152,9 +152,9 @@ export class ClientsComponent implements OnInit {
             }
             this.clientService.saveFiles(data).subscribe(resp => {
                 if (resp.ret) {
-                    this.swal.msgAlert('Sucesso', 'Cliente cadastrado com sucesso!', 'success')
-                    this.$dzoneUpload.resetDropzone()
                     this.loadFilesClient(this.paramsClient)
+                    this.$dzoneUpload.resetDropzone()
+                    this.swal.msgAlert('Sucesso', 'Cliente cadastrado com sucesso!', 'success')
                 } else {
                     this.swal.msgAlert('Atenção', 'Erro ao salvar upload(s)!', 'warning', 'Ok')
                 }
@@ -306,10 +306,10 @@ export class ClientsComponent implements OnInit {
     }
 
     deleteFile(id) {
-        this.clientService.delete(id).subscribe(response => {
+        this.clientService.deleteFile(id).subscribe(response => {
             if (response.ret == 1) {
                 this.swal.msgAlert('Sucesso', 'Arquivo removido com sucesso', 'success')
-                this.loadClients()
+                this.loadFilesClient(this.paramsClient)
             } else {
                 this.swal.msgAlert('Atenção', response.msg, 'warning', 'Ok')
             }
