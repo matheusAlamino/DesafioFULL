@@ -22,6 +22,7 @@ export class UsersComponent implements OnInit {
         cpf: '',
         email: '',
         phone: '',
+        birth_date: null,
         admin: false,
         status: true
     }
@@ -113,6 +114,7 @@ export class UsersComponent implements OnInit {
             cpf: '',
             email: '',
             phone: '',
+            birth_date: null,
             admin: false,
             status: true
         }

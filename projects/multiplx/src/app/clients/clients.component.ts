@@ -6,6 +6,7 @@ import { PageSizeEnum } from '../enums/page-size.enum'
 import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
 import { environment } from '../../environments/environment';
 import { UploadFileComponent } from '../components/upload-file/upload-file.component';
+import { FileClient } from '../models/file-client.model';
 
 @Component({
     selector: 'app-clients',
@@ -19,6 +20,7 @@ export class ClientsComponent implements OnInit {
     @ViewChild('dzoneUpload') $dzoneUpload: UploadFileComponent
 
     clients: any
+    filesClient: FileClient[] = []
     filter: any
     status: any
     statusLeg: any
@@ -39,9 +41,10 @@ export class ClientsComponent implements OnInit {
 
     config: DropzoneConfigInterface = {
         clickable: true,
-        url: `${this.api.mpx}clients-files`,
+        url: `${this.api.mpx}uploads/clients`,
         createImageThumbnails: false,
-        maxFilesize: 300
+        maxFilesize: 300,
+        acceptedFiles: '.zip,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.pdf,.jpg,.jpeg,.png'
     }
     paramsClient: any
 
@@ -139,6 +142,31 @@ export class ClientsComponent implements OnInit {
         }
 
         this.swal.confirmAlertCustom('Atenção', msg, 'info', 'Sim', 'Cancelar', { callback: () => this.save() })
+    }
+
+    onSaveFiles() {
+        if (this.$dzoneUpload.files.length > 0) {
+            let data = {
+                files: this.$dzoneUpload.files,
+                client_id: this.paramsClient
+            }
+            this.clientService.saveFiles(data).subscribe(resp => {
+                if (resp.ret) {
+                    this.loadFilesClient(this.paramsClient)
+                    this.$dzoneUpload.resetDropzone()
+                    this.swal.msgAlert('Sucesso', 'Cliente cadastrado com sucesso!', 'success')
+                } else {
+                    this.swal.msgAlert('Atenção', 'Erro ao salvar upload(s)!', 'warning', 'Ok')
+                }
+            }, error => {
+                this.swal.msgAlert('Atenção', 'Ocorreu um problema ao tentar salvar o(s) upload(s)!', 'error', 'Ok')
+                if (error.status == 401) {
+                    this.app.logout('clientes')
+                }
+            })
+        } else {
+            this.swal.msgAlert('Atenção', 'Não possui itens para salvar na área de upload(s)!', 'error', 'Ok')
+        }
     }
 
     save() {
@@ -257,11 +285,39 @@ export class ClientsComponent implements OnInit {
     }
 
     setParamsClientUpload(client_id) {
-        this.paramsClient = {
-            client_id: client_id
-        }
+        this.paramsClient = client_id
         this.$dzoneUpload.params.emit({
             client_id: client_id
+        })
+
+        this.loadFilesClient(client_id)
+    }
+
+    loadFilesClient(client_id) {
+        this.clientService.getFilesClient({ client_id: client_id }).subscribe(data => {
+            if (data.ret) {
+                this.filesClient = data.files
+            }
+        })
+    }
+
+    onDeleteFile(id) {
+        this.swal.confirmAlertCustom('Atenção', 'Deseja realmente remover este arquivo do cliente?', 'info', 'Sim', 'Cancelar', { callback: () => this.deleteFile(id) })
+    }
+
+    deleteFile(id) {
+        this.clientService.deleteFile(id).subscribe(response => {
+            if (response.ret == 1) {
+                this.swal.msgAlert('Sucesso', 'Arquivo removido com sucesso', 'success')
+                this.loadFilesClient(this.paramsClient)
+            } else {
+                this.swal.msgAlert('Atenção', response.msg, 'warning', 'Ok')
+            }
+        }, error => {
+            this.swal.msgAlert('Atenção', 'Ocorreu um problema ao tentar remover este arquivo!', 'error', 'Ok')
+            if (error.status == 401) {
+                this.app.logout('clientes')
+            }
         })
     }
 }

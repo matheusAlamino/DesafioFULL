@@ -5,5 +5,6 @@ export interface User {
     email: string,
     admin: boolean,
     status: boolean,
-    phone: string
+    phone: string,
+    birth_date: string
 }
