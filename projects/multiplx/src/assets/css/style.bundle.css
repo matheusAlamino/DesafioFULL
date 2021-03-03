@@ -7265,6 +7265,20 @@ button.bg-white:focus {
   clip: auto;
   white-space: normal; }
 
+.my-custom-scrollbar {
+    position: relative;
+    height: 200px;
+    overflow: auto;
+}
+.table-wrapper-scroll-y {
+    display: block;
+}
+
+.my-custom-scrollbar th{
+    position: sticky;
+    top: 0;
+}
+
 .shadow-sm {
   -webkit-box-shadow: 0 0.1rem 1rem 0.25rem rgba(0, 0, 0, 0.05) !important;
   box-shadow: 0 0.1rem 1rem 0.25rem rgba(0, 0, 0, 0.05) !important; }

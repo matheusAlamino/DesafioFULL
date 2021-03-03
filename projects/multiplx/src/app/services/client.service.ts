@@ -43,4 +43,16 @@ export class ClientService {
     count(): Observable<any> {
         return this.http.get(`${this.api.mpx}clients/reports/count`).pipe(map(response => response));
     }
+
+    saveFiles(data): Observable<any> {
+        return this.http.post(`${this.api.mpx}clients-files`, data).pipe(map(response => response));
+    }
+
+    getFilesClient(data): Observable<any> {
+        return this.http.get(`${this.api.mpx}clients-files`, { params: data }).pipe(map(response => response));
+    }
+
+    deleteFile(id): Observable<any> {
+        return this.http.delete(`${this.api.mpx}clients-files/${id}`).pipe(map(response => response));
+    }
 }
