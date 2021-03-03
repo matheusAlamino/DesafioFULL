@@ -43,6 +43,10 @@ export class AppComponent {
             (response) => {
                 if (response.ret == 1) {
                     let params = '?t=' + response.token
+                    if (response.password_reset != null) {
+                        params += '&reset=1'
+                    }
+
                     if (!this.url) {
                         this.url = this.api.local
                     }

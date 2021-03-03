@@ -23,7 +23,7 @@ registerLocaleData(localePt, 'pt-BR');
     declarations: [
         AppComponent,
         MenuLeftComponent,
-        DashboardComponent
+        DashboardComponent,
     ],
     imports: [
         BrowserModule,

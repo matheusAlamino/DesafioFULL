@@ -5,10 +5,116 @@
 </div>
 
 
+
+<!--begin::Modal-->
+<div class="modal fade" id="userProfile" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Meu Perfil</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="kt_subheader_leaflet" style="height:450px; width: 100%;">
+                    <form class="form" #formProfile="ngForm">
+                        <div class="card-body">
+                            <div class="form-group row">
+                                <div class="col-lg-6">
+                                    <label>Nome Completo*:</label>
+                                    <input type="text" class="form-control" name="name" #name="ngModel" [(ngModel)]="userProfile.name" [ngClass]="{'is-invalid': !name.valid && error}" placeholder="Informe o nome completo" required/>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label>CPF*:</label>
+                                    <input type="text" class="form-control" name="cpf" #cpf="ngModel" [(ngModel)]="userProfile.cpf" [ngClass]="{'is-invalid': !cpf.valid && error}" placeholder="000.000.000-00" mask="000.000.000-00" required/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-6">
+                                    <label>Data de Nascimento*:</label>
+                                    <input type="date" class="form-control" name="birth_date" #birth_date="ngModel" [(ngModel)]="userProfile.birth_date" [ngClass]="{'is-invalid': !birth_date.valid && error}" required/>
+                                    <!-- <span class="form-text text-muted">Please enter your full name</span> -->
+                                </div>
+                                <div class="col-lg-6">
+                                    <label>Telefone:</label>
+                                    <input type="text" class="form-control" name="phone" #phone="ngModel" [(ngModel)]="userProfile.phone" placeholder="(00) 0000-00000" mask="(00) 0000-00009" [ngClass]="{'is-invalid': !phone.valid && userProfile.phone != null && error}"/>
+                                </div>
+                            </div>
+                            <div class="separator separator-dashed my-5"></div>
+                            <div class="form-group">
+                                <label>E-mail*:</label>
+                                <input type="email" class="form-control" name="email" #email="ngModel" [(ngModel)]="userProfile.email" [ngClass]="{'is-invalid': !email.valid && error}" placeholder="email@exemplo.com" email required/>
+                                <!-- <span class="form-text text-muted">Please enter your full name</span> -->
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" #closeModalProfile class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Cancelar</button>
+                <button id="submit" (click)="onUpdateProfile()" type="button" class="btn btn-primary font-weight-bold">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--end::Modal-->
+
+
+
+
+
+<!--begin::Modal-->
+<div class="modal fade" id="userChangePassword" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Alterar Senha de Acesso</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="kt_subheader_leaflet" style="width: 100%;">
+                    <form class="form" #formPassword="ngForm">
+                        <div class="card-body">
+                            <div class="form-group row">
+                                <div class="col-lg-6">
+                                    <label>Senha Atual:</label>
+                                    <input type="password" class="form-control" name="current" #current="ngModel" [(ngModel)]="userPassword.current" [ngClass]="{'is-invalid': !current.valid && error}" required/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-6">
+                                    <label>Nova Senha:</label>
+                                    <input type="password" class="form-control" name="password_new" #password_new="ngModel" [(ngModel)]="userPassword.new" [ngClass]="{'is-invalid': (!password_new.valid || userPassword.new != userPassword.confirm) && error}" required/>
+                                    <!-- <span class="form-text text-muted">Please enter your full name</span> -->
+                                </div>
+                                <div class="col-lg-6">
+                                    <label>Confirmar Nova Senha:</label>
+                                    <input type="password" class="form-control" name="confirm" #confirm="ngModel" [(ngModel)]="userPassword.confirm" [ngClass]="{'is-invalid': (!confirm.valid || userPassword.new != userPassword.confirm) && error}" required/>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" #closeModalPassword class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Cancelar</button>
+                <button id="submit" (click)="onUpdatePassword()" type="button" class="btn btn-primary font-weight-bold">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--end::Modal-->
+
+
+
+
 <!--00343D-->
 <!--begin::Main-->
-
-
 <!--begin::Header Mobile-->
 <div id="kt_header_mobile" class="header-mobile align-items-center header-mobile-fixed">
 
@@ -69,9 +175,9 @@
                 <!--begin::Container-->
                 <div class="container-fluid d-flex align-items-stretch justify-content-between">
                     <div></div>
+
                     <!--begin::Topbar-->
                     <div class="topbar">
-
                         <!--begin::User-->
                         <div class="dropdown">
 
@@ -85,13 +191,10 @@
                                     </span>
                                 </div>
                             </div>
-
                             <!--end::Toggle-->
 
                             <!--begin::Dropdown-->
                             <div class="dropdown-menu p-0 m-0 dropdown-menu-right dropdown-menu-anim-up dropdown-menu-lg p-0">
-
-
                                 <!--begin::Header-->
                                 <div class="d-flex align-items-center justify-content-between flex-wrap p-8 bgi-size-cover bgi-no-repeat rounded-top" style="background-image: url(assets/media/misc/bg-1.jpg)">
                                     <div class="d-flex align-items-center mr-2">
@@ -117,19 +220,33 @@
                                 <div class="navi navi-spacer-x-0 pt-5">
 
                                     <!--begin::Item-->
-                                    <!-- <a href="custom/apps/user/profile-1/personal-information.html" class="navi-item px-8">
+                                    <a href="#" (click)="openUserProfile()" data-toggle="modal" aria-haspopup="true" aria-expanded="false" data-target="#userProfile" class="navi-item px-8">
                                         <div class="navi-link">
                                             <div class="navi-icon mr-2">
                                                 <i class="flaticon2-calendar-3 text-success"></i>
                                             </div>
                                             <div class="navi-text">
-                                                <div class="font-weight-bold">My Profile</div>
-                                                <div class="text-muted">Account settings and more
-                                                    <span class="label label-light-danger label-inline font-weight-bold">update</span>
+                                                <div class="font-weight-bold">Meu Perfil</div>
+                                                <div class="text-muted">Dados da conta
+                                                    <!-- <span class="label label-light-danger label-inline font-weight-bold">Atualizar</span> -->
                                                 </div>
                                             </div>
                                         </div>
-                                    </a> -->
+                                    </a>
+
+                                    <a href="#" (click)="openChangePassword()" #openModalPassword data-toggle="modal" aria-haspopup="true" aria-expanded="false" data-target="#userChangePassword" class="navi-item px-8">
+                                        <div class="navi-link">
+                                            <div class="navi-icon mr-2">
+                                                <i class="flaticon2-calendar-3 text-success"></i>
+                                            </div>
+                                            <div class="navi-text">
+                                                <div class="font-weight-bold">Senha</div>
+                                                <div class="text-muted">Alterar senha de acesso
+                                                    <!-- <span class="label label-light-danger label-inline font-weight-bold">Atualizar</span> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
 
                                     <!--end::Item-->
 
@@ -152,6 +269,7 @@
 
                     </div>
                     <!--end::Topbar-->
+
                 </div>
                 <!--end::Container-->
             </div>

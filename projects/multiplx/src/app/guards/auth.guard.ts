@@ -16,6 +16,7 @@ export class AuthGuard implements CanActivate {
     api: any = environment.api
 
     public login = new EventEmitter()
+    public resetPassword = new EventEmitter()
 
     constructor(
         private storageService: LocalStorageService,
@@ -73,6 +74,10 @@ export class AuthGuard implements CanActivate {
     public async verifyAccess() {
         if (this.params != undefined && this.params.t) {
             this.storageService.setStorage('user', {token: this.params.t})
+            if (this.params.reset) {
+                console.log('reset')
+                this.resetPassword.emit()
+            }
             await this.storageService
                 .getRefreshToken(this.params.t)
                 .then(async (data) => {

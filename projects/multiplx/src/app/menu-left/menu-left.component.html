@@ -42,7 +42,7 @@
 
             <!--begin::Menu Nav-->
             <ul class="menu-nav">
-                <li class="menu-item menu-item-active" aria-haspopup="true">
+                <li class="menu-item" [ngClass]="{'menu-item-active': !activeMenu || activeMenu == ''}" aria-haspopup="true">
                     <a [routerLink]="['/']" class="menu-link">
                         <span class="svg-icon menu-icon">
 
@@ -64,7 +64,7 @@
                     <h4 class="menu-text">Sistema</h4>
                     <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
                 </li>
-                <li class="menu-item" aria-haspopup="true">
+                <li class="menu-item" [ngClass]="{'menu-item-active': activeMenu == 'usuarios'}" aria-haspopup="true">
                     <a [routerLink]="['/usuarios']" class="menu-link">
                         <span class="svg-icon menu-icon"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\General\User.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -80,7 +80,7 @@
                     <h4 class="menu-text">Recursos</h4>
                     <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
                 </li>
-                <li class="menu-item" aria-haspopup="true">
+                <li class="menu-item" [ngClass]="{'menu-item-active': activeMenu == 'clientes'}" aria-haspopup="true">
                     <a [routerLink]="['/clientes']" class="menu-link">
                         <span class="svg-icon menu-icon"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\Communication\Adress-book2.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -92,7 +92,7 @@
                         <span class="menu-text">Clientes</span>
                     </a>
                 </li>
-                <li class="menu-item" aria-haspopup="true">
+                <li class="menu-item" [ngClass]="{'menu-item-active': activeMenu == 'processos'}" aria-haspopup="true">
                     <a [routerLink]="['/processos']" class="menu-link">
                         <span class="svg-icon menu-icon"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\Files\Group-folders.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">

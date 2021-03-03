@@ -34,11 +34,19 @@ export class UserService {
     }
 
     update(user_id, data): Observable<any> {
-
         return this.http.put<any>(`${this.api.mpx}users/${user_id}`, data).pipe(map((response) => response));
     }
 
     delete(user_id): Observable<any> {
         return this.http.delete(`${this.api.mpx}users/${user_id}`).pipe(map(response => response));
+    }
+
+    show(user_id): Observable<any> {
+        return this.http.get<any>(`${this.api.mpx}users/${user_id}`).pipe(map(
+            (response) => response));
+    }
+
+    updatePassword(user_id, data): Observable<any> {
+        return this.http.put<any>(`${this.api.mpx}users/${user_id}/password`, data).pipe(map((response) => response));
     }
 }
