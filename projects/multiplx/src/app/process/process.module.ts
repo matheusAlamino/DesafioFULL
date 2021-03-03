@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProcessComponent } from './process.component';
 import { RouterModule, Routes } from '@angular/router';
 import { NgxMaskModule } from 'ngx-mask';
 import { FormsModule } from '@angular/forms';
 import { PaginationModule } from '../utils/pagination/pagination.module';
+import { ListComponent } from './list/list.component';
 
 const ROUTES: Routes = [
-    { path: '', component: ProcessComponent },
+    { path: '', component: ListComponent },
 ]
 
 @NgModule({
     declarations: [
-        ProcessComponent
+        ListComponent
     ],
     imports: [
         CommonModule,

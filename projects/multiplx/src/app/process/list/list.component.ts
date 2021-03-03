@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { AppComponent } from '../app.component';
-import { PageSizeEnum } from '../enums/page-size.enum';
+import { AppComponent } from '../../app.component';
+import { PageSizeEnum } from '../../enums/page-size.enum';
+import { Process } from '../../models/process.model';
 
 @Component({
-  selector: 'app-process',
-  templateUrl: './process.component.html'
+  selector: 'app-list',
+  templateUrl: './list.component.html'
 })
-export class ProcessComponent implements OnInit {
+export class ListComponent implements OnInit {
 
     termo: string = ''
     status: any
@@ -14,6 +15,9 @@ export class ProcessComponent implements OnInit {
     error: boolean = false
     currentPage: number = 1
     pageSize: number = PageSizeEnum.default
+
+    process: Process[] = []
+    processPag: any
 
     constructor(
         private app: AppComponent,
@@ -45,7 +49,9 @@ export class ProcessComponent implements OnInit {
         this.loadProcess()
     }
 
-    newProcess() {
-        //
+    pageChanged(data) {
+        this.currentPage = data.currentPage
+        this.pageSize = data.pageSize
+        this.loadProcess()
     }
 }
