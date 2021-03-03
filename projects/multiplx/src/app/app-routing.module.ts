@@ -10,6 +10,11 @@ const routes: Routes = [
         canActivate: [AuthGuard]
     },
     {
+        path: 'processos',
+        loadChildren: () => import('./process/process.module').then(m => m.ProcessModule),
+        canActivate: [AuthGuard]
+    },
+    {
         path: 'clientes',
         loadChildren: () => import('./clients/clients.module').then(m => m.ClientsModule),
         canActivate: [AuthGuard]
