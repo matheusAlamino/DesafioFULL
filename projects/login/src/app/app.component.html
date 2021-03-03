@@ -18,7 +18,7 @@
                         <h3 class="opacity-90 font-weight-normal">Login</h3>
                         <p class="opacity-90">Informe seus dados de acesso:</p>
                     </div>
-                    <div *ngIf="msg" class="alert alert-danger">{{ msg }}</div>
+                    <div *ngIf="msg" class="alert" [ngClass]="{'alert-danger': msgError, 'alert-success': !msgError}">{{ msg }}</div>
                     <form class="form" id="kt_login_signin_form" #form="ngForm">
                         <div class="form-group">
                             <input class="form-control h-auto bg-white rounded-pill border-0 py-4 px-8" type="text" placeholder="Email" name="email" [(ngModel)]="user.email" #email="ngModel" [ngClass]="{'is-invalid': !email.valid && error}" autocomplete="off" required email/>

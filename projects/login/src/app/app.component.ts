@@ -16,6 +16,7 @@ export class AppComponent {
     email: string
     password: string
     msg: string
+    msgError: boolean = true;
     user = {email: null, password: null }
     error: boolean = false
     url: string
@@ -30,6 +31,10 @@ export class AppComponent {
             if (params.l) {
                 this.url = atob(params.l)
             }
+
+            if (params.c) {
+                this.verifyEmail(params.c)
+            }
         });
     }
 
@@ -43,7 +48,7 @@ export class AppComponent {
             (response) => {
                 if (response.ret == 1) {
                     let params = '?t=' + response.token
-                    if (response.password_reset != null) {
+                    if (response.password_reset == 1) {
                         params += '&reset=1'
                     }
 
@@ -53,6 +58,7 @@ export class AppComponent {
                     window.location.href = this.url + params
                 } else {
                     this.msg = response.msg
+                    this.msgError = true
                     this.user.password = null
                 }
             },
@@ -60,5 +66,14 @@ export class AppComponent {
                 console.log(error)
             }
         );
+    }
+
+    verifyEmail(hash) {
+        this.loginService.verifyEmail(hash).subscribe((response) => {
+            this.msg = response.msg
+            this.msgError = false
+        }, (error) => {
+            console.log(error)
+        });
     }
 }

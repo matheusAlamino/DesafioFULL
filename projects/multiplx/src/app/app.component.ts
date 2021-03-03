@@ -24,6 +24,7 @@ export class AppComponent {
     storage: any
     activeMenu: string
     error: boolean = false
+    passwordReset: boolean = false
 
     user: { name: string, first_name: string, email: string } = { name: 'Usuário', first_name: '', email: '' }
     userProfile: User =  {
@@ -61,6 +62,7 @@ export class AppComponent {
         })
 
         this.authGuard.resetPassword.subscribe(async response => {
+            this.passwordReset = true
             this.$openModalPassword.nativeElement.click()
         })
     }
@@ -133,6 +135,7 @@ export class AppComponent {
     updatePassword() {
         this.userService.updatePassword(this.storage.user_id, this.userPassword).subscribe(response => {
             if (response.ret == 1) {
+                this.passwordReset = false
                 this.swal.msgAlert('Sucesso', 'Senha atualizada com sucesso!', 'success')
                 this.$closeModalPassword.nativeElement.click()
             } else {
