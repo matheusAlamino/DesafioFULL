@@ -237,7 +237,7 @@
                                                 </span>
                                             </td>
                                             <td>
-                                                <a href="javascript:;" (click)="editUser(user)" class="btn btn-icon btn-sm btn-outline-warning mr-2" data-toggle="modal" aria-haspopup="true" aria-expanded="false" data-target="#subheader7Modal">
+                                                <a href="javascript:;" (click)="editUser(user)" class="btn btn-icon btn-sm btn-outline-warning mr-2" title="Editar" data-toggle="modal" aria-haspopup="true" aria-expanded="false" data-target="#subheader7Modal">
                                                     <span class="svg-icon"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\Design\Edit.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                                             <rect x="0" y="0" width="24" height="24"/>
@@ -246,7 +246,7 @@
                                                         </g>
                                                     </svg><!--end::Svg Icon--></span>
                                                 </a>
-                                                <a href="javascript:;" *ngIf="app.storage.user_id != user.id" (click)="onDelete(user.id)" class="btn btn-icon btn-sm btn-outline-danger mr-2">
+                                                <a href="javascript:;" *ngIf="app.storage.user_id != user.id" (click)="onDelete(user.id)" title="Remover usuário" class="btn btn-icon btn-sm btn-outline-danger mr-2">
                                                     <span class="svg-icon"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\General\Trash.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                                             <rect x="0" y="0" width="24" height="24"/>
@@ -255,7 +255,7 @@
                                                         </g>
                                                     </svg><!--end::Svg Icon--></span>
                                                 </a>
-                                                <a *ngIf="user.email_verified == 0" (click)="resendConfirmationMail(user.id)" class="btn btn-icon btn-sm btn-outline-primary mr-2" data-toggle="popover" data-placement="top" data-content="Reenviar e-mail de confirmação">
+                                                <a *ngIf="user.email_verified == 0" (click)="resendConfirmationMail(user.id)" class="btn btn-icon btn-sm btn-outline-primary mr-2" title="Reenviar e-mail de confirmação">
                                                     <span class="svg-icon"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\Communication\Sending mail.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                                             <rect x="0" y="0" width="24" height="24"/>
