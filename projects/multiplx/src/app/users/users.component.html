@@ -216,7 +216,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <span class="text-muted font-weight-bold">{{user.cpf}}</span>
+                                                <span class="text-muted font-weight-bold">{{user.cpf | mask: "000.000.000-00"}}</span>
                                             </td>
                                             <td>
                                                 <span class="text-muted font-weight-bold">{{ user.email }}</span>
@@ -243,7 +243,7 @@
                                                         </g>
                                                     </svg><!--end::Svg Icon--></span>
                                                 </a>
-                                                <a href="javascript:;" (click)="onDelete(user.id)" class="btn btn-icon btn-sm btn-outline-danger">
+                                                <a href="javascript:;" *ngIf="app.storage.user_id != user.id" (click)="onDelete(user.id)" class="btn btn-icon btn-sm btn-outline-danger">
                                                     <span class="svg-icon"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\General\Trash.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                                             <rect x="0" y="0" width="24" height="24"/>

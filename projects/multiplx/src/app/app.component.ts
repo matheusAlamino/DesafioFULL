@@ -95,7 +95,19 @@ export class AppComponent {
     }
 
     updateProfile() {
-
+        this.userService.update(this.userProfile.id, this.userProfile).subscribe(response => {
+            if (response.ret == 1) {
+                this.swal.msgAlert('Sucesso', 'Dados atualizados com sucesso!', 'success')
+                this.$closeModalProfile.nativeElement.click()
+            } else {
+                this.swal.msgAlert('Atenção', response.msg, 'warning', 'Ok')
+            }
+        }, error => {
+            this.swal.msgAlert('Atenção', 'Ocorreu um problema ao tentar atualizar seus dados!', 'warning', 'Ok')
+            if (error.status == 401) {
+                this.logout()
+            }
+        })
     }
 
     openUserProfile() {

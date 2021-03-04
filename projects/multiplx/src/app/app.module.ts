@@ -14,7 +14,6 @@ import localePt from '@angular/common/locales/pt'
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HeaderInterceptor } from './guards/auth.interceptor';
 import { FormsModule } from '@angular/forms';
-import { PaginationComponent } from './utils/pagination/pagination.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
 
 registerLocaleData(localePt, 'pt-BR');

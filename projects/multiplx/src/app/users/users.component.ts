@@ -108,6 +108,7 @@ export class UsersComponent implements OnInit {
     }
 
     newUser() {
+        this.error = false
         this.user = {
             id: null,
             name: '',
@@ -168,6 +169,7 @@ export class UsersComponent implements OnInit {
             this.app.toggleLoading(false)
             if (response.ret == 1) {
                 this.swal.msgAlert('Sucesso', 'Usuário atualizado com sucesso!', 'success')
+                this.$closeModal.nativeElement.click()
             } else {
                 this.swal.msgAlert('Atenção', response.msg, 'warning', 'Ok')
             }
