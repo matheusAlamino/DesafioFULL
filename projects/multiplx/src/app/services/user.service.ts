@@ -49,4 +49,9 @@ export class UserService {
     updatePassword(user_id, data): Observable<any> {
         return this.http.put<any>(`${this.api.mpx}users/${user_id}/password`, data).pipe(map((response) => response));
     }
+
+    resendConfirmationMail(user_id): Observable<any> {
+        return this.http.get<any>(`${this.api.mpx}users/${user_id}/resend-confirmation-mail`).pipe(map(
+            (response) => response));
+    }
 }

@@ -24,7 +24,8 @@ export class UsersComponent implements OnInit {
         phone: '',
         birth_date: null,
         admin: false,
-        status: true
+        status: true,
+        email_verified: null
     }
     termo: string = ''
     status: any
@@ -117,7 +118,8 @@ export class UsersComponent implements OnInit {
             phone: '',
             birth_date: null,
             admin: false,
-            status: true
+            status: true,
+            email_verified: null
         }
     }
 
@@ -196,6 +198,24 @@ export class UsersComponent implements OnInit {
             }
         }, error => {
             this.swal.msgAlert('Atenção', 'Ocorreu um problema ao tentar remover este usuário!', 'error', 'Ok')
+            if (error.status == 401) {
+                this.app.logout('usuarios')
+            }
+        })
+    }
+
+    resendConfirmationMail(user_id) {
+        this.app.toggleLoading(true)
+        this.userService.resendConfirmationMail(user_id).subscribe(response => {
+            this.app.toggleLoading(false)
+            if (response.ret == 1) {
+                this.swal.msgAlert('Sucesso', 'E-mail de confirmação reenviado com sucesso!', 'success')
+            } else {
+                this.swal.msgAlert('Atenção', response.msg, 'warning', 'Ok')
+            }
+        }, error => {
+            this.app.toggleLoading(false)
+            this.swal.msgAlert('Atenção', 'Ocorreu um problema ao tentar reenviar o e-mail de confirmação para o usuário!', 'warning', 'Ok')
             if (error.status == 401) {
                 this.app.logout('usuarios')
             }

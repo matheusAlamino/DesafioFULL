@@ -35,7 +35,8 @@ export class AppComponent {
         admin: null,
         status: null,
         phone: null,
-        birth_date: null
+        birth_date: null,
+        email_verified: null
     }
 
     userPassword = {

@@ -6,5 +6,6 @@ export interface User {
     admin: boolean,
     status: boolean,
     phone: string,
-    birth_date: string
+    birth_date: string,
+    email_verified: number
 }
