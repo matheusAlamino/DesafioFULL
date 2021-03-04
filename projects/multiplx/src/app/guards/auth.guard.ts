@@ -32,7 +32,8 @@ export class AuthGuard implements CanActivate {
     }
 
     private redirectLogin() {
-        window.location.href = this.api.login + '?l=' + this.url
+        //window.location.href = this.api.login + '?l=' + this.url
+        window.location.href = this.api.login
         return false
     }
 
