@@ -1,0 +1,110 @@
+<div class="subheader py-5 py-lg-10 gutter-b subheader-solid" id="kt_subheader"
+    style="background-color: #127E9B; background-position: right bottom; background-size: auto 100%; background-repeat: no-repeat; background-image: url(assets/media/svg/patterns/art_barra.svg)">
+    <div class="container-fluid d-flex flex-column">
+
+        <!--begin::Title-->
+        <div class="d-flex align-items-sm-end flex-column flex-sm-row mb-5">
+            <h2 class="d-flex align-items-center text-white mr-5 mb-0">Adicionar Processo</h2>
+        </div>
+
+        <!--end::Title-->
+    </div>
+</div>
+
+<!--end::Subheader-->
+
+<!-- begin::Entry -->
+<form class="form">
+    <div class="card-body">
+        <div class="form-group row">
+            <div class="col-lg-4">
+                <label>Cliente:</label>
+                <select (change)="onChangeSelect($event.target.value)" class="form-control" required placeholder="Selecione um cliente">
+                    <option [value]="client.id" [selected]="process.client_id == client.id" *ngFor="let client of clients">
+                        {{client.name}}
+                    </option>
+                </select>
+                <!-- <span class="form-text text-muted">Please enter your full name</span> -->
+            </div>
+            <div class="col-lg-4">
+                <label>Data:</label>
+                <input type="date" class="form-control" name="date" #date="ngModel" [(ngModel)]="process.date"
+                    [ngClass]="{'is-invalid': !date.valid && error}" required />
+            </div>
+            <div class="col-lg-4">
+                <label>Ano Previsto Pagamento:</label>
+                <input type="date" class="form-control" name="payment_year" #payment_year="ngModel"
+                    [(ngModel)]="process.payment_year" [ngClass]="{'is-invalid': !payment_year.valid && error}" required />
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-lg-4">
+                <label>Valor Atualizado Bruto:</label>
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text">R$</span></div>
+                    <input type="text" class="form-control" placeholder="99,90" mask="0*,09" name="value_rough" #value_rough="ngModel" [(ngModel)]="process.value_rough" />
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <label>Valor Autor:</label>
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text">R$</span></div>
+                    <input type="text" class="form-control" placeholder="99,90" mask="0*,09" name="value_author" #value_author="ngModel" [(ngModel)]="process.value_author" />
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <label>Despesas Operacionais:</label>
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text">R$</span></div>
+                    <input type="text" class="form-control" placeholder="99,90" mask="0*,09" name="outgoing_operationals"
+                        #outgoing_operationals="ngModel" [(ngModel)]="process.outgoing_operationals" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-lg-4">
+                <label>Despesas Judicais e Cartório:</label>
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text">R$</span></div>
+                    <input type="text" class="form-control" placeholder="99,90" mask="0*,09" name="outgoing_judicials"
+                        #outgoing_judicials="ngModel" [(ngModel)]="process.outgoing_judicials" />
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <label>Valor Total - Investidor:</label>
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text">R$</span></div>
+                    <input type="text" class="form-control" placeholder="99,90" mask="0*,09" name="total_value"
+                        #total_value="ngModel" [(ngModel)]="process.total_value" />
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <label>Valor Receber - Ano Previsto:</label>
+                <input type="date" class="form-control" name="date_receive" #date_receive="ngModel"
+                    [(ngModel)]="process.date_receive" [ngClass]="{'is-invalid': !date_receive.valid && error}" required />
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-lg-4">
+                <label>Percentual de Ganho Ano Previsto:</label>
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text">R$</span></div>
+                    <input type="text" class="form-control" placeholder="99,90" mask="0*,09" name="percentual_gain"
+                        #percentual_gain="ngModel" [(ngModel)]="process.percentual_gain" />
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <label>Status:</label>
+                <select (change)="onChangeStatusSelect($event.target.value)" class="form-control" required attr.data-placeholder="Selecione o status">
+                    <option [value]="0">Iniciado</option>
+                    <option [value]="1">Rejeitado</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <button type="button" (click)="saveProcess()" class="btn btn-primary mr-2">Salvar</button>
+        <a [routerLink]="['/processos']" class="btn btn-secondary">Cancelar</a>
+    </div>
+</form>
+<!-- end::Entry -->

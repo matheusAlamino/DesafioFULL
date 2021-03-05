@@ -1,5 +1,7 @@
 export interface Process {
     id: number,
+    client_id: number,
+    user_id: number,
     year: number,
     month: number,
     date: string,
