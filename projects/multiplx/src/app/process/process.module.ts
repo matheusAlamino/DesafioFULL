@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { PaginationModule } from '../utils/pagination/pagination.module';
 import { ListComponent } from './list/list.component';
 import { FormProcessComponent } from './form/form-process.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 const ROUTES: Routes = [
     { path: '', component: ListComponent },
@@ -22,7 +23,8 @@ const ROUTES: Routes = [
         RouterModule.forChild(ROUTES),
         NgxMaskModule.forRoot(),
         FormsModule,
-        PaginationModule
+        PaginationModule,
+        NgSelectModule
     ],
     providers: [
         DatePipe

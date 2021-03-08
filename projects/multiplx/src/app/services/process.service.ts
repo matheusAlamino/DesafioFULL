@@ -15,4 +15,25 @@ export class ProcessService {
     monthlyAmount(): Observable<any> {
         return this.http.get(`${this.api.mpx}process/reports/monthly-amount`).pipe(map(response => response));
     }
+
+    list(termo: string = '', status: any, page, pageSize): Observable<any> {
+        let data: any = {}
+
+        if (termo) {
+            data.termo = termo
+        }
+
+        if (status != null) {
+            data.status = status
+        }
+
+        let params = '?page=' + page
+        data.pageSize = pageSize
+
+        return this.http.get<any>(`${this.api.mpx}process${params}`, { params: data }).pipe(map((response) => response));
+    }
+
+    save(data): Observable<any> {
+        return this.http.post(`${this.api.mpx}process`, data).pipe(map(response => response));
+    }
 }
