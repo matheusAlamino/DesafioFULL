@@ -255,7 +255,7 @@
                                                         </g>
                                                     </svg><!--end::Svg Icon--></span>
                                                 </a>
-                                                <a *ngIf="user.email_verified == 0" (click)="resendConfirmationMail(user.id)" class="btn btn-icon btn-sm btn-outline-primary mr-2" title="Reenviar e-mail de confirmação">
+                                                <a *ngIf="user.email_verified == 0" (click)="resendConfirmationMail(user.id)" class="btn btn-icon btn-sm btn-outline-primary mr-2" data-toggle="tooltip" title="Reenviar e-mail de confirmação">
                                                     <span class="svg-icon"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\Communication\Sending mail.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                                             <rect x="0" y="0" width="24" height="24"/>

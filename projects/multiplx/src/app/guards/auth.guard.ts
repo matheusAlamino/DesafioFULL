@@ -76,7 +76,6 @@ export class AuthGuard implements CanActivate {
         if (this.params != undefined && this.params.t) {
             this.storageService.setStorage('user', {token: this.params.t})
             if (this.params.reset) {
-                console.log('reset')
                 this.resetPassword.emit()
             }
             await this.storageService
