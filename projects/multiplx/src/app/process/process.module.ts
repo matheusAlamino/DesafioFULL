@@ -11,6 +11,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 const ROUTES: Routes = [
     { path: '', component: ListComponent },
     { path: 'cadastro', component: FormProcessComponent },
+    { path: 'editar/:id', component: FormProcessComponent },
 ]
 
 @NgModule({

@@ -1,7 +1,7 @@
 export interface Process {
     id: number,
-    client_id: number,
     user_id: number,
+    responsable_id: number,
     year: number,
     month: number,
     date: string,
@@ -13,5 +13,22 @@ export interface Process {
     total_value: number,
     date_receive: string,
     percentual_gain: number,
-    status: number
+    status: number,
+    assignors?: Client[],
+    assignor_id?: number[],
+    assignees?: Client[]
+    assignee_id?: number[],
+    responsable?: User
+}
+export interface Client {
+    id: number,
+    name: string,
+    cpf: string,
+    status: boolean
+}
+export interface User {
+    id: number,
+    name: string,
+    cpf: string,
+    status: boolean
 }

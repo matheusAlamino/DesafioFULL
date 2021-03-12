@@ -4,7 +4,7 @@
 
         <!--begin::Title-->
         <div class="d-flex align-items-sm-end flex-column flex-sm-row mb-5">
-            <h2 class="d-flex align-items-center text-white mr-5 mb-0">Adicionar Processo</h2>
+            <h2 class="d-flex align-items-center text-white mr-5 mb-0">Processo</h2>
         </div>
 
         <!--end::Title-->
@@ -13,101 +13,326 @@
 
 <!--end::Subheader-->
 
-<!-- begin::Entry -->
-<form class="form" novalidate #form="ngForm">
-    <div class="card-body">
-        <div class="form-group row">
-            <div class="col-lg-4">
-                <label>Cliente:</label>
-                <ng-select [items]="clients$ | async" #selectClient="ngModel"
-                    [ngClass]="{'is-invalid': process.client_id == null && error}" bindLabel="name" bindValue="id"
-                    name="client_id" [multiple]="false" [hideSelected]="true" [loading]="clientLoading"
-                    [typeahead]="clientinput$" notFoundText="Cliente não encontrado"
-                    loadingText="Carregando..."
-                    clearAllText="Limpar busca"
-                    typeToSearchText="Digite para buscar cliente"
-                    [(ngModel)]="process.client_id" required>
-                </ng-select>
-            </div>
-            <div class="col-lg-4">
-                <label>Data:</label>
-                <input type="date" class="form-control" name="date" #date="ngModel" [(ngModel)]="process.date"
-                    [ngClass]="{'is-invalid': !date.valid && error}" required />
-            </div>
-            <div class="col-lg-4">
-                <label>Ano Previsto Pagamento:</label>
-                <input type="date" class="form-control" name="payment_year" #payment_year="ngModel"
-                    [(ngModel)]="process.payment_year" [ngClass]="{'is-invalid': !payment_year.valid && error}" required/>
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-lg-4">
-                <label>Valor Atualizado Bruto:</label>
-                <div class="input-group">
-                    <div class="input-group-prepend"><span class="input-group-text">R$</span></div>
-                    <input type="text" class="form-control" required placeholder="99,90" mask="0*,09" name="value_rough" #value_rough="ngModel" [(ngModel)]="process.value_rough"  [ngClass]="{'is-invalid': !value_rough.valid && error}" />
+<div class="d-flex flex-column-fluid">
+    <!--begin::Container-->
+    <div class="container-fluid">
+        <!--begin::Row-->
+        <div class="row">
+            <div class="col-md-6">
+
+                <div class="card card-custom card-stretch gutter-b">
+
+                    <!--begin::Header-->
+                    <div class="card-header border-0 py-5">
+                        <h3 class="card-title align-items-start flex-column">
+                            <span class="card-label font-weight-bolder text-dark">{{ titleCard }} Processo</span>
+                        </h3>
+                    </div>
+
+                    <!--end::Header-->
+
+                    <div class="card-body pt-0 pb-3">
+                        <!-- begin::Entry -->
+                        <form class="form" novalidate #form="ngForm">
+                            <div class="card-body">
+                                <div class="form-group row">
+                                    <div class="col-lg-6">
+                                        <label>Cedentes:</label>
+                                        <ng-select [items]="clientsAssignors$ | async" #selectAssignors="ngModel"
+                                            [ngClass]="{'is-invalid': process.assignors?.length > 0 && error}" bindLabel="name" bindValue="id"
+                                            name="assignor_id" [multiple]="true" [hideSelected]="true" [loading]="clientLoadingAssignor"
+                                            [typeahead]="clientinputAssignor$" notFoundText="Cliente não encontrado"
+                                            loadingText="Carregando..."
+                                            clearAllText="Limpar busca"
+                                            typeToSearchText="Digite para buscar clientes"
+                                            [(ngModel)]="process.assignor_id" required>
+                                        </ng-select>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label>Cessionários:</label>
+                                        <ng-select [items]="clientsAssignees$ | async" #selectAssignees="ngModel"
+                                            [ngClass]="{'is-invalid': process.assignors?.length > 0 && error}" bindLabel="name" bindValue="id"
+                                            name="assignee_id" [multiple]="true" [hideSelected]="true" [loading]="clientLoadingAssignee"
+                                            [typeahead]="clientinputAssignee$" notFoundText="Cliente não encontrado" loadingText="Carregando..."
+                                            clearAllText="Limpar busca" typeToSearchText="Digite para buscar clientes" [(ngModel)]="process.assignee_id"
+                                            required>
+                                        </ng-select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-6">
+                                        <label>Data:</label>
+                                        <input type="date" class="form-control" name="date" #date="ngModel" [(ngModel)]="process.date"
+                                            [ngClass]="{'is-invalid': !date.valid && error}" required />
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label>Valor Atualizado Bruto:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend"><span class="input-group-text">R$</span></div>
+                                            <input type="text" class="form-control" required placeholder="99,90" mask="0*,09" name="value_rough" #value_rough="ngModel" [(ngModel)]="process.value_rough"  [ngClass]="{'is-invalid': !value_rough.valid && error}" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-6">
+                                        <label>Valor Autor:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend"><span class="input-group-text">R$</span></div>
+                                            <input type="text" class="form-control" required placeholder="99,90" mask="0*,09" name="value_author" #value_author="ngModel" [(ngModel)]="process.value_author" [ngClass]="{'is-invalid': !value_author.valid && error}" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label>Despesas Operacionais:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend"><span class="input-group-text">R$</span></div>
+                                            <input type="text" class="form-control" required placeholder="99,90" mask="0*,09" name="outgoing_operationals" #outgoing_operationals="ngModel" [(ngModel)]="process.outgoing_operationals" [ngClass]="{'is-invalid': !outgoing_operationals.valid && error}" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-6">
+                                        <label>Despesas Judicais e Cartório:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend"><span class="input-group-text">R$</span></div>
+                                            <input type="text" class="form-control" placeholder="99,90" mask="0*,09" name="outgoing_judicials"
+                                                #outgoing_judicials="ngModel" [(ngModel)]="process.outgoing_judicials" [ngClass]="{'is-invalid': !outgoing_judicials.valid && error}" required />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label>Valor Total - Investidor:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend"><span class="input-group-text">R$</span></div>
+                                            <input type="text" class="form-control" placeholder="99,90" mask="0*,09" name="total_value"
+                                                #total_value="ngModel" [(ngModel)]="process.total_value" [ngClass]="{'is-invalid': !total_value.valid && error}" required/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-6">
+                                        <label>Valor Receber - Ano Previsto:</label>
+                                        <input type="date" class="form-control" name="date_receive" #date_receive="ngModel"
+                                            [(ngModel)]="process.date_receive" [ngClass]="{'is-invalid': !date_receive.valid && error}" required/>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label>Percentual de Ganho Ano Previsto:</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="99,90" mask="0*,09" name="percentual_gain"
+                                            #percentual_gain="ngModel" [(ngModel)]="process.percentual_gain" [ngClass]="{'is-invalid': !percentual_gain.valid && error}" required/>
+                                            <div class="input-group-prepend"><span class="input-group-text">%</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-6">
+                                        <label>Responsável:</label>
+                                        <ng-select [items]="clientsResponsable$ | async" #selectResponsable="ngModel"
+                                            [ngClass]="{'is-invalid': !process.responsable_id && error}" bindLabel="name" bindValue="id"
+                                            name="responsable_id" [multiple]="false" [hideSelected]="true" [loading]="clientLoadingResponsable"
+                                            [typeahead]="clientinputResponsable$" notFoundText="Usuário não encontrado" loadingText="Carregando..."
+                                            clearAllText="Limpar busca" typeToSearchText="Digite para buscar usuário" [(ngModel)]="process.responsable_id"
+                                            required>
+                                        </ng-select>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label>Ano Previsto Pagamento:</label>
+                                        <input type="date" class="form-control" name="payment_year" #payment_year="ngModel"
+                                            [(ngModel)]="process.payment_year" [ngClass]="{'is-invalid': !payment_year.valid && error}" required />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer d-flex justify-content-end">
+                                <button type="button" (click)="saveProcess()" class="btn btn-primary mr-2">Salvar</button>
+                                <a [routerLink]="['/processos']" class="btn btn-secondary">Cancelar</a>
+                            </div>
+                        </form>
+                        <!-- end::Entry -->
+                    </div>
                 </div>
             </div>
-            <div class="col-lg-4">
-                <label>Valor Autor:</label>
-                <div class="input-group">
-                    <div class="input-group-prepend"><span class="input-group-text">R$</span></div>
-                    <input type="text" class="form-control" required placeholder="99,90" mask="0*,09" name="value_author" #value_author="ngModel" [(ngModel)]="process.value_author" [ngClass]="{'is-invalid': !value_author.valid && error}" />
+
+
+            <!--begin::Status-->
+            <div class="col-md-6">
+                <div class="card card-custom card-stretch gutter-b">
+                    <!--begin::Header-->
+                    <div class="card-header border-0 py-5">
+                        <h3 class="card-title align-items-start flex-column">
+                            <span class="card-label font-weight-bolder text-dark">Status</span>
+                        </h3>
+                    </div>
+                    <!--end::Header-->
+
+                    <!--begin::Body-->
+                    <div class="card-body pt-0 pb-3">
+                        <!--begin::Timeline-->
+                        <div class="timeline timeline-6 mt-3">
+                            <!--begin::Item-->
+                            <div class="timeline-item align-items-start">
+                                <!--begin::Label-->
+                                <div class="timeline-label font-weight-bolder text-dark-75 font-size-lg">08:42</div>
+                                <!--end::Label-->
+
+                                <!--begin::Badge-->
+                                <div class="timeline-badge">
+                                    <i class="fa fa-genderless text-warning icon-xl"></i>
+                                </div>
+                                <!--end::Badge-->
+
+                                <!--begin::Text-->
+                                <div class="font-weight-mormal font-size-lg timeline-content text-muted pl-3">
+                                    Outlines keep you honest. And keep structure
+                                </div>
+                                <!--end::Text-->
+                            </div>
+                            <!--end::Item-->
+
+                            <!--begin::Item-->
+                            <div class="timeline-item align-items-start">
+                                <!--begin::Label-->
+                                <div class="timeline-label font-weight-bolder text-dark-75 font-size-lg">10:00</div>
+                                <!--end::Label-->
+
+                                <!--begin::Badge-->
+                                <div class="timeline-badge">
+                                    <i class="fa fa-genderless text-success icon-xl"></i>
+                                </div>
+                                <!--end::Badge-->
+
+                                <!--begin::Content-->
+                                <div class="timeline-content d-flex">
+                                    <span class="font-weight-bolder text-dark-75 pl-3 font-size-lg">AEOL meeting</span>
+                                </div>
+                                <!--end::Content-->
+                            </div>
+                            <!--end::Item-->
+
+                            <!--begin::Item-->
+                            <div class="timeline-item align-items-start">
+                                <!--begin::Label-->
+                                <div class="timeline-label font-weight-bolder text-dark-75 font-size-lg">14:37</div>
+                                <!--end::Label-->
+
+                                <!--begin::Badge-->
+                                <div class="timeline-badge">
+                                    <i class="fa fa-genderless text-danger icon-xl"></i>
+                                </div>
+                                <!--end::Badge-->
+
+                                <!--begin::Desc-->
+                                <div class="timeline-content font-weight-bolder font-size-lg text-dark-75 pl-3">
+                                    Make deposit
+                                    <a href="#" class="text-primary">USD 700</a>.
+                                    to ESL
+                                </div>
+                                <!--end::Desc-->
+                            </div>
+                            <!--end::Item-->
+
+                            <!--begin::Item-->
+                            <div class="timeline-item align-items-start">
+                                <!--begin::Label-->
+                                <div class="timeline-label font-weight-bolder text-dark-75 font-size-lg">16:50</div>
+                                <!--end::Label-->
+
+                                <!--begin::Badge-->
+                                <div class="timeline-badge">
+                                    <i class="fa fa-genderless text-primary icon-xl"></i>
+                                </div>
+                                <!--end::Badge-->
+
+                                <!--begin::Text-->
+                                <div class="timeline-content font-weight-mormal font-size-lg text-muted pl-3">
+                                    Indulging in poorly driving and keep structure keep great
+                                </div>
+                                <!--end::Text-->
+                            </div>
+                            <!--end::Item-->
+
+                            <!--begin::Item-->
+                            <div class="timeline-item align-items-start">
+                                <!--begin::Label-->
+                                <div class="timeline-label font-weight-bolder text-dark-75 font-size-lg">21:03</div>
+                                <!--end::Label-->
+
+                                <!--begin::Badge-->
+                                <div class="timeline-badge">
+                                    <i class="fa fa-genderless text-danger icon-xl"></i>
+                                </div>
+                                <!--end::Badge-->
+
+                                <!--begin::Desc-->
+                                <div class="timeline-content font-weight-bolder text-dark-75 pl-3 font-size-lg">
+                                    New order placed <a href="#" class="text-primary">#XF-2356</a>.
+                                </div>
+                                <!--end::Desc-->
+                            </div>
+                            <!--end::Item-->
+
+                            <!--begin::Item-->
+                            <div class="timeline-item align-items-start">
+                                <!--begin::Label-->
+                                <div class="timeline-label font-weight-bolder text-dark-75 font-size-lg">23:07</div>
+                                <!--end::Label-->
+
+                                <!--begin::Badge-->
+                                <div class="timeline-badge">
+                                    <i class="fa fa-genderless text-info icon-xl"></i>
+                                </div>
+                                <!--end::Badge-->
+
+                                <!--begin::Text-->
+                                <div class="timeline-content font-weight-mormal font-size-lg text-muted pl-3">
+                                    Outlines keep and you honest. Indulging in poorly driving
+                                </div>
+                                <!--end::Text-->
+                            </div>
+                            <!--end::Item-->
+
+                            <!--begin::Item-->
+                            <div class="timeline-item align-items-start">
+                                <!--begin::Label-->
+                                <div class="timeline-label font-weight-bolder text-dark-75 font-size-lg">16:50</div>
+                                <!--end::Label-->
+
+                                <!--begin::Badge-->
+                                <div class="timeline-badge">
+                                    <i class="fa fa-genderless text-primary icon-xl"></i>
+                                </div>
+                                <!--end::Badge-->
+
+                                <!--begin::Text-->
+                                <div class="timeline-content font-weight-mormal font-size-lg text-muted pl-3">
+                                    Indulging in poorly driving and keep structure keep great
+                                </div>
+                                <!--end::Text-->
+                            </div>
+                            <!--end::Item-->
+
+                            <!--begin::Item-->
+                            <div class="timeline-item align-items-start">
+                                <!--begin::Label-->
+                                <div class="timeline-label font-weight-bolder text-dark-75 font-size-lg">21:03</div>
+                                <!--end::Label-->
+
+                                <!--begin::Badge-->
+                                <div class="timeline-badge">
+                                    <i class="fa fa-genderless text-danger icon-xl"></i>
+                                </div>
+                                <!--end::Badge-->
+
+                                <!--begin::Desc-->
+                                <div class="timeline-content font-weight-bolder font-size-lg text-dark-75 pl-3">
+                                    New order placed <a href="#" class="text-primary">#XF-2356</a>.
+                                </div>
+                                <!--end::Desc-->
+                            </div>
+                            <!--end::Item-->
+                        </div>
+                        <!--end::Timeline-->
+                    </div>
+                    <!--end::Body-->
                 </div>
-            </div>
-            <div class="col-lg-4">
-                <label>Despesas Operacionais:</label>
-                <div class="input-group">
-                    <div class="input-group-prepend"><span class="input-group-text">R$</span></div>
-                    <input type="text" class="form-control" required placeholder="99,90" mask="0*,09" name="outgoing_operationals" #outgoing_operationals="ngModel" [(ngModel)]="process.outgoing_operationals" [ngClass]="{'is-invalid': !outgoing_operationals.valid && error}" />
-                </div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-lg-4">
-                <label>Despesas Judicais e Cartório:</label>
-                <div class="input-group">
-                    <div class="input-group-prepend"><span class="input-group-text">R$</span></div>
-                    <input type="text" class="form-control" placeholder="99,90" mask="0*,09" name="outgoing_judicials"
-                        #outgoing_judicials="ngModel" [(ngModel)]="process.outgoing_judicials" [ngClass]="{'is-invalid': !outgoing_judicials.valid && error}" required />
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <label>Valor Total - Investidor:</label>
-                <div class="input-group">
-                    <div class="input-group-prepend"><span class="input-group-text">R$</span></div>
-                    <input type="text" class="form-control" placeholder="99,90" mask="0*,09" name="total_value"
-                        #total_value="ngModel" [(ngModel)]="process.total_value" [ngClass]="{'is-invalid': !total_value.valid && error}" required/>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <label>Valor Receber - Ano Previsto:</label>
-                <input type="date" class="form-control" name="date_receive" #date_receive="ngModel"
-                    [(ngModel)]="process.date_receive" [ngClass]="{'is-invalid': !date_receive.valid && error}" required/>
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-lg-4">
-                <label>Percentual de Ganho Ano Previsto:</label>
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="99,90" mask="0*,09" name="percentual_gain"
-                    #percentual_gain="ngModel" [(ngModel)]="process.percentual_gain" [ngClass]="{'is-invalid': !percentual_gain.valid && error}" required/>
-                    <div class="input-group-prepend"><span class="input-group-text">%</span></div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <label>Status:</label>
-                <select (change)="onChangeStatusSelect($event.target.value)" class="form-control" required attr.data-placeholder="Selecione o status" [ngClass]="{'is-invalid': !process.status && error}">
-                    <option [value]="">Selecione um status</option>
-                    <option [value]="0">Iniciado</option>
-                    <option [value]="1">Rejeitado</option>
-                </select>
             </div>
         </div>
     </div>
-    <div class="card-footer">
-        <button type="button" (click)="saveProcess()" class="btn btn-primary mr-2">Salvar</button>
-        <a [routerLink]="['/processos']" class="btn btn-secondary">Cancelar</a>
-    </div>
-</form>
-<!-- end::Entry -->
+</div>

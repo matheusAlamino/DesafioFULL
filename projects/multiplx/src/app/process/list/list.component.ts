@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AppComponent } from '../../app.component';
 import { PageSizeEnum } from '../../enums/page-size.enum';
+import { StatusProcessEnum } from '../../enums/status-process.enum';
 import { Process } from '../../models/process.model';
 import { ProcessService } from '../../services/process.service';
 
@@ -10,7 +11,7 @@ import { ProcessService } from '../../services/process.service';
 })
 export class ListComponent implements OnInit {
 
-    termo: string = ''
+    term: string = ''
     status: any
     statusLeg: any
     error: boolean = false
@@ -22,7 +23,7 @@ export class ListComponent implements OnInit {
 
     constructor(
         private app: AppComponent,
-        private processService: ProcessService
+        private processService: ProcessService,
     ) { }
 
     ngOnInit(): void {
@@ -39,11 +40,10 @@ export class ListComponent implements OnInit {
 
     loadProcess() {
         this.app.toggleLoading(true)
-        this.processService.list(this.termo, this.status, this.currentPage, this.pageSize).subscribe(data => {
+        this.processService.list(this.term, this.status, this.currentPage, this.pageSize).subscribe(data => {
             this.app.toggleLoading(false)
             this.process = data.data
             this.processPag = data
-            console.log(this.process)
         })
     }
 
