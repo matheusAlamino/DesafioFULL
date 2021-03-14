@@ -25,9 +25,7 @@
               "src/favicon.ico",
               "src/assets"
             ],
-            "styles": [
-                "src/assets/css/styles.css"
-            ],
+            "styles": [],
             "scripts": [
                 "node_modules/apexcharts/dist/apexcharts.min.js"
             ]
@@ -90,9 +88,7 @@
               "src/favicon.ico",
               "src/assets"
             ],
-            "styles": [
-                "src/assets/css/styles.css"
-            ],
+            "styles": [],
             "scripts": [
                 "node_modules/apexcharts/dist/apexcharts.min.js"
             ]

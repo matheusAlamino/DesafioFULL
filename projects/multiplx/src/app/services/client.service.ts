@@ -67,4 +67,12 @@ export class ClientService {
     countProcess(client_id): Observable<any> {
         return this.http.get(`${this.api.mpx}clients/reports/${client_id}/process/count`).pipe(map(response => response));
     }
+
+    getClients(term: string): Observable<any> {
+        let data: any = {
+            term: term
+        }
+
+        return this.http.get(`${this.api.mpx}clients-select`, { params: data }).pipe(map(response => response));
+    }
 }

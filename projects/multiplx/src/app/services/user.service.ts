@@ -54,4 +54,12 @@ export class UserService {
         return this.http.get<any>(`${this.api.mpx}users/${user_id}/resend-confirmation-mail`).pipe(map(
             (response) => response));
     }
+
+    getUsers(term: string): Observable<any> {
+        let data: any = {
+            term: term
+        }
+
+        return this.http.get(`${this.api.mpx}users-select`, { params: data }).pipe(map(response => response));
+    }
 }

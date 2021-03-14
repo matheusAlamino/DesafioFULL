@@ -1,0 +1,120 @@
+<!--begin::Timeline-->
+<div class="timeline timeline-6 mt-3">
+    <!--begin::Item-->
+    <div class="timeline-item align-items-start" *ngFor="let item of allStatus">
+        <!--begin::Label-->
+        <div class="timeline-label font-weight-bolder text-dark-75 font-size-lg"></div>
+        <!--end::Label-->
+
+        <!--begin::Badge-->
+        <div class="timeline-badge" *ngIf="item.id == statusAnalysis">
+            <i class="fa fa-genderless text-warning icon-xl"></i>
+        </div>
+        <!--end::Badge-->
+        <!--begin::Badge-->
+        <div class="timeline-badge" *ngIf="item.id == statusExecuting">
+            <i class="fa fa-genderless text-primary icon-xl"></i>
+        </div>
+        <!--end::Badge-->
+        <!--begin::Badge-->
+        <div class="timeline-badge" *ngIf="item.id == statusDone">
+            <i class="fa fa-genderless text-success icon-xl"></i>
+        </div>
+        <!--end::Badge-->
+
+        <div class="timeline-content">
+            <!--begin::Title-->
+            <div>
+                <a href="#" class="font-weight-bolder text-dark-75 font-size-lg pl-3" data-toggle="modal" data-target="#statusModal" (click)="openModal(item.id, item.pivot?.description, item.pivot?.id)">
+                    {{ item.name }}
+                </a>
+            </div>
+            <!--end::Title-->
+
+            <!--begin::Text-->
+            <div class="font-weight-mormal font-size-lg text-muted pl-3">
+                {{ item.pivot?.description }}
+            </div>
+            <!--end::Text-->
+        </div>
+    </div>
+    <!--end::Item-->
+
+    <!--begin::Item-->
+    <div class="timeline-item align-items-start" *ngIf="!isDone">
+        <!--begin::Label-->
+        <div class="timeline-label font-weight-bolder text-dark-75 font-size-lg"></div>
+        <!--end::Label-->
+
+        <!--begin::Badge-->
+        <div class="timeline-badge">
+            <i class="fa fa-genderless text-muted icon-xl"></i>
+        </div>
+        <!--end::Badge-->
+
+        <div class="timeline-content">
+            <!--begin::Title-->
+            <div>
+                <a href="#" class="font-weight-bolder text-muted font-size-lg pl-3" data-toggle="modal" data-target="#statusModal" (click)="openModal()">
+                    Adicionar novo status
+                </a>
+            </div>
+            <!--end::Title-->
+
+            <!--begin::Text-->
+            <div class="font-weight-mormal font-size-lg text-muted pl-3"></div>
+            <!--end::Text-->
+        </div>
+    </div>
+    <!--end::Item-->
+</div>
+<!--end::Timeline-->
+
+
+<!--begin::Modal-->
+<div class="modal fade" id="statusModal" data-backdrop="static" tabindex="-1" role="dialog"
+    aria-labelledby="staticBackdrop" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 *ngIf="!status.id; else editStatus" class="modal-title">Adicionar novo status</h5>
+                <ng-template #editStatus>
+                    <h5 class="modal-title">Editar status</h5>
+                </ng-template>
+                <button type="button" (click)="clearObject()" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="kt_subheader_leaflet" style="width: 100%;">
+                    <form class="form" #form="ngForm">
+                        <div class="card-body">
+                            <div class="form-group row">
+                                <div class="col-lg-6">
+                                    <label>Status*:</label>
+                                    <select type="text" class="form-control" name="status_id" #status_id="ngModel"
+                                        [(ngModel)]="status.status_id" [ngClass]="{'is-invalid': !status_id.valid && error}"
+                                        placeholder="Selecione o status" required >
+                                        <option *ngFor="let element of statusOptions" [value]="element.id">{{ element.name }}</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label>Descrição (Opcional):</label>
+                                    <textarea type="text" class="form-control" name="description" #description="ngModel" maxlength="100"
+                                        [(ngModel)]="status.description"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" (click)="clearObject()" #closeModal class="btn btn-light-primary font-weight-bold"
+                    data-dismiss="modal">Cancelar</button>
+                <button type="button" (click)="onSave()" class="btn btn-primary font-weight-bold">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--end::Modal-->
