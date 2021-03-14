@@ -120,22 +120,38 @@
                                     <thead>
                                         <tr class="text-left text-uppercase">
                                             <th style="min-width: 250px" class="pl-7">
-                                                <span class="text-dark-75">Cliente</span>
+                                                <span class="text-dark-75">Cedentes</span>
+                                            </th>
+                                            <th style="min-width: 250px" class="pl-7">
+                                                <span class="text-dark-75">Cessionários</span>
                                             </th>
                                             <th class="text-center" style="min-width: 100px">Data de Criação</th>
                                             <th class="text-center" style="min-width: 100px">Valor Total - Investidor</th>
                                             <th class="text-center" style="min-width: 100px">Ano Previsto Pagamento</th>
-                                            <th class="text-center" style="min-width: 100px">Status</th>
                                             <th style="min-width: 100px">Ações</th>
                                         </tr>
                                     </thead>
                                     <tbody *ngFor="let proc of process">
                                         <tr>
                                             <td class="pl-0 py-8">
-                                                <div class="d-flex align-items-center">
-                                                    <div>
-                                                        <p class="text-dark-75 font-weight-bolder mb-1 font-size-lg" style="margin-left: 21px;">{{proc.client?.name}}</p>
-                                                        <span class="d-block" style="margin-left: 21px;">{{ proc.client?.cpf | mask: "000.000.000-00" }}</span>
+                                                <div class="d-flex align-items-center" *ngIf="proc.assignors?.length == 0">
+                                                    <p class="text-dark-75 font-weight-bolder mb-1 font-size-lg" style="margin-left: 21px;">-</p>
+                                                </div>
+                                                <div class="d-flex align-items-center" *ngIf="proc.assignors?.length > 0">
+                                                    <div *ngFor="let assignor of proc.assignors">
+                                                        <p class="text-dark-75 font-weight-bolder mb-1 font-size-lg" style="margin-left: 21px;">{{assignor.name}}</p>
+                                                        <!-- <span class="d-block" style="margin-left: 21px;">{{ proc.client?.cpf | mask: "000.000.000-00" }}</span> -->
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="pl-0 py-8">
+                                                <div class="d-flex align-items-center" *ngIf="proc.assignees?.length == 0">
+                                                    <p class="text-dark-75 font-weight-bolder mb-1 font-size-lg" style="margin-left: 21px;">-</p>
+                                                </div>
+                                                <div class="d-flex align-items-center" *ngIf="proc.assignees?.length > 0">
+                                                    <div *ngFor="let assignee of proc.assignees">
+                                                        <p class="text-dark-75 font-weight-bolder mb-1 font-size-lg" style="margin-left: 21px;">{{assignee.name}}</p>
+                                                        <!-- <span class="d-block" style="margin-left: 21px;">{{ proc.client?.cpf | mask: "000.000.000-00" }}</span> -->
                                                     </div>
                                                 </div>
                                             </td>
@@ -147,9 +163,6 @@
                                             </td>
                                             <td class="text-center">
                                                 <span class="text-muted font-weight-bold">{{ proc.payment_year | date: 'dd/MM/yyyy' }}</span>
-                                            </td>
-                                            <td class="text-center">
-                                                <span class="text-muted font-weight-bold">{{ proc.status }}</span>
                                             </td>
                                             <td>
                                                 <a [routerLink]="['/processos/editar/' + proc.id]" class="btn btn-icon btn-sm btn-outline-warning mr-2" data-toggle="modal" aria-haspopup="true" aria-expanded="false" data-target="#subheader7Modal">

@@ -45,7 +45,7 @@
                                             loadingText="Carregando..."
                                             clearAllText="Limpar busca"
                                             typeToSearchText="Digite para buscar clientes"
-                                            [(ngModel)]="process.assignor_id" required>
+                                            [(ngModel)]="process.assignor_id" >
                                         </ng-select>
                                     </div>
                                     <div class="col-lg-6">
@@ -54,8 +54,7 @@
                                             [ngClass]="{'is-invalid': process.assignors?.length > 0 && error}" bindLabel="name" bindValue="id"
                                             name="assignee_id" [multiple]="true" [hideSelected]="true" [loading]="clientLoadingAssignee"
                                             [typeahead]="clientinputAssignee$" notFoundText="Cliente não encontrado" loadingText="Carregando..."
-                                            clearAllText="Limpar busca" typeToSearchText="Digite para buscar clientes" [(ngModel)]="process.assignee_id"
-                                            required>
+                                            clearAllText="Limpar busca" typeToSearchText="Digite para buscar clientes" [(ngModel)]="process.assignee_id">
                                         </ng-select>
                                     </div>
                                 </div>
