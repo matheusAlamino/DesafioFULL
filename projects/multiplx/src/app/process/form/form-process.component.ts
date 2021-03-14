@@ -9,6 +9,7 @@ import { AppComponent } from '../../app.component';
 import { Swal } from '../../utils';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
+import { StatusProcessEnum } from '../../enums/status-process.enum';
 
 @Component({
   selector: 'app-form-process',
@@ -53,6 +54,10 @@ export class FormProcessComponent implements OnInit {
 
     titleCard: string = "Novo"
 
+    statusAnalysis = StatusProcessEnum.analysis
+    statusExecuting = StatusProcessEnum.executing
+    statusDone = StatusProcessEnum.done
+
     constructor(
         private datePipe: DatePipe,
         private clientService: ClientService,
@@ -65,6 +70,7 @@ export class FormProcessComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
+        console.log(status)
         this.app.toggleLoading(true)
         if (this.app.storage) {
             this.init()
@@ -183,7 +189,12 @@ export class FormProcessComponent implements OnInit {
 
     saveProcess() {
         if (!this.formulario.valid || ((this.process.assignor_id?.length == 0) && (this.process.assignee_id?.length == 0))) {
+            // if (this.process.id == null && this.process.status == null) {
+            //     this.swal.msgAlert('Atenção', 'É necessário inserir pelo menos um status!', 'warning', 'Ok')
+            // }
+
             this.error = true
+            return false
         }
 
         if (this.process.id) {

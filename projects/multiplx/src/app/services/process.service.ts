@@ -44,4 +44,8 @@ export class ProcessService {
     edit(id, data): Observable<any> {
         return this.http.put(`${this.api.mpx}process/${id}`, data).pipe(map(response => response));
     }
+
+    getStatusOptions(): Observable<any> {
+        return this.http.get<any>(`${this.api.mpx}status`).pipe(map((response) => response));
+    }
 }

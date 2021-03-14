@@ -1,5 +1,5 @@
 export enum StatusProcessEnum {
-    started = 1,
-    completed = 2,
-    rejected = 3,
+    analysis = 1,
+    executing = 2,
+    done = 3,
 }
