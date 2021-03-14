@@ -12,9 +12,11 @@ export class UploadFileComponent implements OnInit {
 
     public disabled: boolean = false;
     public params = new EventEmitter()
+    public fileAdded = new EventEmitter()
+    public fileRemoved = new EventEmitter()
     public files: File[] = []
 
-    @ViewChild('dropzoneUpload') componentRef?: DropzoneComponent;
+    @ViewChild('dropzoneUpload') componentRef: DropzoneComponent;
 
     @Input() config: DropzoneConfigInterface = {
         clickable: false,
@@ -46,6 +48,7 @@ export class UploadFileComponent implements OnInit {
     }
 
     public onUploadSuccess(args: any): void {
+        this.fileAdded.emit(true)
         if (args[1].ret) {
             this.files.push(args[1].data)
         }
@@ -54,5 +57,7 @@ export class UploadFileComponent implements OnInit {
     public resetDropzone() {
         this.componentRef.directiveRef.reset();
         this.files = []
+        //console.log(this.files)
+        //this.files.splice(0, 1)
     }
 }

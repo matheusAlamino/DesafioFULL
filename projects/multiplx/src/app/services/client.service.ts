@@ -24,6 +24,10 @@ export class ClientService {
         return this.http.get(`${this.api.mpx}clients?${params}`).pipe(map(response => response));
     }
 
+    show(client_id): Observable<any> {
+        return this.http.get(`${this.api.mpx}clients/${client_id}`).pipe(map(response => response));
+    }
+
     updateStatus(client_id, status): Observable<any> {
         return this.http.put(`${this.api.mpx}clients/${client_id}/update-status`, { 'status': status }).pipe(map(response => response));
     }
@@ -54,5 +58,13 @@ export class ClientService {
 
     deleteFile(id): Observable<any> {
         return this.http.delete(`${this.api.mpx}clients-files/${id}`).pipe(map(response => response));
+    }
+
+    countFiles(client_id): Observable<any> {
+        return this.http.get(`${this.api.mpx}clients/reports/${client_id}/files/count`).pipe(map(response => response));
+    }
+
+    countProcess(client_id): Observable<any> {
+        return this.http.get(`${this.api.mpx}clients/reports/${client_id}/process/count`).pipe(map(response => response));
     }
 }

@@ -1,0 +1,68 @@
+<!--begin::Modal-->
+<div class="modal fade" id="modalClient" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 *ngIf="!client.id; else editClient" class="modal-title">Adicionar novo cliente</h5>
+                <ng-template #editClient>
+                    <h5 class="modal-title">Editar cliente</h5>
+                </ng-template>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body" style="height: 500px; overflow: auto;">
+                <div id="kt_subheader_leaflet" style="width: 100%;">
+                    <form class="form" #form="ngForm">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label>Status</label>
+                                <span class="switch switch-outline switch-icon switch-success">
+                                    <label>
+                                        <input type="checkbox" [(ngModel)]="client.status" name="status"/>
+                                        <span></span>
+                                    </label>
+                                </span>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-6">
+                                    <label>Nome completo*:</label>
+                                    <input type="text" class="form-control" name="name" #name="ngModel" [(ngModel)]="client.name" [ngClass]="{'is-invalid': !name.valid && error}" placeholder="Informe o nome completo" required/>
+                                    <!-- <span class="form-text text-muted">Please enter your full name</span> -->
+                                </div>
+                                <div class="col-lg-6">
+                                    <label>CPF*:</label>
+                                    <input type="text" class="form-control" name="cpf" #cpf="ngModel" [(ngModel)]="client.cpf" [ngClass]="{'is-invalid': !cpf.valid && error}" placeholder="000.000.000-00" mask="000.000.000-00" required/>
+                                    <!-- <span class="form-text text-muted">Please enter your contact number</span> -->
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-6">
+                                    <label>Data de nascimento*:</label>
+                                    <input type="date" class="form-control" name="birth_date" #birth_date="ngModel" [(ngModel)]="client.birth_date" [ngClass]="{'is-invalid': !birth_date.valid && error}" required/>
+                                    <!-- <span class="form-text text-muted">Please enter your full name</span> -->
+                                </div>
+                                <div class="col-lg-6">
+                                    <label>Telefone:</label>
+                                    <input type="text" class="form-control" name="phone" #phone="ngModel" [(ngModel)]="client.phone" placeholder="(00) 0000-00000" mask="(00) 0000-00009" [ngClass]="{'is-invalid': !phone.valid && client.phone != null && error}"/>
+                                </div>
+                            </div>
+                            <div class="separator separator-dashed my-5"></div>
+                            <div class="form-group">
+                                <label>E-mail*:</label>
+                                <input type="email" class="form-control" name="email" #email="ngModel" [(ngModel)]="client.email" [ngClass]="{'is-invalid': !email.valid && error}" placeholder="email@exemplo.com" email required/>
+                                <!-- <span class="form-text text-muted">Please enter your full name</span> -->
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" #closeModal class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Cancelar</button>
+                <button type="button" (click)="onSave()" class="btn btn-primary font-weight-bold">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end::Modal-->
