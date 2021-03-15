@@ -25,7 +25,7 @@
         <div class="timeline-content">
             <!--begin::Title-->
             <div>
-                <a href="#" class="font-weight-bolder text-dark-75 font-size-lg pl-3" data-toggle="modal" data-target="#statusModal" (click)="openModal(item.id, item.pivot?.description, item.pivot?.id)">
+                <a href="#" title="Editar item" class="font-weight-bolder text-dark-75 font-size-lg pl-3" data-toggle="modal" data-target="#statusModal" (click)="openModal(item)">
                     {{ item.name }}
                 </a>
             </div>
@@ -35,6 +35,7 @@
             <div class="font-weight-mormal font-size-lg text-muted pl-3">
                 {{ item.pivot?.description }}
             </div>
+            <span class="form-text font-size-xs text-muted pl-3">Última atualização: {{ item.pivot?.updated_at | date: 'dd/MM/yyyy - HH:mm:ss' }}</span>
             <!--end::Text-->
         </div>
     </div>

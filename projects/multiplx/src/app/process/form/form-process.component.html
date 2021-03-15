@@ -15,10 +15,10 @@
 
 <div class="d-flex flex-column-fluid">
     <!--begin::Container-->
-    <div class="container-fluid">
+    <div class="{{layoutSize.container}}">
         <!--begin::Row-->
         <div class="row">
-            <div class="col-md-6">
+            <div class="{{layoutSize.col}}">
 
                 <div class="card card-custom card-stretch gutter-b">
 
@@ -60,12 +60,12 @@
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-lg-6">
-                                        <label>Data:</label>
+                                        <label>Data*:</label>
                                         <input type="date" class="form-control" name="date" #date="ngModel" [(ngModel)]="process.date"
                                             [ngClass]="{'is-invalid': !date.valid && error}" required />
                                     </div>
                                     <div class="col-lg-6">
-                                        <label>Valor Atualizado Bruto:</label>
+                                        <label>Valor Atualizado Bruto*:</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend"><span class="input-group-text">R$</span></div>
                                             <input type="text" class="form-control" required placeholder="99,90" mask="0*,09" name="value_rough" #value_rough="ngModel" [(ngModel)]="process.value_rough"  [ngClass]="{'is-invalid': !value_rough.valid && error}" />
@@ -74,14 +74,14 @@
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-lg-6">
-                                        <label>Valor Autor:</label>
+                                        <label>Valor Autor*:</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend"><span class="input-group-text">R$</span></div>
                                             <input type="text" class="form-control" required placeholder="99,90" mask="0*,09" name="value_author" #value_author="ngModel" [(ngModel)]="process.value_author" [ngClass]="{'is-invalid': !value_author.valid && error}" />
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
-                                        <label>Despesas Operacionais:</label>
+                                        <label>Despesas Operacionais*:</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend"><span class="input-group-text">R$</span></div>
                                             <input type="text" class="form-control" required placeholder="99,90" mask="0*,09" name="outgoing_operationals" #outgoing_operationals="ngModel" [(ngModel)]="process.outgoing_operationals" [ngClass]="{'is-invalid': !outgoing_operationals.valid && error}" />
@@ -90,7 +90,7 @@
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-lg-6">
-                                        <label>Despesas Judicais e Cartório:</label>
+                                        <label>Despesas Judicais e Cartório*:</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend"><span class="input-group-text">R$</span></div>
                                             <input type="text" class="form-control" placeholder="99,90" mask="0*,09" name="outgoing_judicials"
@@ -98,7 +98,7 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
-                                        <label>Valor Total - Investidor:</label>
+                                        <label>Valor Total - Investidor*:</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend"><span class="input-group-text">R$</span></div>
                                             <input type="text" class="form-control" placeholder="99,90" mask="0*,09" name="total_value"
@@ -108,12 +108,12 @@
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-lg-6">
-                                        <label>Valor Receber - Ano Previsto:</label>
+                                        <label>Valor Receber - Ano Previsto*:</label>
                                         <input type="date" class="form-control" name="date_receive" #date_receive="ngModel"
                                             [(ngModel)]="process.date_receive" [ngClass]="{'is-invalid': !date_receive.valid && error}" required/>
                                     </div>
                                     <div class="col-lg-6">
-                                        <label>Percentual de Ganho Ano Previsto:</label>
+                                        <label>Percentual de Ganho Ano Previsto*:</label>
                                         <div class="input-group">
                                             <input type="text" class="form-control" placeholder="99,90" mask="0*,09" name="percentual_gain"
                                             #percentual_gain="ngModel" [(ngModel)]="process.percentual_gain" [ngClass]="{'is-invalid': !percentual_gain.valid && error}" required/>
@@ -123,7 +123,7 @@
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-lg-6">
-                                        <label>Responsável:</label>
+                                        <label>Responsável*:</label>
                                         <ng-select [items]="clientsResponsable$ | async" #selectResponsable="ngModel"
                                             [ngClass]="{'is-invalid': !process.responsable_id && error}" bindLabel="name" bindValue="id"
                                             name="responsable_id" [multiple]="false" [hideSelected]="true" [loading]="clientLoadingResponsable"
@@ -133,7 +133,7 @@
                                         </ng-select>
                                     </div>
                                     <div class="col-lg-6">
-                                        <label>Ano Previsto Pagamento:</label>
+                                        <label>Ano Previsto Pagamento*:</label>
                                         <input type="date" class="form-control" name="payment_year" #payment_year="ngModel"
                                             [(ngModel)]="process.payment_year" [ngClass]="{'is-invalid': !payment_year.valid && error}" required />
                                     </div>
@@ -151,7 +151,7 @@
 
 
             <!--begin::Status-->
-            <div class="col-md-6">
+            <div class="col-md-4" *ngIf="process_id != null">
                 <div class="card card-custom card-stretch gutter-b">
                     <!--begin::Header-->
                     <div class="card-header border-0 py-5">
@@ -168,6 +168,7 @@
                     <!--end::Body-->
                 </div>
             </div>
+            <!--end::Status-->
         </div>
     </div>
 </div>

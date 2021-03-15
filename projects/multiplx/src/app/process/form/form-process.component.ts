@@ -58,6 +58,11 @@ export class FormProcessComponent implements OnInit {
     statusExecuting = StatusProcessEnum.executing
     statusDone = StatusProcessEnum.done
 
+    layoutSize: any = {
+        container: "container",
+        col: "col-md-12"
+    }
+
     constructor(
         private datePipe: DatePipe,
         private clientService: ClientService,
@@ -70,7 +75,6 @@ export class FormProcessComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        console.log(status)
         this.app.toggleLoading(true)
         if (this.app.storage) {
             this.init()
@@ -89,6 +93,10 @@ export class FormProcessComponent implements OnInit {
                 this.process_id = params.id
                 this.app.loading = true
                 this.titleCard = "Editar"
+                this.layoutSize = {
+                    container: "container-fluid",
+                    col: "col-md-8"
+                }
                 this.loadProcess()
             } else {
                 this.app.loading = false

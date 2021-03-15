@@ -41,5 +41,7 @@ export interface PivotStatus {
     id: number,
     process_id: number,
     status_id: number,
-    description: string
+    description: string,
+    created_at: string,
+    updated_at: string
 }

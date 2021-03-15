@@ -24,7 +24,9 @@ export class TimelineStatusComponent implements OnInit {
         id: null,
         process_id: this.idProcess,
         status_id: null,
-        description: null
+        description: null,
+        created_at: null,
+        updated_at: null
     }
 
     isEdit: boolean = false
@@ -55,17 +57,19 @@ export class TimelineStatusComponent implements OnInit {
         });
     }
 
-    openModal(status_id = null, desc = null, id = null) {
-        if (id == null) {
+    openModal(status: Status = null) {
+        if (status == null) {
             this.clearObject()
             this.isEdit = false
         } else {
             this.isEdit = true
             this.status = {
-                id: id,
+                id: status.pivot.id,
                 process_id: this.idProcess,
-                status_id: status_id,
-                description: desc
+                status_id: status.id,
+                description: status.pivot.description,
+                created_at: status.pivot.created_at,
+                updated_at: status.pivot.updated_at
             }
         }
     }
@@ -75,7 +79,9 @@ export class TimelineStatusComponent implements OnInit {
             id: null,
             process_id: this.idProcess,
             status_id: null,
-            description: null
+            description: null,
+            created_at: null,
+            updated_at: null
         }
     }
 
@@ -93,16 +99,7 @@ export class TimelineStatusComponent implements OnInit {
         if (!this.isEdit) {
             this.statusService.save(this.status).subscribe(response => {
                 if (response.ret == 1) {
-                    this.allStatus.push({
-                        id: this.status.status_id,
-                        name: this.statusOptions.filter(item => item.id == this.status.status_id)[0].name,
-                        pivot: {
-                            id: response.id,
-                            process_id: this.status.process_id,
-                            status_id: this.status.status_id,
-                            description: this.status.description
-                        }
-                    })
+                    this.allStatus.push(this.insertObject(response))
                     this.$closeModal.nativeElement.click()
                     this.clearObject()
                 }
@@ -111,20 +108,26 @@ export class TimelineStatusComponent implements OnInit {
             this.statusService.edit(this.status.id, this.status).subscribe(response => {
                 if (response.ret == 1) {
                     let index = this.allStatus.findIndex(item => item.pivot.id == this.status.id)
-                    this.allStatus[index] = {
-                        id: this.status.status_id,
-                        name: this.statusOptions.filter(item => item.id == this.status.status_id)[0].name,
-                        pivot: {
-                            id: response.id,
-                            process_id: this.status.process_id,
-                            status_id: this.status.status_id,
-                            description: this.status.description
-                        }
-                    }
+                    this.allStatus[index] = this.insertObject(response)
                     this.$closeModal.nativeElement.click()
                     this.clearObject()
                 }
             })
+        }
+    }
+
+    insertObject(response) {
+        return {
+            id: this.status.status_id,
+            name: this.statusOptions.filter(item => item.id == this.status.status_id)[0].name,
+            pivot: {
+                id: response.data.id,
+                process_id: this.status.process_id,
+                status_id: this.status.status_id,
+                description: this.status.description,
+                created_at: response.data.created_at,
+                updated_at: response.data.updated_at
+            }
         }
     }
 }
