@@ -34,7 +34,7 @@ export class ClientViewComponent implements OnInit {
     }
 
     @ViewChild('dzoneUpload') $dzoneUpload: UploadFileComponent
-    @ViewChild('closeModal') $closeModalFile: ElementRef
+    @ViewChild('closeModalFile') $closeModalFile: ElementRef
 
     paramsClient: any
     config: DropzoneConfigInterface = {
@@ -135,7 +135,7 @@ export class ClientViewComponent implements OnInit {
             }
             this.clientService.saveFiles(data).subscribe(resp => {
                 if (resp.ret) {
-                    this.$dzoneUpload.resetDropzone()
+                    //this.$dzoneUpload.resetDropzone()
                     this.$closeModalFile.nativeElement.click()
                     this.swal.msgAlert('Sucesso', 'Cliente cadastrado com sucesso!', 'success')
                 } else {

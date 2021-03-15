@@ -45,7 +45,7 @@ export class ClientsComponent implements OnInit {
     hideButtons: boolean = true
 
     @ViewChild('dzoneUpload') $dzoneUpload: UploadFileComponent
-    @ViewChild('closeModal') $closeModalFile: ElementRef
+    @ViewChild('closeModalFile') $closeModalFile: ElementRef
 
     paramsClient: any
     config: DropzoneConfigInterface = {
@@ -187,9 +187,9 @@ export class ClientsComponent implements OnInit {
             }
             this.clientService.saveFiles(data).subscribe(resp => {
                 if (resp.ret) {
-                    this.$dzoneUpload.resetDropzone()
-                    this.$closeModalFile.nativeElement.click()
+                    //this.$dzoneUpload.resetDropzone()
                     this.swal.msgAlert('Sucesso', 'Cliente cadastrado com sucesso!', 'success')
+                    this.$closeModalFile.nativeElement.click()
                 } else {
                     this.swal.msgAlert('Atenção', 'Erro ao salvar upload(s)!', 'warning', 'Ok')
                 }
