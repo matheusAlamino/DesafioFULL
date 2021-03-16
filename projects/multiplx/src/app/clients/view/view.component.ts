@@ -58,7 +58,7 @@ export class ClientViewComponent implements OnInit {
         this.app.toggleLoading(true)
 
         this.clientEditComponent.saveEvent.subscribe(resp => {
-            this.loadClients()
+            this.loadClient()
         })
 
         if (this.app.storage) {
@@ -76,7 +76,7 @@ export class ClientViewComponent implements OnInit {
         this.route.params.subscribe((params: any) => {
             if (params.client_id) {
                 this.client_id = params.client_id
-                this.loadClients()
+                this.loadClient()
             }
         });
 
@@ -84,11 +84,12 @@ export class ClientViewComponent implements OnInit {
         this.loadCountProcess()
     }
 
-    loadClients() {
+    loadClient() {
         this.clientService.show(this.client_id).subscribe(response => {
             this.app.toggleLoading(false)
             if (response.ret == 1) {
                 this.client = response.client
+                this.loadClientFiles()
             } else {
                 this.swal.msgAlert('Atenção', 'Cliente não encontrado!', 'warning', 'Ok')
                 this.router.navigate(['/clientes'])
@@ -97,6 +98,19 @@ export class ClientViewComponent implements OnInit {
             this.app.toggleLoading(false)
             this.swal.msgAlert('Atenção', 'Cliente não encontrado!', 'warning', 'Ok')
             this.router.navigate(['/clientes'])
+            if (error.status == 401) {
+                this.app.logout('clientes')
+            }
+        })
+    }
+
+    loadClientFiles() {
+        let data = {
+            'client_id': this.client.id
+        }
+        this.clientService.getFilesClient(data).subscribe(response => {
+            this.filesClient = response.files
+        }, error => {
             if (error.status == 401) {
                 this.app.logout('clientes')
             }
