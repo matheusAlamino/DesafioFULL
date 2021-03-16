@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewChild, EventEmitter } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { AppComponent } from 'projects/multiplx/src/app/app.component';
 import { Client } from '../../models/client.model';
 import { ClientService } from '../../services/client.service';
@@ -11,12 +11,13 @@ import { Swal } from '../../utils';
 export class ClientEditComponent implements OnInit {
 
     @Input() client: Client
+    @Input() saveEvent: any
 
     @ViewChild("form") $form: any
     @ViewChild('closeModal') $closeModal: ElementRef
     error: boolean = false
 
-    public saveEvent = new EventEmitter()
+    //public saveEvent = new EventEmitter()
 
     constructor(
         private app: AppComponent,

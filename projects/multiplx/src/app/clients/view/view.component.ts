@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
 import { AppComponent } from 'projects/multiplx/src/app/app.component';
@@ -33,6 +33,9 @@ export class ClientViewComponent implements OnInit {
         status: null
     }
 
+    public saveEvent = new EventEmitter()
+    public deleteFileEvent = new EventEmitter()
+
     @ViewChild('dzoneUpload') $dzoneUpload: UploadFileComponent
     @ViewChild('closeModalFile') $closeModalFile: ElementRef
 
@@ -50,15 +53,18 @@ export class ClientViewComponent implements OnInit {
         private route: ActivatedRoute,
         private clientService: ClientService,
         private swal: Swal,
-        private router: Router,
-        private clientEditComponent: ClientEditComponent
+        private router: Router
     ) { }
 
     ngOnInit(): void {
         this.app.toggleLoading(true)
 
-        this.clientEditComponent.saveEvent.subscribe(resp => {
+        this.saveEvent.subscribe(resp => {
             this.loadClient()
+        })
+
+        this.deleteFileEvent.subscribe(resp => {
+            this.loadClientFiles()
         })
 
         if (this.app.storage) {
@@ -151,7 +157,8 @@ export class ClientViewComponent implements OnInit {
                 if (resp.ret) {
                     //this.$dzoneUpload.resetDropzone()
                     this.$closeModalFile.nativeElement.click()
-                    this.swal.msgAlert('Sucesso', 'Cliente cadastrado com sucesso!', 'success')
+                    this.swal.msgAlert('Sucesso', 'Novo arquivo adicionado com sucesso!', 'success')
+                    this.loadClientFiles()
                 } else {
                     this.swal.msgAlert('Atenção', 'Erro ao salvar upload(s)!', 'warning', 'Ok')
                 }

@@ -1,5 +1,5 @@
 
-<app-client-edit [client]="client"></app-client-edit>
+<app-client-edit [client]="client" [saveEvent]="saveEvent"></app-client-edit>
 
 
 <!--begin::Modal-->
@@ -139,7 +139,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <app-client-file-list [filesClient]="filesClient"></app-client-file-list>
+                        <app-client-file-list [filesClient]="filesClient" [deleteFileEvent]="deleteFileEvent"></app-client-file-list>
                     </div>
                 </div>
 
