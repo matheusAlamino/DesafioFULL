@@ -13,6 +13,7 @@ export interface Process {
     total_value: number,
     date_receive: string,
     percentual_gain: number,
+    active:  number,
     status: Status[],
     assignors?: Client[],
     assignor_id?: number[],

@@ -6,28 +6,17 @@
         <div class="timeline-label font-weight-bolder text-dark-75 font-size-lg"></div>
         <!--end::Label-->
 
-        <!--begin::Badge-->
-        <div class="timeline-badge" *ngIf="item.id == statusAnalysis">
-            <i class="fa fa-genderless text-warning icon-xl"></i>
-        </div>
-        <!--end::Badge-->
-        <!--begin::Badge-->
-        <div class="timeline-badge" *ngIf="item.id == statusExecuting">
-            <i class="fa fa-genderless text-primary icon-xl"></i>
-        </div>
-        <!--end::Badge-->
-        <!--begin::Badge-->
-        <div class="timeline-badge" *ngIf="item.id == statusDone">
-            <i class="fa fa-genderless text-success icon-xl"></i>
-        </div>
-        <!--end::Badge-->
+        <app-status-icon [idStatus]="item.id"></app-status-icon>
 
         <div class="timeline-content">
             <!--begin::Title-->
             <div>
-                <a href="#" title="Editar item" class="font-weight-bolder text-dark-75 font-size-lg pl-3" data-toggle="modal" data-target="#statusModal" (click)="openModal(item)">
+                <a href="#" *ngIf="!isDone" title="Editar item" class="font-weight-bolder text-dark-75 font-size-lg pl-3" data-toggle="modal" data-target="#statusModal" (click)="openModal(item)">
                     {{ item.name }}
                 </a>
+                <div *ngIf="isDone" class="font-weight-bolder text-dark-75 font-size-lg pl-3">
+                    {{ item.name }}
+                </div>
             </div>
             <!--end::Title-->
 

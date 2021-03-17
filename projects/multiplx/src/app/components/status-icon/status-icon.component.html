@@ -1,0 +1,8 @@
+<!--begin::Badge-->
+<div class="timeline-badge" [ngSwitch]="idStatus">
+    <i class="fa fa-genderless text-warning icon-xl" *ngSwitchCase="statusType.analysis"></i>
+    <i class="fa fa-genderless text-primary icon-xl" *ngSwitchCase="statusType.executing"></i>
+    <i class="fa fa-genderless text-success icon-xl" *ngSwitchCase="statusType.done"></i>
+    <i class="fa fa-genderless text-dark icon-xl" *ngSwitchCase="statusType.reopen"></i>
+</div>
+<!--end::Badge-->
