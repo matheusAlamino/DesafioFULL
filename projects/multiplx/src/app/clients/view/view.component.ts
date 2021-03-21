@@ -21,6 +21,7 @@ export class ClientViewComponent implements OnInit {
     filesClient: FileClient[] = []
     countFiles: number = 0
     countProcess: number = 0
+    process: any
     error: boolean = false
     client: Client = {
         id: null,
@@ -87,7 +88,7 @@ export class ClientViewComponent implements OnInit {
         });
 
         this.loadCountFiles()
-        this.loadCountProcess()
+        this.loadListProcess()
     }
 
     loadClient() {
@@ -135,10 +136,11 @@ export class ClientViewComponent implements OnInit {
         })
     }
 
-    loadCountProcess() {
-        this.clientService.countProcess(this.client_id).subscribe(response => {
+    loadListProcess() {
+        this.clientService.listProcess(this.client_id).subscribe(response => {
             if (response.ret == 1) {
-                this.countProcess = response.count
+                this.process = response.data
+                this.countProcess = response.data.length
             }
         }, error => {
             if (error.status == 401) {
