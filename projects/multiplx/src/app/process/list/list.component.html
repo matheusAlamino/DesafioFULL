@@ -58,8 +58,9 @@
                         <div id="kt_searchbar_7_category-options" class="dropdown-menu dropdown-menu-sm">
                             <div class="dropdown-item cursor-pointer" (click)="onChangeStatus()">Todos</div>
                             <div class="dropdown-divider"></div>
-                            <div class="dropdown-item cursor-pointer" (click)="onChangeStatus(1)">Ativos</div>
-                            <div class="dropdown-item cursor-pointer" (click)="onChangeStatus(0)">Bloqueados</div>
+                            <div *ngFor="let stItem of statusType">
+                                <div class="dropdown-item cursor-pointer" (click)="onChangeStatus(stItem.id)">{{ stItem.name }}</div>
+                            </div>
                         </div>
                     </div>
 
@@ -119,50 +120,55 @@
                                 <table class="table table-head-custom table-head-bg table-borderless table-vertical-center">
                                     <thead>
                                         <tr class="text-left text-uppercase">
-                                            <th style="min-width: 250px" class="pl-7">
+                                            <th style="min-width: 250px" class="pl-7 text-left">
                                                 <span class="text-dark-75">Cedentes</span>
                                             </th>
                                             <th style="min-width: 250px" class="pl-7">
                                                 <span class="text-dark-75">Cessionários</span>
                                             </th>
+                                            <th style="min-width: 250px" class="pl-7">
+                                                <span class="text-dark-75">Responsável</span>
+                                            </th>
                                             <th class="text-center" style="min-width: 100px">Data de Criação</th>
-                                            <th class="text-center" style="min-width: 100px">Valor Total - Investidor</th>
-                                            <th class="text-center" style="min-width: 100px">Ano Previsto Pagamento</th>
+                                            <th class="text-center" style="min-width: 200px">Status Atual</th>
                                             <th style="min-width: 100px">Ações</th>
                                         </tr>
                                     </thead>
                                     <tbody *ngFor="let proc of process">
                                         <tr>
                                             <td class="pl-0 py-8">
-                                                <div class="d-flex align-items-center" *ngIf="proc.assignors?.length == 0">
+                                                <div *ngIf="proc.assignors?.length == 0">
                                                     <p class="text-dark-75 font-weight-bolder mb-1 font-size-lg" style="margin-left: 21px;">-</p>
                                                 </div>
-                                                <div class="d-flex align-items-center" *ngIf="proc.assignors?.length > 0">
-                                                    <div *ngFor="let assignor of proc.assignors">
-                                                        <p class="text-dark-75 font-weight-bolder mb-1 font-size-lg" style="margin-left: 21px;">{{assignor.name}}</p>
+                                                <div *ngIf="proc.assignors?.length > 0">
+                                                    <div class="text-nowrap" *ngFor="let assignor of proc.assignors">
+                                                        <span class="text-dark-75 font-weight-bolder mb-1 font-size-lg" style="margin-left: 21px;">{{assignor.name}}</span>
                                                         <!-- <span class="d-block" style="margin-left: 21px;">{{ proc.client?.cpf | mask: "000.000.000-00" }}</span> -->
                                                     </div>
                                                 </div>
                                             </td>
                                             <td class="pl-0 py-8">
-                                                <div class="d-flex align-items-center" *ngIf="proc.assignees?.length == 0">
+                                                <div *ngIf="proc.assignees?.length == 0">
                                                     <p class="text-dark-75 font-weight-bolder mb-1 font-size-lg" style="margin-left: 21px;">-</p>
                                                 </div>
-                                                <div class="d-flex align-items-center" *ngIf="proc.assignees?.length > 0">
-                                                    <div *ngFor="let assignee of proc.assignees">
+                                                <div *ngIf="proc.assignees?.length > 0">
+                                                    <div class="text-nowrap" *ngFor="let assignee of proc.assignees">
                                                         <p class="text-dark-75 font-weight-bolder mb-1 font-size-lg" style="margin-left: 21px;">{{assignee.name}}</p>
                                                         <!-- <span class="d-block" style="margin-left: 21px;">{{ proc.client?.cpf | mask: "000.000.000-00" }}</span> -->
                                                     </div>
+                                                </div>
+                                            </td>
+                                            <td class="pl-0 py-8">
+                                                <div class="d-flex align-items-center">
+                                                    <p class="text-dark-75 font-weight-bolder mb-1 font-size-lg" style="margin-left: 21px;">{{proc.responsable?.name}}</p>
                                                 </div>
                                             </td>
                                             <td class="text-center">
                                                 <span class="text-muted font-weight-bold">{{ proc.date | date: 'dd/MM/yyyy' }}</span>
                                             </td>
                                             <td class="text-center">
-                                                <span class="text-muted font-weight-bold">{{ proc.total_value }}</span>
-                                            </td>
-                                            <td class="text-center">
-                                                <span class="text-muted font-weight-bold">{{ proc.payment_year | date: 'dd/MM/yyyy' }}</span>
+                                                <span class="btn btn-light-{{getClassByStatus(proc.process_status?.status?.id)}} btn-text disabled btn-sm font-weight-bold" *ngIf="proc.process_status != null">{{ proc.process_status?.status?.name }}</span>
+                                                <span class="text-muted font-weight-bold" *ngIf="proc.process_status == null">-</span>
                                             </td>
                                             <td>
                                                 <a [routerLink]="['/processos/editar/' + proc.id]" class="btn btn-icon btn-sm btn-outline-warning mr-2" data-toggle="modal" aria-haspopup="true" aria-expanded="false" data-target="#subheader7Modal">

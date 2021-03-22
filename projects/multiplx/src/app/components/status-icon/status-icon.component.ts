@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { StatusProcessEnum } from '../../enums/status-process.enum';
 import { StatusType } from '../../models/status-type.model';
+import { StatusService } from '../../services/status.service';
 
 @Component({
   selector: 'app-status-icon',
@@ -10,15 +10,17 @@ export class StatusIconComponent implements OnInit {
 
     @Input() idStatus: number = 0
 
-    statusType: StatusType = {
-        analysis: StatusProcessEnum.analysis,
-        executing: StatusProcessEnum.executing,
-        done: StatusProcessEnum.done,
-        reopen: StatusProcessEnum.reopened
-    }
+    statusType: StatusType[] = []
 
-    constructor() { }
+    constructor(
+        private statusService: StatusService
+    ) { }
 
     ngOnInit(): void {
+        this.statusType = this.statusService.statusType
+    }
+
+    getClassByStatus() {
+        return this.statusType.filter(item => item.id == this.idStatus)[0].class
     }
 }

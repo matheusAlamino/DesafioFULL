@@ -38,7 +38,7 @@ export class FormProcessComponent implements OnInit {
         date_receive: null,
         percentual_gain: null,
         status: null,
-        active: null
+        active: 1
     }
     error: boolean = false
 
@@ -215,11 +215,14 @@ export class FormProcessComponent implements OnInit {
     }
 
     closeProcess(event) {
-        if (event == true) {
+        console.log(event)
+        if (event.closeProcess == true) {
             this.process.active = 0
+            this.saveProcess()
+        } else if (event.deleteStatus) {
+            //When deletes a specific status
+            this.process.status = this.process.status.filter(element => element.pivot.id != event.id)
         }
-
-        this.saveProcess()
     }
 
     reopenProcess() {

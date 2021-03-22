@@ -2468,7 +2468,7 @@ textarea.form-control {
     .btn {
       -webkit-transition: none;
       transition: none; } }
-  .btn:hover {
+  .btn:not(.nohover):hover {
     color: #3F4254;
     text-decoration: none; }
   .btn:focus, .btn.focus {
@@ -62293,6 +62293,11 @@ body {
 @media (max-width: 425px) {
   .offcanvas-mobile {
     width: 90% !important; } }
+
+.scroll-card {
+    max-height: 625px !important;
+    overflow-y: auto;
+}
 
 .ng-select.ng-select-opened > .ng-select-container {
     background: #fff;

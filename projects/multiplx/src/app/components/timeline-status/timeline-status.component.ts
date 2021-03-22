@@ -1,4 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AppComponent } from '../../app.component';
 import { StatusProcessEnum } from '../../enums/status-process.enum';
 import { PivotStatus, Status } from '../../models/process.model';
 import { StatusService } from '../../services/status.service';
@@ -37,7 +38,8 @@ export class TimelineStatusComponent implements OnInit {
 
     constructor(
         private swal: Swal,
-        private statusService: StatusService
+        private statusService: StatusService,
+        private app: AppComponent
     ) { }
 
     ngOnInit(): void {
@@ -124,7 +126,9 @@ export class TimelineStatusComponent implements OnInit {
 
     saveAndCloseProcess() {
         this.saveStatus()
-        this.closeProcess.emit(true)
+        this.closeProcess.emit({
+            closeProcess: true
+        })
     }
 
     insertObject(response) {
@@ -140,5 +144,28 @@ export class TimelineStatusComponent implements OnInit {
                 updated_at: response.data.updated_at
             }
         }
+    }
+
+    deleteStatus(id) {
+        this.swal.confirmAlertCustom('Atenção', 'Deseja realmente remover este status?', 'info', 'Sim', 'Cancelar', { callback: () => this.delete(id) })
+    }
+
+    delete(id) {
+        this.statusService.delete(id).subscribe(response => {
+            if (response.ret == 1) {
+                this.swal.msgAlert('Sucesso', 'Status removido com sucesso', 'success')
+                this.closeProcess.emit({
+                    deleteStatus: true,
+                    id: id
+                })
+            } else {
+                this.swal.msgAlert('Atenção', response.msg, 'warning', 'Ok')
+            }
+        }, error => {
+            this.swal.msgAlert('Atenção', 'Ocorreu um problema ao tentar remover este status!', 'error', 'Ok')
+            if (error.status == 401) {
+                this.app.logout('clientes')
+            }
+        })
     }
 }
