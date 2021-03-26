@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Process, Client, User, PivotStatus } from '../../models/process.model';
 import {of as observableOf, concat as observableConcat,  Observable, Subject } from 'rxjs'
 import { catchError, debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
@@ -11,16 +11,27 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { StatusProcessEnum } from '../../enums/status-process.enum';
 import { StatusService } from '../../services/status.service';
+import { FileProcess } from '../../models/file-process.model';
+import { UploadFileComponent } from '../../components/upload-file/upload-file.component';
+import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
+import { environment } from 'projects/multiplx/src/environments/environment';
+import { ConvertNumerics } from '../../utils/convertNumerics';
 
 @Component({
   selector: 'app-form-process',
   templateUrl: './form-process.component.html'
 })
 export class FormProcessComponent implements OnInit {
+    api: any = environment.api
 
     @ViewChild('form') formulario: any
 
     clients: any[] = []
+    filesProcess: FileProcess[] = []
+    countFiles: number = 0
+    assignors: Client[] = []
+    percentAvailable: number = 0
+    totalValue: number = 0
     process_id: number = null
     process: Process = {
         id: null,
@@ -41,10 +52,6 @@ export class FormProcessComponent implements OnInit {
         active: 1
     }
     error: boolean = false
-
-    clientsAssignors$: Observable<Client[]>;
-    clientLoadingAssignor = false;
-    clientinputAssignor$ = new Subject<string>();
 
     clientsAssignees$: Observable<Client[]>;
     clientLoadingAssignee = false;
@@ -67,6 +74,18 @@ export class FormProcessComponent implements OnInit {
     }
     isDone: boolean = false
 
+    @ViewChild('dzoneUpload') $dzoneUpload: UploadFileComponent
+    @ViewChild('closeModalFile') $closeModalFile: ElementRef
+
+    paramsClient: any
+    config: DropzoneConfigInterface = {
+        clickable: true,
+        url: `${this.api.mpx}uploads/process`,
+        createImageThumbnails: false,
+        maxFilesize: 300,
+        acceptedFiles: '.zip,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.pdf,.jpg,.jpeg,.png'
+    }
+
     constructor(
         private datePipe: DatePipe,
         private clientService: ClientService,
@@ -76,7 +95,8 @@ export class FormProcessComponent implements OnInit {
         private swal: Swal,
         private router: Router,
         private route: ActivatedRoute,
-        private statusService: StatusService
+        private statusService: StatusService,
+        private convertNumeric: ConvertNumerics
     ) { }
 
     ngOnInit(): void {
@@ -105,7 +125,6 @@ export class FormProcessComponent implements OnInit {
                 this.loadProcess()
             } else {
                 this.app.loading = false
-                this.loadAssignors()
                 this.loadAssignees()
                 this.loadResponsable()
             }
@@ -117,7 +136,10 @@ export class FormProcessComponent implements OnInit {
             this.process = response.data
 
             if (this.process.assignors) {
-                this.adjustAssignors(this.process.assignors)
+                this.adjustAssignors()
+            }
+
+            if (this.process.assignees) {
                 this.adjustAssignees(this.process.assignees)
             }
 
@@ -127,6 +149,26 @@ export class FormProcessComponent implements OnInit {
 
             if (this.process.status) {
                 this.checkIsDone(this.process.status)
+            }
+
+            if (this.process.process_files.length > 0) {
+                this.filesProcess = this.process.process_files
+                this.countFiles = this.filesProcess.length
+            }
+        })
+    }
+
+    loadProcessFiles() {
+        let data = {
+            'process_id': this.process.id
+        }
+        this.processService.getFilesProcess(data).subscribe(response => {
+            this.process.process_files = response.files
+            this.filesProcess = response.files
+            this.countFiles = this.filesProcess.length
+        }, error => {
+            if (error.status == 401) {
+                this.app.logout('processos')
             }
         })
     }
@@ -141,31 +183,17 @@ export class FormProcessComponent implements OnInit {
         });
     }
 
-    adjustAssignors(assignors) {
-        this.process.assignor_id = []
-        this.loadAssignors(assignors)
-        assignors.forEach((item) => {
-            this.process.assignor_id.push(item.id)
-        })
-    }
+    adjustAssignors() {
+        this.totalValue = this.process.total_value != null ? this.convertNumeric.convertToAmericanValue(this.process.total_value.toString()) : null
 
-    loadAssignors(assignors: any = []) {
-        this.clientsAssignors$ = observableConcat(
-            observableOf(assignors),
-            this.clientinputAssignor$.pipe(
-                debounceTime(200),
-                distinctUntilChanged(),
-                tap(() => (this.clientLoadingAssignor = true)),
-                switchMap((term) =>
-                    this.clientService
-                        .getClients(term)
-                        .pipe(
-                            catchError(() => observableOf([])), // empty list on error
-                            tap(() => (this.clientLoadingAssignor = false))
-                        )
-                )
-            )
-        )
+        this.process.assignors.forEach((element) => {
+            element.process_client.value = this.totalValue != null ? (this.totalValue * element.process_client.percentual) / 100 : 0
+
+            let value: number = +element.process_client.percentual
+            this.percentAvailable += value
+        })
+        this.assignors = this.process.assignors
+        this.percentAvailable = 100 - this.percentAvailable
     }
 
     adjustAssignees(assignees) {
@@ -215,7 +243,6 @@ export class FormProcessComponent implements OnInit {
     }
 
     closeProcess(event) {
-        console.log(event)
         if (event.closeProcess == true) {
             this.process.active = 0
             this.saveProcess()
@@ -233,7 +260,7 @@ export class FormProcessComponent implements OnInit {
 
     saveProcess(reopen: boolean = false) {
         if (!reopen) {
-            if (!this.formulario.valid || ((this.process.assignor_id?.length == 0) && (this.process.assignee_id?.length == 0))) {
+            if (!this.formulario.valid || ((this.process.assignors.length == 0) && (this.process.assignee_id?.length == 0))) {
                 this.error = true
                 return false
             }
@@ -288,5 +315,42 @@ export class FormProcessComponent implements OnInit {
         }
 
         this.statusService.save(data).subscribe()
+    }
+
+    setParamsClientUpload(process_id) {
+        this.paramsClient = process_id
+        this.$dzoneUpload.params.emit({
+            process_id: process_id
+        })
+    }
+
+    onSaveFiles() {
+        if (this.$dzoneUpload.files.length > 0) {
+            let data = {
+                files: this.$dzoneUpload.files,
+                process_id: this.paramsClient
+            }
+            this.processService.saveFiles(data).subscribe(resp => {
+                if (resp.ret) {
+                    //this.$dzoneUpload.resetDropzone()
+                    this.$closeModalFile.nativeElement.click()
+                    this.loadProcessFiles()
+                    this.swal.msgAlert('Sucesso', 'Arquivo salvo com sucesso!', 'success')
+                } else {
+                    this.swal.msgAlert('Atenção', 'Erro ao salvar upload(s)!', 'warning', 'Ok')
+                }
+            }, error => {
+                this.swal.msgAlert('Atenção', 'Ocorreu um problema ao tentar salvar o(s) upload(s)!', 'error', 'Ok')
+                if (error.status == 401) {
+                    this.app.logout('clientes')
+                }
+            })
+        } else {
+            this.swal.msgAlert('Atenção', 'Não possui itens para salvar na área de upload(s)!', 'error', 'Ok')
+        }
+    }
+
+    onDeleteFile(assignor_id) {
+        //
     }
 }

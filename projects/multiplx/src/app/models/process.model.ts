@@ -1,3 +1,5 @@
+import { FileProcess } from "./file-process.model";
+
 export interface Process {
     id: number,
     user_id: number,
@@ -16,17 +18,18 @@ export interface Process {
     active:  number,
     status: Status[],
     assignors?: Client[],
-    assignor_id?: number[],
     assignees?: Client[]
     assignee_id?: number[],
     responsable?: User,
-    process_status?: PivotStatus
+    process_status?: PivotStatus,
+    process_files?: FileProcess[]
 }
 export interface Client {
     id: number,
     name: string,
     cpf: string,
-    status: boolean
+    status: boolean,
+    process_client?: ProcessClient
 }
 export interface User {
     id: number,
@@ -47,4 +50,10 @@ export interface PivotStatus {
     created_at: string,
     updated_at: string,
     status?: Status
+}
+export interface ProcessClient {
+    process_id: number,
+    client_id: number,
+    percentual: number,
+    value: number
 }

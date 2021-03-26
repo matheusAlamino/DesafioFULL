@@ -12,6 +12,7 @@ export class ProcessService {
 
     constructor(private http: HttpClient) { }
 
+    // BEGIN PROCESS
     monthlyAmount(): Observable<any> {
         return this.http.get(`${this.api.mpx}process/reports/monthly-amount`).pipe(map(response => response));
     }
@@ -44,8 +45,29 @@ export class ProcessService {
     edit(id, data): Observable<any> {
         return this.http.put(`${this.api.mpx}process/${id}`, data).pipe(map(response => response));
     }
+    // END PROCESS
 
     getStatusOptions(): Observable<any> {
         return this.http.get<any>(`${this.api.mpx}status`).pipe(map((response) => response));
     }
+
+    // BEGIN PROCESS_FILES
+    saveFiles(data): Observable<any> {
+        return this.http.post(`${this.api.mpx}process-files`, data).pipe(map(response => response));
+    }
+
+    deleteFile(id): Observable<any> {
+        return this.http.delete(`${this.api.mpx}process-files/${id}`).pipe(map(response => response));
+    }
+
+    getFilesProcess(data): Observable<any> {
+        return this.http.get(`${this.api.mpx}process-files`, { params: data }).pipe(map(response => response));
+    }
+    // END PROCESS_FILES
+
+    // BEGIN PROCESS_CLIENTS
+    deleteClientProcess(data): Observable<any> {
+        return this.http.post(`${this.api.mpx}process-clients/delete`, data).pipe(map(response => response));
+    }
+    // END PROCESS_CLIENTS
 }
