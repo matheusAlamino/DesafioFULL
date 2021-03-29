@@ -15,6 +15,7 @@ import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common
 import { HeaderInterceptor } from './guards/auth.interceptor';
 import { FormsModule } from '@angular/forms';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { ConvertNumerics } from './utils/convertNumerics';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -36,6 +37,7 @@ registerLocaleData(localePt, 'pt-BR');
         LocalStorageService,
         AuthGuard,
         Swal,
+        ConvertNumerics,
         HttpClient,
         {
             provide: LOCALE_ID,

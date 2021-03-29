@@ -5,6 +5,10 @@ import { FormsModule } from '@angular/forms';
 import { DropzoneConfigInterface, DropzoneModule, DROPZONE_CONFIG } from 'ngx-dropzone-wrapper';
 import { environment } from '../../environments/environment';
 import { TimelineStatusComponent } from './timeline-status/timeline-status.component';
+import { StatusIconComponent } from './status-icon/status-icon.component';
+import { AssignorsListComponent } from './assignors-list/assignors-list.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { NgxMaskModule } from 'ngx-mask';
 
 const api: any = environment.api
 
@@ -17,16 +21,22 @@ export const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
 @NgModule({
   declarations: [
       UploadFileComponent,
-      TimelineStatusComponent
+      TimelineStatusComponent,
+      StatusIconComponent,
+      AssignorsListComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
-    DropzoneModule
+    DropzoneModule,
+    NgSelectModule,
+    NgxMaskModule.forRoot(),
   ],
   exports: [
     UploadFileComponent,
-    TimelineStatusComponent
+    TimelineStatusComponent,
+    StatusIconComponent,
+    AssignorsListComponent
   ],
   providers: [
     {

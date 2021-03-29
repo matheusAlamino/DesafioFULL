@@ -72,9 +72,13 @@ export class ClientService {
         return this.http.get(`${this.api.mpx}clients/${client_id}/list-process`).pipe(map(response => response));
     }
 
-    getClients(term: string): Observable<any> {
+    getClients(term: string, idsExcluded: number[] = []): Observable<any> {
         let data: any = {
             term: term
+        }
+
+        if (idsExcluded.length > 0) {
+            data.idsExcluded = JSON.stringify(idsExcluded)
         }
 
         return this.http.get(`${this.api.mpx}clients-select`, { params: data }).pipe(map(response => response));

@@ -1,4 +1,5 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AppComponent } from '../../app.component';
 import { StatusProcessEnum } from '../../enums/status-process.enum';
 import { PivotStatus, Status } from '../../models/process.model';
 import { StatusService } from '../../services/status.service';
@@ -12,13 +13,14 @@ export class TimelineStatusComponent implements OnInit {
 
     @Input() allStatus: Status[]
     @Input() idProcess: number = null
+    @Input() isDone: boolean = false
+    @Output() closeProcess = new EventEmitter()
     @ViewChild('closeModal') $closeModal: ElementRef
 
     statusAnalysis = StatusProcessEnum.analysis
     statusExecuting = StatusProcessEnum.executing
     statusDone = StatusProcessEnum.done
-
-    isDone: boolean = false
+    statusReopen = StatusProcessEnum.reopened
 
     status: PivotStatus = {
         id: null,
@@ -36,7 +38,8 @@ export class TimelineStatusComponent implements OnInit {
 
     constructor(
         private swal: Swal,
-        private statusService: StatusService
+        private statusService: StatusService,
+        private app: AppComponent
     ) { }
 
     ngOnInit(): void {
@@ -47,14 +50,6 @@ export class TimelineStatusComponent implements OnInit {
         this.statusService.getStatusOptions().subscribe(response => {
             this.statusOptions = response
         })
-    }
-
-    checkIsDone() {
-        this.allStatus.forEach(element => {
-            if (element.id == this.statusDone) {
-                this.isDone = true
-            }
-        });
     }
 
     openModal(status: Status = null) {
@@ -96,6 +91,19 @@ export class TimelineStatusComponent implements OnInit {
             return false
         }
 
+        if (this.status.status_id == this.statusDone) {
+            this.swal.confirmAlertCustom(
+                'Atenção',
+                'Ao selecionar essa opção o processo será encerrado e será necessário reabrir o processo para fazer modificações. Deseja prosseguir?',
+                'info', 'Sim', 'Cancelar',
+                { callback: () => this.saveAndCloseProcess() },
+                { callback: () => { return false }})
+        } else {
+            this.saveStatus()
+        }
+    }
+
+    saveStatus() {
         if (!this.isEdit) {
             this.statusService.save(this.status).subscribe(response => {
                 if (response.ret == 1) {
@@ -116,6 +124,13 @@ export class TimelineStatusComponent implements OnInit {
         }
     }
 
+    saveAndCloseProcess() {
+        this.saveStatus()
+        this.closeProcess.emit({
+            closeProcess: true
+        })
+    }
+
     insertObject(response) {
         return {
             id: this.status.status_id,
@@ -129,5 +144,28 @@ export class TimelineStatusComponent implements OnInit {
                 updated_at: response.data.updated_at
             }
         }
+    }
+
+    deleteStatus(id) {
+        this.swal.confirmAlertCustom('Atenção', 'Deseja realmente remover este status?', 'info', 'Sim', 'Cancelar', { callback: () => this.delete(id) })
+    }
+
+    delete(id) {
+        this.statusService.delete(id).subscribe(response => {
+            if (response.ret == 1) {
+                this.swal.msgAlert('Sucesso', 'Status removido com sucesso', 'success')
+                this.closeProcess.emit({
+                    deleteStatus: true,
+                    id: id
+                })
+            } else {
+                this.swal.msgAlert('Atenção', response.msg, 'warning', 'Ok')
+            }
+        }, error => {
+            this.swal.msgAlert('Atenção', 'Ocorreu um problema ao tentar remover este status!', 'error', 'Ok')
+            if (error.status == 401) {
+                this.app.logout('clientes')
+            }
+        })
     }
 }

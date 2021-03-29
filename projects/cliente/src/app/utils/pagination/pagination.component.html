@@ -1,0 +1,49 @@
+<!-- <div class="paginator-wrap">
+    <span>{{ (currentPage - 1) * pageSize + 1 }} {{txt5}} {{ (currentPage - 1) * pageSize + pageSize > total ? total : (currentPage - 1) * pageSize + pageSize }} {{txt6}} {{ total }} {{txt7}}</span>
+
+    <ul class="paginator">
+        <li *ngIf="currentPage == 1" class="paginator__item paginator__item--prev m-datatable__pager-link--disabled"><a title="{{txt2}}" disabled="disabled"><i class="icon ion-ios-arrow-back"></i></a></li>
+        <li *ngIf="currentPage != 1" class="paginator__item paginator__item--prev "><a (click)="prevPage()" title="{{txt2}}" href="javascript:;"><i class="icon ion-ios-arrow-back"></i></a></li>
+
+        <li *ngFor="let page of pagesShow" class="paginator__item" [ngClass]="{'paginator__item--active' : page == currentPage}">
+            <a *ngIf="page != '...'" (click)="goto(page)" title="{{ page }}" href="javascript:;">{{ page }}</a>
+            <a *ngIf="page == '...'" href="javascript:;">{{ page }}</a>
+        </li>
+
+        <li *ngIf="currentPage == pages.length" class="paginator__item paginator__item--next m-datatable__pager-link--disabled"><a title="{{txt3}}" disabled="disabled"><i class="icon ion-ios-arrow-forward"></i></a></li>
+        <li *ngIf="currentPage != pages.length" class="paginator__item paginator__item--next"><a (click)="nextPage()" title="{{txt3}}" href="javascript:;"><i class="icon ion-ios-arrow-forward"></i></a></li>
+    </ul>
+</div> -->
+
+<div class="d-flex justify-content-between align-items-center flex-wrap">
+    <div class="d-flex flex-wrap py-2 mr-3">
+        <!-- <a href="javascript:;" *ngIf="currentPage == 1" title="{{txt1}}" class="btn btn-icon btn-sm btn-light mr-2 my-1 disabled" disabled><i class="ki ki-bold-double-arrow-back icon-xs"></i></a>
+        <a href="javascript:;" *ngIf="currentPage != 1" (click)="goto(1, pageSize)" title="{{txt1}}" class="btn btn-icon btn-sm btn-light mr-2 my-1"><i class="ki ki-bold-double-arrow-back icon-xs"></i></a> -->
+
+        <a href="javascript:;" *ngIf="currentPage == 1" title="{{txt2}}" class="btn btn-icon btn-sm btn-light mr-2 my-1 disabled" disabled><i class="ki ki-bold-arrow-back icon-xs"></i></a>
+        <a href="javascript:;" *ngIf="currentPage != 1" (click)="prevPage()" title="{{txt2}}" class="btn btn-icon btn-sm btn-light mr-2 my-1"><i class="ki ki-bold-arrow-back icon-xs"></i></a>
+
+        <a *ngFor="let page of pagesShow" href="javascript:;" (click)="goto(page, pageSize)" title="{{ page }}" [ngClass]="{'active' : page == currentPage}" class="btn btn-icon btn-sm border-0 btn-hover-primary mr-2 my-1">{{ page }}</a>
+
+        <a href="javascript:;" *ngIf="currentPage == pages.length" title="{{txt3}}" class="btn btn-icon btn-sm btn-light mr-2 my-1 disabled" disabled><i class="ki ki-bold-arrow-next icon-xs"></i></a>
+        <a href="javascript:;" *ngIf="currentPage != pages.length" (click)="nextPage()" title="{{txt3}}" class="btn btn-icon btn-sm btn-light mr-2 my-1"><i class="ki ki-bold-arrow-next icon-xs"></i></a>
+
+        <!-- <a href="javascript:;" *ngIf="currentPage == pages.length" title="{{txt4}}" class="btn btn-icon btn-sm btn-light mr-2 my-1 disabled" disabled><i class="ki ki-bold-double-arrow-next icon-xs"></i></a>
+        <a href="javascript:;" *ngIf="currentPage != pages.length" (click)="goto(pages.length, pageSize)" title="{{txt4}}" class="btn btn-icon btn-sm btn-light mr-2 my-1"><i class="ki ki-bold-double-arrow-next icon-xs"></i></a> -->
+    </div>
+    <div class="d-flex align-items-center py-3">
+        <!-- <div class="d-flex align-items-center">
+            <div class="mr-2 text-muted">Carregando...</div>
+            <div class="spinner spinner-primary mr-10"></div>
+        </div> -->
+
+        <select #pageSizeSelect="ngModel" [(ngModel)]="object.pageSize" (change)="changePageSize()" class="form-control form-control-sm text-primary font-weight-bold mr-4 border-0 bg-light" style="width: 75px;">
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+        </select>
+        <span class="text-muted">{{ (currentPage - 1) * pageSize + 1 }} {{txt5}} {{ (currentPage - 1) * pageSize + pageSize > total ? total : (currentPage - 1) * pageSize + pageSize }} {{txt6}} {{ total }} {{txt7}}</span>
+    </div>
+</div>

@@ -53,8 +53,9 @@ export class AppComponent {
                     }
 
                     if (!this.url) {
-                        this.url = this.api.local
+                        this.url = response.type == 1 ? this.api.local : this.api.client
                     }
+
                     window.location.href = this.url + params
                 } else {
                     this.msg = response.msg

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AppComponent } from '../../app.component';
 import { PageSizeEnum } from '../../enums/page-size.enum';
-import { StatusProcessEnum } from '../../enums/status-process.enum';
 import { Process } from '../../models/process.model';
+import { StatusType } from '../../models/status-type.model';
 import { ProcessService } from '../../services/process.service';
+import { StatusService } from '../../services/status.service';
 
 @Component({
   selector: 'app-list',
@@ -18,12 +19,15 @@ export class ListComponent implements OnInit {
     currentPage: number = 1
     pageSize: number = PageSizeEnum.default
 
+    statusType: StatusType[] = []
+
     process: Process[] = []
     processPag: any
 
     constructor(
         private app: AppComponent,
         private processService: ProcessService,
+        private statusService: StatusService
     ) { }
 
     ngOnInit(): void {
@@ -36,6 +40,8 @@ export class ListComponent implements OnInit {
                 }
             })
         }
+
+        this.statusType = this.statusService.statusType
     }
 
     loadProcess() {
@@ -43,6 +49,7 @@ export class ListComponent implements OnInit {
         this.processService.list(this.term, this.status, this.currentPage, this.pageSize).subscribe(data => {
             this.app.toggleLoading(false)
             this.process = data.data
+            // console.log(this.process)
             this.processPag = data
         })
     }
@@ -51,7 +58,7 @@ export class ListComponent implements OnInit {
         this.status = null
         this.statusLeg = null
         if (status != null) {
-            this.statusLeg = status == 1 ? 'Ativos' : 'Bloqueados'
+            this.statusLeg = this.statusType.filter(item => item.id == status)[0].name
             this.status = status
         }
         this.loadProcess()
@@ -61,5 +68,9 @@ export class ListComponent implements OnInit {
         this.currentPage = data.currentPage
         this.pageSize = data.pageSize
         this.loadProcess()
+    }
+
+    getClassByStatus(status_id) {
+        return this.statusType.filter(item => item.id == status_id)[0].class
     }
 }

@@ -8,6 +8,7 @@ import { ListComponent } from './list/list.component';
 import { FormProcessComponent } from './form/form-process.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ComponentsModule } from '../components/components.module';
+import { ProcessFileListComponent } from './files/list/list.component';
 
 const ROUTES: Routes = [
     { path: '', component: ListComponent },
@@ -18,7 +19,8 @@ const ROUTES: Routes = [
 @NgModule({
     declarations: [
         ListComponent,
-        FormProcessComponent
+        FormProcessComponent,
+        ProcessFileListComponent
     ],
     imports: [
         CommonModule,
