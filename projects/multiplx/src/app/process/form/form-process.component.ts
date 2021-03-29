@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Process, Client, User } from '../../models/process.model';
+import { Process, Client, User, PivotStatus } from '../../models/process.model';
 import {of as observableOf, concat as observableConcat,  Observable, Subject } from 'rxjs'
 import { catchError, debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import { ClientService } from '../../services/client.service';
@@ -10,6 +10,7 @@ import { Swal } from '../../utils';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { StatusProcessEnum } from '../../enums/status-process.enum';
+import { StatusService } from '../../services/status.service';
 
 @Component({
   selector: 'app-form-process',
@@ -36,7 +37,8 @@ export class FormProcessComponent implements OnInit {
         total_value: null,
         date_receive: null,
         percentual_gain: null,
-        status: null
+        status: null,
+        active: 1
     }
     error: boolean = false
 
@@ -57,11 +59,13 @@ export class FormProcessComponent implements OnInit {
     statusAnalysis = StatusProcessEnum.analysis
     statusExecuting = StatusProcessEnum.executing
     statusDone = StatusProcessEnum.done
+    statusReopen = StatusProcessEnum.reopened
 
     layoutSize: any = {
         container: "container",
         col: "col-md-12"
     }
+    isDone: boolean = false
 
     constructor(
         private datePipe: DatePipe,
@@ -71,7 +75,8 @@ export class FormProcessComponent implements OnInit {
         private app: AppComponent,
         private swal: Swal,
         private router: Router,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private statusService: StatusService
     ) { }
 
     ngOnInit(): void {
@@ -119,7 +124,21 @@ export class FormProcessComponent implements OnInit {
             if (this.process.responsable) {
                 this.loadResponsable([this.process.responsable])
             }
+
+            if (this.process.status) {
+                this.checkIsDone(this.process.status)
+            }
         })
+    }
+
+    checkIsDone(status) {
+        status.forEach((element, index) => {
+            if (element.id == this.statusDone) {
+                this.isDone = true
+            } else {
+                this.isDone = false
+            }
+        });
     }
 
     adjustAssignors(assignors) {
@@ -195,14 +214,29 @@ export class FormProcessComponent implements OnInit {
         )
     }
 
-    saveProcess() {
-        if (!this.formulario.valid || ((this.process.assignor_id?.length == 0) && (this.process.assignee_id?.length == 0))) {
-            // if (this.process.id == null && this.process.status == null) {
-            //     this.swal.msgAlert('Atenção', 'É necessário inserir pelo menos um status!', 'warning', 'Ok')
-            // }
+    closeProcess(event) {
+        console.log(event)
+        if (event.closeProcess == true) {
+            this.process.active = 0
+            this.saveProcess()
+        } else if (event.deleteStatus) {
+            //When deletes a specific status
+            this.process.status = this.process.status.filter(element => element.pivot.id != event.id)
+        }
+    }
 
-            this.error = true
-            return false
+    reopenProcess() {
+        this.process.active = 1
+
+        this.saveProcess(true)
+    }
+
+    saveProcess(reopen: boolean = false) {
+        if (!reopen) {
+            if (!this.formulario.valid || ((this.process.assignor_id?.length == 0) && (this.process.assignee_id?.length == 0))) {
+                this.error = true
+                return false
+            }
         }
 
         if (this.process.id) {
@@ -210,6 +244,9 @@ export class FormProcessComponent implements OnInit {
             this.processService.edit(this.process_id, this.process).subscribe(response => {
                 this.app.toggleLoading(false)
                 if (response.ret == 1) {
+                    if (reopen) {
+                        this.addStatusReopen()
+                    }
                     this.swal.msgAlert('Sucesso', 'Processo editado com sucesso!', 'success')
                     this.router.navigate([`/processos`])
                 } else {
@@ -238,5 +275,18 @@ export class FormProcessComponent implements OnInit {
                 }
             })
         }
+    }
+
+    addStatusReopen() {
+        let data: PivotStatus = {
+            id: null,
+            process_id: this.process.id,
+            status_id: this.statusReopen,
+            description: 'Processo reaberto',
+            created_at: null,
+            updated_at: null
+        }
+
+        this.statusService.save(data).subscribe()
     }
 }

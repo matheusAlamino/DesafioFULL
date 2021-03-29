@@ -13,12 +13,14 @@ export interface Process {
     total_value: number,
     date_receive: string,
     percentual_gain: number,
+    active:  number,
     status: Status[],
     assignors?: Client[],
     assignor_id?: number[],
     assignees?: Client[]
     assignee_id?: number[],
-    responsable?: User
+    responsable?: User,
+    process_status?: PivotStatus
 }
 export interface Client {
     id: number,
@@ -43,5 +45,6 @@ export interface PivotStatus {
     status_id: number,
     description: string,
     created_at: string,
-    updated_at: string
+    updated_at: string,
+    status?: Status
 }
