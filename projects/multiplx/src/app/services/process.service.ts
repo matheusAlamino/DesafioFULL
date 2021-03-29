@@ -66,6 +66,18 @@ export class ProcessService {
     // END PROCESS_FILES
 
     // BEGIN PROCESS_CLIENTS
+    getAssignorsProcess(process_id): Observable<any> {
+        return this.http.get(`${this.api.mpx}process-clients/get/${process_id}`).pipe(map(response => response));
+    }
+
+    saveClientProcess(data): Observable<any> {
+        return this.http.post(`${this.api.mpx}process-clients/store`, data).pipe(map(response => response));
+    }
+
+    editClientProcess(data): Observable<any> {
+        return this.http.post(`${this.api.mpx}process-clients/update`, data).pipe(map(response => response));
+    }
+
     deleteClientProcess(data): Observable<any> {
         return this.http.post(`${this.api.mpx}process-clients/delete`, data).pipe(map(response => response));
     }

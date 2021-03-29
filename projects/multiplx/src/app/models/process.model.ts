@@ -55,5 +55,6 @@ export interface ProcessClient {
     process_id: number,
     client_id: number,
     percentual: number,
-    value: number
+    value: number,
+    valueString?: string
 }

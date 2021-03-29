@@ -65,7 +65,7 @@
                                     <div class="col-lg-6">
                                         <label>Cessionários:</label>
                                         <ng-select [items]="clientsAssignees$ | async" #selectAssignees="ngModel" [disabled]="!process.active"
-                                            [ngClass]="{'is-invalid': process.assignors?.length > 0 && error}" bindLabel="name" bindValue="id"
+                                            [ngClass]="{'is-invalid': process.assignees?.length == 0 && error}" bindLabel="name" bindValue="id"
                                             name="assignee_id" [multiple]="true" [hideSelected]="true" [loading]="clientLoadingAssignee"
                                             [typeahead]="clientinputAssignee$" notFoundText="Cliente não encontrado" loadingText="Carregando..."
                                             clearAllText="Limpar busca" typeToSearchText="Digite para buscar clientes" [(ngModel)]="process.assignee_id">
@@ -76,7 +76,7 @@
                                         <div class="input-group">
                                             <div class="input-group-prepend"><span class="input-group-text">R$</span></div>
                                             <input type="text" class="form-control" [disabled]="!process.active" placeholder="99,90" mask="0*,09"
-                                                name="total_value" #total_value="ngModel" [(ngModel)]="process.total_value"
+                                                name="total_value" #total_value="ngModel" [(ngModel)]="process.total_value" [dropSpecialCharacters]="false"
                                                 [ngClass]="{'is-invalid': !total_value.valid && error}" required />
                                         </div>
                                     </div>
@@ -91,7 +91,7 @@
                                         <label>Valor Atualizado Bruto*:</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend"><span class="input-group-text">R$</span></div>
-                                            <input type="text" class="form-control" [disabled]="!process.active" required placeholder="99,90" mask="0*,09" name="value_rough" #value_rough="ngModel" [(ngModel)]="process.value_rough"  [ngClass]="{'is-invalid': !value_rough.valid && error}" />
+                                            <input type="text" class="form-control" [disabled]="!process.active" [dropSpecialCharacters]="false" required placeholder="99,90" mask="0*,09" name="value_rough" #value_rough="ngModel" [(ngModel)]="process.value_rough"  [ngClass]="{'is-invalid': !value_rough.valid && error}" />
                                         </div>
                                     </div>
                                 </div>
@@ -100,14 +100,14 @@
                                         <label>Valor Autor*:</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend"><span class="input-group-text">R$</span></div>
-                                            <input type="text" class="form-control" [disabled]="!process.active" required placeholder="99,90" mask="0*,09" name="value_author" #value_author="ngModel" [(ngModel)]="process.value_author" [ngClass]="{'is-invalid': !value_author.valid && error}" />
+                                            <input type="text" class="form-control" [disabled]="!process.active" [dropSpecialCharacters]="false" required placeholder="99,90" mask="0*,09" name="value_author" #value_author="ngModel" [(ngModel)]="process.value_author" [ngClass]="{'is-invalid': !value_author.valid && error}" />
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <label>Despesas Operacionais*:</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend"><span class="input-group-text">R$</span></div>
-                                            <input type="text" class="form-control" [disabled]="!process.active" required placeholder="99,90" mask="0*,09" name="outgoing_operationals" #outgoing_operationals="ngModel" [(ngModel)]="process.outgoing_operationals" [ngClass]="{'is-invalid': !outgoing_operationals.valid && error}" />
+                                            <input type="text" class="form-control" [disabled]="!process.active" [dropSpecialCharacters]="false" required placeholder="99,90" mask="0*,09" name="outgoing_operationals" #outgoing_operationals="ngModel" [(ngModel)]="process.outgoing_operationals" [ngClass]="{'is-invalid': !outgoing_operationals.valid && error}" />
                                         </div>
                                     </div>
                                 </div>
@@ -116,7 +116,7 @@
                                         <label>Despesas Judicais e Cartório*:</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend"><span class="input-group-text">R$</span></div>
-                                            <input type="text" class="form-control" [disabled]="!process.active" placeholder="99,90" mask="0*,09" name="outgoing_judicials"
+                                            <input type="text" class="form-control" [disabled]="!process.active" [dropSpecialCharacters]="false" placeholder="99,90" mask="0*,09" name="outgoing_judicials"
                                                 #outgoing_judicials="ngModel" [(ngModel)]="process.outgoing_judicials" [ngClass]="{'is-invalid': !outgoing_judicials.valid && error}" required />
                                         </div>
                                     </div>
@@ -157,7 +157,7 @@
 
 
             <!--begin::Status-->
-            <div class="col-md-4" *ngIf="process_id != null">
+            <div class="col-md-4" *ngIf="process_id">
                 <div class="card card-custom card-stretch gutter-b">
                     <!--begin::Header-->
                     <div class="card-header border-0 py-5">
@@ -177,10 +177,10 @@
             <!--end::Status-->
         </div>
         <div class="row">
-            <div class="col-md-8">
-                <app-assignors-list [assignors]="process.assignors" [process_id]="process_id" [percentAvailable]="percentAvailable" [totalValue]="totalValue"></app-assignors-list>
+            <div class="col-md-8" *ngIf="process_id">
+                <app-assignors-list [assignors]="process.assignors" [process_id]="process_id" [percentAvailable]="percentAvailable" [totalValue]="totalValue" [process_active]="process.active"></app-assignors-list>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4" *ngIf="process_id">
                 <div class="card card-custom gutter-b">
                     <!--begin::Header-->
                     <div class="card-header border-0 py-5">
@@ -189,7 +189,7 @@
                             <span class="text-muted mt-3 font-weight-bold font-size-sm">{{ countFiles }} encontrado(s)</span>
                         </h3>
                         <div class="card-toolbar">
-                            <a href="javascript:;" (click)="setParamsClientUpload(process.id)" class="btn btn-icon btn-sm btn-outline-info"
+                            <a href="javascript:;" (click)="setParamsClientUpload(process.id)" [hidden]="!process.active" class="btn btn-icon btn-sm btn-outline-info"
                                 data-toggle="modal" aria-haspopup="true" aria-expanded="false" data-target="#filesModal">
                                 <span class="svg-icon svg-icon-2x">
                                     <!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\Files\Cloud-upload.svg--><svg

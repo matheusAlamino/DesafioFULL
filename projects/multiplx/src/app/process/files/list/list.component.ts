@@ -12,6 +12,7 @@ import { Swal } from '../../../utils';
 export class ProcessFileListComponent implements OnInit {
 
     @Input() filesProcess: FileProcess[] = []
+    @Input() process_active: boolean = false
 
     constructor(
         private app: AppComponent,

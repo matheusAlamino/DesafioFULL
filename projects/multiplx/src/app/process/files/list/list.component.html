@@ -6,7 +6,7 @@
                     <span class="text-dark-75">Título</span>
                 </th>
                 <th class="text-center" style="min-width: 15%">Extensão</th>
-                <th class="text-center" style="min-width: 15%">Ação</th>
+                <th class="text-center" style="min-width: 15%" [hidden]="!process_active">Ação</th>
             </tr>
         </thead>
         <tbody>
@@ -26,7 +26,7 @@
                 <td class="text-center">
                     <span class="text-muted font-weight-bold">{{fileProcess.extension}}</span>
                 </td>
-                <td class="pr-0 text-center">
+                <td class="pr-0 text-center" [hidden]="!process_active">
                     <a href="{{ fileProcess.file_path }}" target="_blank" class="btn btn-icon btn-sm btn-outline-success mr-2">
                         <span class="svg-icon"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\Files\Download.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">

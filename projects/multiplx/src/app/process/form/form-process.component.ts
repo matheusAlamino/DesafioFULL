@@ -49,7 +49,9 @@ export class FormProcessComponent implements OnInit {
         date_receive: null,
         percentual_gain: null,
         status: null,
-        active: 1
+        active: 1,
+        assignors: [],
+        assignee_id: []
     }
     error: boolean = false
 
@@ -260,7 +262,7 @@ export class FormProcessComponent implements OnInit {
 
     saveProcess(reopen: boolean = false) {
         if (!reopen) {
-            if (!this.formulario.valid || ((this.process.assignors.length == 0) && (this.process.assignee_id?.length == 0))) {
+            if (!this.formulario.valid || (this.process.assignors.length == 0 && this.process.assignee_id?.length == 0 && this.process_id)) {
                 this.error = true
                 return false
             }
@@ -290,8 +292,8 @@ export class FormProcessComponent implements OnInit {
             this.processService.save(this.process).subscribe(response => {
                 this.app.toggleLoading(false)
                 if (response.ret == 1) {
-                    this.swal.msgAlert('Sucesso', 'Processo cadastrado com sucesso!', 'success')
-                    this.router.navigate([`/processos`])
+                    this.swal.msgAlert('Sucesso', 'Para concluir o cadastro do processo insira agora cedentes ou cessionários ao processo!', 'success', 'Ok')
+                    this.router.navigate([`/processos/editar/${response.id}`])
                 } else {
                     this.swal.msgAlert('Atenção', 'Erro ao inserir processo!', 'warning', 'Ok')
                 }

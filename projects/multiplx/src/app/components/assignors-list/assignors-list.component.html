@@ -18,7 +18,7 @@
                                     <div class="col-lg-5">
                                         <label>Cliente</label>
                                         <ng-select [items]="clientsAssignors$ | async" #selectAssignors="ngModel"
-                                            bindLabel="name" bindValue="id"
+                                            bindLabel="name" bindValue="id" required [ngClass]="{'is-invalid': assignor.client_id == null && error}"
                                             name="assignor_id" [multiple]="false" [hideSelected]="true" [loading]="clientLoadingAssignor"
                                             [typeahead]="clientinputAssignor$" notFoundText="Cliente não encontrado" loadingText="Carregando..."
                                             clearAllText="Limpar busca" typeToSearchText="Digite para buscar clientes" [(ngModel)]="assignor.client_id">
@@ -27,7 +27,7 @@
                                     <div class="col-lg-5">
                                         <label>Percentual do Processo</label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" required placeholder="99,90" mask="0*,09"
+                                            <input type="text" class="form-control" required placeholder="99,90" mask="0*,09" [dropSpecialCharacters]="false" [ngClass]="{'is-invalid': (assignor.percentual == null || percentUnavailable ) && error}"
                                             name="percentual" #percentual="ngModel" (change)="onChangePercentual(assignor.percentual)" [(ngModel)]="assignor.percentual"/>
                                             <div class="input-group-append"><span class="input-group-text">%</span></div>
                                         </div>
@@ -40,7 +40,7 @@
                                         <div class="input-group">
                                             <div class="input-group-prepend"><span class="input-group-text">R$</span></div>
                                             <input type="text" class="form-control" [disabled]="true" placeholder="99,90" mask="0*,09"
-                                                name="value" #value="ngModel" [(ngModel)]="assignor.value" />
+                                                name="value" #value="ngModel" [(ngModel)]="assignor.valueString" />
                                         </div>
                                     </div>
                                 </div>
@@ -52,7 +52,7 @@
             <div class="modal-footer">
                 <button type="button" #closeModalFile class="btn btn-light-primary font-weight-bold"
                     data-dismiss="modal">Cancelar</button>
-                <button type="button" (click)="onSaveFiles()" class="btn btn-primary font-weight-bold">Salvar</button>
+                <button type="button" (click)="onSaveAssignor()" class="btn btn-primary font-weight-bold">Salvar</button>
             </div>
         </div>
     </div>
@@ -65,7 +65,7 @@
             <span class="card-label font-weight-bolder text-dark">Cedentes</span>
         </h3>
         <div class="card-toolbar">
-            <button type="button" data-toggle="modal" aria-haspopup="true" aria-expanded="false"
+            <button type="button" data-toggle="modal" aria-haspopup="true" aria-expanded="false" [hidden]="!process_active"
                 data-target="#assignorsModal" (click)="openModal()" class="btn btn-primary mr-2">Adicionar Cedente</button>
         </div>
     </div>
@@ -81,7 +81,7 @@
                         </th>
                         <th class="text-center" style="min-width: 15%">Percentual do Processo</th>
                         <th class="text-center" style="min-width: 15%">Valor</th>
-                        <th class="text-center" style="min-width: 15%">Ações</th>
+                        <th class="text-center" style="min-width: 15%" [hidden]="!process_active">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -108,7 +108,7 @@
                             <span class="text-muted font-weight-bold">R$ {{assignor.process_client?.value | number:
                                 '1.2-2'}}</span>
                         </td>
-                        <td class="pr-0 text-center">
+                        <td class="pr-0 text-center" [hidden]="!process_active">
                             <a href="javascript:;" data-toggle="modal" aria-haspopup="true" aria-expanded="false" (click)="openModal(assignor)"
                                 data-target="#assignorsModal" class="btn btn-icon btn-sm btn-outline-warning mr-2">
                                 <span class="svg-icon">
@@ -128,7 +128,7 @@
                                     <!--end::Svg Icon-->
                                 </span>
                             </a>
-                            <a href="javascript:;" (click)="onDeleteFile(assignor.id)" *ngIf="assignors.length > 1"
+                            <a href="javascript:;" (click)="onDeleteAssignor(assignor.id)" *ngIf="assignors.length > 1"
                                 class="btn btn-icon btn-sm btn-outline-danger mr-2">
                                 <span class="svg-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
