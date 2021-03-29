@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
 import { AppComponent } from 'projects/multiplx/src/app/app.component';
@@ -21,6 +21,7 @@ export class ClientViewComponent implements OnInit {
     filesClient: FileClient[] = []
     countFiles: number = 0
     countProcess: number = 0
+    process: any
     error: boolean = false
     client: Client = {
         id: null,
@@ -32,6 +33,9 @@ export class ClientViewComponent implements OnInit {
         last_access: null,
         status: null
     }
+
+    public saveEvent = new EventEmitter()
+    public deleteFileEvent = new EventEmitter()
 
     @ViewChild('dzoneUpload') $dzoneUpload: UploadFileComponent
     @ViewChild('closeModalFile') $closeModalFile: ElementRef
@@ -50,15 +54,18 @@ export class ClientViewComponent implements OnInit {
         private route: ActivatedRoute,
         private clientService: ClientService,
         private swal: Swal,
-        private router: Router,
-        private clientEditComponent: ClientEditComponent
+        private router: Router
     ) { }
 
     ngOnInit(): void {
         this.app.toggleLoading(true)
 
-        this.clientEditComponent.saveEvent.subscribe(resp => {
-            this.loadClients()
+        this.saveEvent.subscribe(resp => {
+            this.loadClient()
+        })
+
+        this.deleteFileEvent.subscribe(resp => {
+            this.loadClientFiles()
         })
 
         if (this.app.storage) {
@@ -76,19 +83,20 @@ export class ClientViewComponent implements OnInit {
         this.route.params.subscribe((params: any) => {
             if (params.client_id) {
                 this.client_id = params.client_id
-                this.loadClients()
+                this.loadClient()
             }
         });
 
         this.loadCountFiles()
-        this.loadCountProcess()
+        this.loadListProcess()
     }
 
-    loadClients() {
+    loadClient() {
         this.clientService.show(this.client_id).subscribe(response => {
             this.app.toggleLoading(false)
             if (response.ret == 1) {
                 this.client = response.client
+                this.loadClientFiles()
             } else {
                 this.swal.msgAlert('Atenção', 'Cliente não encontrado!', 'warning', 'Ok')
                 this.router.navigate(['/clientes'])
@@ -97,6 +105,19 @@ export class ClientViewComponent implements OnInit {
             this.app.toggleLoading(false)
             this.swal.msgAlert('Atenção', 'Cliente não encontrado!', 'warning', 'Ok')
             this.router.navigate(['/clientes'])
+            if (error.status == 401) {
+                this.app.logout('clientes')
+            }
+        })
+    }
+
+    loadClientFiles() {
+        let data = {
+            'client_id': this.client.id
+        }
+        this.clientService.getFilesClient(data).subscribe(response => {
+            this.filesClient = response.files
+        }, error => {
             if (error.status == 401) {
                 this.app.logout('clientes')
             }
@@ -115,10 +136,11 @@ export class ClientViewComponent implements OnInit {
         })
     }
 
-    loadCountProcess() {
-        this.clientService.countProcess(this.client_id).subscribe(response => {
+    loadListProcess() {
+        this.clientService.listProcess(this.client_id).subscribe(response => {
             if (response.ret == 1) {
-                this.countProcess = response.count
+                this.process = response.data
+                this.countProcess = response.data.length
             }
         }, error => {
             if (error.status == 401) {
@@ -137,7 +159,8 @@ export class ClientViewComponent implements OnInit {
                 if (resp.ret) {
                     //this.$dzoneUpload.resetDropzone()
                     this.$closeModalFile.nativeElement.click()
-                    this.swal.msgAlert('Sucesso', 'Cliente cadastrado com sucesso!', 'success')
+                    this.swal.msgAlert('Sucesso', 'Novo arquivo adicionado com sucesso!', 'success')
+                    this.loadClientFiles()
                 } else {
                     this.swal.msgAlert('Atenção', 'Erro ao salvar upload(s)!', 'warning', 'Ok')
                 }

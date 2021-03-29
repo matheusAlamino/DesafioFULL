@@ -10,6 +10,7 @@ import { Swal } from '../../../utils';
 export class ClientFileListComponent implements OnInit {
 
     @Input() filesClient
+    @Input() deleteFileEvent: any = null
 
     constructor(
         private app: AppComponent,
@@ -27,6 +28,7 @@ export class ClientFileListComponent implements OnInit {
     deleteFile(id) {
         this.clientService.deleteFile(id).subscribe(response => {
             if (response.ret == 1) {
+                this.deleteFileEvent.emit(true)
                 this.swal.msgAlert('Sucesso', 'Arquivo removido com sucesso', 'success')
             } else {
                 this.swal.msgAlert('Atenção', response.msg, 'warning', 'Ok')

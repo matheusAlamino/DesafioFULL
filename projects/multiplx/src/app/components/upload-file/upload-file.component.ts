@@ -12,8 +12,6 @@ export class UploadFileComponent implements OnInit {
 
     public disabled: boolean = false;
     public params = new EventEmitter()
-    public fileAdded = new EventEmitter()
-    public fileRemoved = new EventEmitter()
     public files: File[] = []
 
     @ViewChild('dropzoneUpload') componentRef: DropzoneComponent;
@@ -25,6 +23,8 @@ export class UploadFileComponent implements OnInit {
         errorReset: null,
         cancelReset: null
     }
+    @Input() saveFileEvent: any = null
+    @Input() deleteFileEvent: any = null
 
     constructor(private app: AppComponent,) { }
 
@@ -48,7 +48,7 @@ export class UploadFileComponent implements OnInit {
     }
 
     public onUploadSuccess(args: any): void {
-        this.fileAdded.emit(true)
+        this.saveFileEvent.emit(true)
         if (args[1].ret) {
             this.files.push(args[1].data)
         }

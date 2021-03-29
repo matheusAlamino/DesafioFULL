@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, EventEmitter } from '@angular/core';
 import { AppComponent } from 'projects/multiplx/src/app/app.component';
 import { ClientService } from '../services/client.service';
 import { Swal } from '../utils';
@@ -39,6 +39,7 @@ export class ClientsComponent implements OnInit {
     }
 
     editClient: Client
+    public saveEvent = new EventEmitter()
 
     currentPage: number = 1
     pageSize: number = PageSizeEnum.default
@@ -60,18 +61,12 @@ export class ClientsComponent implements OnInit {
         private app: AppComponent,
         private clientService: ClientService,
         private swal: Swal,
-        private uploadComponent: UploadFileComponent,
         private route: ActivatedRoute,
-        private location: Location,
-        private clientEditComponent: ClientEditComponent
+        private location: Location
     ) { }
 
     ngOnInit(): void {
-        this.uploadComponent.fileAdded.subscribe(async resp => {
-            this.hideButtons = false
-        })
-
-        this.clientEditComponent.saveEvent.subscribe(resp => {
+        this.saveEvent.subscribe(resp => {
             this.loadClients()
         })
 

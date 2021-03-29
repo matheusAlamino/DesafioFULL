@@ -1,5 +1,5 @@
 
-<app-client-edit [client]="client"></app-client-edit>
+<app-client-edit [client]="client" [saveEvent]="saveEvent"></app-client-edit>
 
 
 <!--begin::Modal-->
@@ -139,7 +139,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <app-client-file-list [filesClient]="filesClient"></app-client-file-list>
+                        <app-client-file-list [filesClient]="filesClient" [deleteFileEvent]="deleteFileEvent"></app-client-file-list>
                     </div>
                 </div>
 
@@ -156,52 +156,74 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="ml-2">
-                            <p class="text-muted">Em breve...</p>
+                        <div *ngIf="countProcess == 0" class="ml-2">
+                            <p class="text-muted">Este cliente não possui nenhum processo...</p>
                         </div>
 
-                        <!-- <div class="table-wrapper-scroll-y my-custom-scrollbar table-responsive">
+                        <div *ngIf="countProcess > 0" class="table-wrapper-scroll-y my-custom-scrollbar table-responsive">
                             <table class="table table-head-custom table-head-bg table-borderless table-vertical-center table-hover">
                                 <thead>
                                     <tr class="text-left text-uppercase">
-                                        <th style="min-width: 35%" class="pl-7">
-                                            <span class="text-dark-75">Nº Processo</span>
+                                        <th style="min-width: 15%" class="pl-7 text-center">
+                                            <span class="text-dark-75">Data</span>
                                         </th>
-                                        <th style="min-width: 15%">Data Abertura</th>
-                                        <th style="min-width: 15%">Info</th>
-                                        <th style="min-width: 15%">Ação</th>
+                                        <th style="min-width: 15%" class="text-center">Tipo</th>
+                                        <th style="min-width: 15%">Valor total</th>
+                                        <th style="min-width: 25%" class="text-center">Status</th>
+                                        <th style="min-width: 15%">Responsável</th>
+                                        <th style="min-width: 15%" class="text-center">Ação</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="pl-0 py-4">
-                                            <div class="d-flex align-items-center">
-                                                <div>
-                                                    <p class="text-dark-75 font-weight-bolder mb-1 font-size-lg" style="margin-left: 21px;">123</p>
-                                                </div>
-                                            </div>
+                                    <tr *ngFor="let pro of process">
+                                        <td class="pl-0 py-4 text-center">
+                                            <p class="text-dark-75 font-weight-bolder mb-1 font-size-lg" style="margin-left: 21px;">{{ pro.date | date: 'dd/MM/yyyy'}}</p>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="text-muted font-weight-bold">
+                                                <span *ngIf="pro.assignees.length >= 1" class="label label-light-info label-pill label-inline mr-2">
+                                                    Cedente
+                                                </span>
+
+                                                <span *ngIf="pro.assignors.length >= 1" class="label label-light-info label-pill label-inline">
+                                                    Cessionário
+                                                </span>
+                                            </span>
                                         </td>
                                         <td>
-                                            <span class="text-muted font-weight-bold">08/10/1993</span>
+                                            <span class="text-muted font-weight-bold">R$ {{ pro.total_value }}</span>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="font-weight-bold">
+                                                <span class="label label-pill label-inline mr-2" [ngClass]="{'label-light-success': pro.general_status == 1, 'label-light-danger': pro.general_status == 0}">
+                                                    {{ pro.status[pro.status.length-1].name ? pro.status[pro.status.length-1].name : pro.status == 1 ? 'Ativo' : 'Encerrado' }}
+                                                </span>
+
+                                                <p *ngIf="pro.status[pro.status.length-1].pivot.description" class="text-dark-50">
+                                                    <small>
+                                                    {{ pro.status[pro.status.length-1].pivot.description }}
+                                                    </small>
+                                                </p>
+                                            </span>
                                         </td>
                                         <td>
-                                            <span class="text-muted font-weight-bold"><span class="label label-light-success label-pill label-inline mr-2">Ativo</span></span>
+                                            {{ pro.responsable.name }}
                                         </td>
-                                        <td class="pr-0 text-left">
-                                            <a [routerLink]="['/processos']" class="btn btn-icon btn-sm btn-outline-primary mr-2">
-                                                <span class="svg-icon svg-icon-primary svg-icon-2x">begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\General\Search.svg<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                        <td class="pr-0 text-center">
+                                            <a [routerLink]="['/processos/editar/' + pro.id]" class="btn btn-icon btn-sm btn-outline-primary mr-2">
+                                                <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\General\Search.svg--> <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                                         <rect x="0" y="0" width="24" height="24"/>
                                                         <path d="M14.2928932,16.7071068 C13.9023689,16.3165825 13.9023689,15.6834175 14.2928932,15.2928932 C14.6834175,14.9023689 15.3165825,14.9023689 15.7071068,15.2928932 L19.7071068,19.2928932 C20.0976311,19.6834175 20.0976311,20.3165825 19.7071068,20.7071068 C19.3165825,21.0976311 18.6834175,21.0976311 18.2928932,20.7071068 L14.2928932,16.7071068 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"/>
                                                         <path d="M11,16 C13.7614237,16 16,13.7614237 16,11 C16,8.23857625 13.7614237,6 11,6 C8.23857625,6 6,8.23857625 6,11 C6,13.7614237 8.23857625,16 11,16 Z M11,18 C7.13400675,18 4,14.8659932 4,11 C4,7.13400675 7.13400675,4 11,4 C14.8659932,4 18,7.13400675 18,11 C18,14.8659932 14.8659932,18 11,18 Z" fill="#000000" fill-rule="nonzero"/>
                                                     </g>
-                                                </svg>end::Svg Icon</span>
+                                                </svg><!--end::Svg Icon--></span>
                                              </a>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
-                        </div> -->
+                        </div>
                     </div>
                 </div>
             </div>
