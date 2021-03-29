@@ -1,0 +1,58 @@
+<!--begin::Timeline-->
+<div class="timeline timeline-6 mt-3">
+    <!--begin::Item-->
+    <div class="timeline-item align-items-start" *ngFor="let item of allStatus">
+        <!--begin::Label-->
+        <div class="timeline-label font-weight-bolder text-dark-75 font-size-lg"></div>
+        <!--end::Label-->
+
+        <!--begin::Badge-->
+        <div class="timeline-badge" *ngIf="item.id == statusAnalysis">
+            <i class="fa fa-genderless text-warning icon-xl"></i>
+        </div>
+        <!--end::Badge-->
+        <!--begin::Badge-->
+        <div class="timeline-badge" *ngIf="item.id == statusExecuting">
+            <i class="fa fa-genderless text-primary icon-xl"></i>
+        </div>
+        <!--end::Badge-->
+        <!--begin::Badge-->
+        <div class="timeline-badge" *ngIf="item.id == statusDone">
+            <i class="fa fa-genderless text-success icon-xl"></i>
+        </div>
+        <!--end::Badge-->
+
+        <div class="timeline-content">
+            <!--begin::Title-->
+            <div>
+
+                {{ item.name }}
+
+            </div>
+            <!--end::Title-->
+
+            <!--begin::Text-->
+            <div class="font-weight-mormal font-size-lg text-muted pl-3">
+                {{ item.pivot?.description }}
+            </div>
+            <span class="form-text font-size-xs text-muted pl-3">Última atualização: {{ item.pivot?.updated_at | date: 'dd/MM/yyyy - HH:mm:ss' }}</span>
+            <!--end::Text-->
+        </div>
+    </div>
+    <!--end::Item-->
+
+    <!--begin::Item-->
+    <div class="timeline-item align-items-start" *ngIf="!isDone">
+        <!--begin::Label-->
+        <div class="timeline-label font-weight-bolder text-dark-75 font-size-lg"></div>
+        <!--end::Label-->
+
+        <!--begin::Badge-->
+        <div class="timeline-badge">
+            <i class="fa fa-genderless text-muted icon-xl"></i>
+        </div>
+        <!--end::Badge-->
+    </div>
+    <!--end::Item-->
+</div>
+<!--end::Timeline-->

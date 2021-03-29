@@ -1,0 +1,383 @@
+
+<!--begin::Subheader-->
+<div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
+    <div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+
+        <!--begin::Info-->
+        <div class="d-flex align-items-center flex-wrap mr-1">
+
+            <!--begin::Heading-->
+            <div class="d-flex flex-column">
+
+                <!--begin::Title-->
+                <h2 class="text-white font-weight-bold my-2 mr-5">Processos</h2>
+
+                <!--end::Title-->
+
+                <!--begin::Breadcrumb-->
+                <div class="d-flex align-items-center font-weight-bold my-2">
+
+                    <!--begin::Item-->
+                    <a href="#" class="opacity-75 hover-opacity-100">
+                        <i class="flaticon2-shelter text-white icon-1x"></i>
+                    </a>
+
+                    <!--end::Item-->
+
+                    <!--begin::Item-->
+                    <span class="label label-dot label-sm bg-white opacity-75 mx-3"></span>
+                    <a href="" class="text-white text-hover-white opacity-75 hover-opacity-100">Meus Processos</a>
+
+                    <!--end::Item-->
+
+                    <!--begin::Item-->
+                    <span class="label label-dot label-sm bg-white opacity-75 mx-3"></span>
+                    <a href="" class="text-white text-hover-white opacity-75 hover-opacity-100">Consulta</a>
+
+                    <!--end::Item-->
+                </div>
+
+                <!--end::Breadcrumb-->
+            </div>
+
+            <!--end::Heading-->
+        </div>
+
+        <!--end::Info-->
+
+
+    </div>
+</div>
+
+<!--end::Subheader-->
+
+						<!--Content area here-->
+
+<!--begin::Entry-->
+<div class="d-flex flex-column-fluid">
+
+    <!--begin::Container-->
+    <div class="container">
+
+        <!--[html-partial:begin:{"id":"demo2/dist/inc/view/demos/pages/index","page":"index"}]/-->
+
+        <!--[html-partial:begin:{"id":"demo1/dist/inc/view/partials/content/dashboards/demo2","page":"index"}]/-->
+
+        <!--begin::Dashboard-->
+
+        <!--begin::Row-->
+        <div class="row">
+            <div class="col-xl-4">
+
+                <!--[html-partial:begin:{"id":"demo1/dist/inc/view/partials/content/widgets/tiles/widget-1","page":"index"}]/-->
+
+                <!--begin::Tiles Widget 1-->
+                <div class="card card-custom gutter-b card-stretch">
+
+                    <!--begin::Header-->
+                    <div class="card-header border-0 pt-5">
+                        <div class="card-title">
+                            <div class="card-label">
+                                <div class="font-weight-bolder">Meus Processos</div>
+                                <div class="font-size-sm text-muted mt-2">{{ '0' }} processo(s)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--end::Header-->
+
+                    <!--begin::Body-->
+                    <div class="card-body d-flex flex-column px-0">
+
+                        <!--begin::Items-->
+                        <div class="flex-grow-1 card-spacer-x">
+
+                            <!--begin::Item-->
+                            <div *ngFor="let pro of process" class="d-flex align-items-center justify-content-between mb-10">
+                                <div class="d-flex align-items-center mr-2">
+                                    <div class="symbol symbol-50 symbol-light mr-3 flex-shrink-0">
+                                        <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo2\dist/../src/media/svg/icons\Communication\Forward.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                <rect x="0" y="0" width="24" height="24"/>
+                                                <path d="M12.6571817,10 L12.6571817,5.67013288 C12.6571817,5.25591932 12.3213953,4.92013288 11.9071817,4.92013288 C11.7234961,4.92013288 11.5461972,4.98754181 11.4089088,5.10957589 L4.25168161,11.4715556 C3.94209454,11.7467441 3.91420899,12.2207984 4.1893975,12.5303855 C4.19915701,12.541365 4.209237,12.5520553 4.21962441,12.5624427 L11.3768516,19.7196699 C11.6697448,20.0125631 12.1446186,20.0125631 12.4375118,19.7196699 C12.5781641,19.5790176 12.6571817,19.3882522 12.6571817,19.1893398 L12.6571817,15 C14.004369,14.9188289 16.83481,14.9157978 21.1485046,14.9909069 L21.1485051,14.9908794 C21.4245904,14.9956866 21.6522988,14.7757721 21.6571059,14.4996868 C21.6571564,14.4967857 21.6571817,14.4938842 21.6571817,14.4909827 L21.6572352,10.5050185 C21.6572352,10.2288465 21.4333536,10.0049649 21.1571817,10.0049649 C21.1555649,10.0049649 21.1539481,10.0049728 21.1523314,10.0049884 C16.0215539,10.0547574 13.1898373,10.0530946 12.6571817,10 Z" fill="#000000" fill-rule="nonzero" transform="translate(12.828591, 12.429736) scale(-1, 1) translate(-12.828591, -12.429736) "/>
+                                            </g>
+                                        </svg><!--end::Svg Icon--></span>
+                                    </div>
+                                    <div>
+                                        <a href="#" class="font-size-h6 text-dark-75 text-hover-primary font-weight-bolder">{{ pro.date | date: 'dd/MM/yyyy'}}</a>
+                                        <div class="font-size-sm text-muted font-weight-bold mt-1">R$ {{ pro.total_value }}</div>
+                                    </div>
+                                </div>
+                                <div class="label label-light label-inline font-weight-bold text-dark-50 py-4 px-3 font-size-base">
+                                    <span class="label label-pill label-inline mr-2" [ngClass]="{'label-light-success': pro.general_status == 1, 'label-light-danger': pro.general_status == 0}">
+                                        {{ pro.status[pro.status.length-1].name ? pro.status[pro.status.length-1].name : pro.status == 1 ? 'Ativo' : 'Encerrado' }}
+                                    </span>
+                                </div>
+                            </div>
+                            <!--end::Item-->
+
+                        </div>
+                        <!--end::Items-->
+                    </div>
+                    <!--end::Body-->
+                </div>
+                <!--end::Tiles Widget 1-->
+
+                <!--[html-partial:end:{"id":"demo1/dist/inc/view/partials/content/widgets/tiles/widget-1","page":"index"}]/-->
+            </div>
+            <div class="col-xl-8">
+                <div class="row">
+                    <div class="col-xl-3">
+
+                        <!--[html-partial:begin:{"id":"demo1/dist/inc/view/partials/content/widgets/tiles/widget-3","page":"index"}]/-->
+
+                        <!--begin::Tiles Widget 3-->
+                        <div class="card card-custom bgi-no-repeat bgi-no-repeat bgi-size-cover gutter-b" style="height: 150px; background-image: url(assets/media/bg/bg-9.jpg)">
+
+                            <!--begin::Body-->
+                            <div class="card-body d-flex flex-column">
+
+                                <!--begin::Title-->
+                                <a href="#" class="text-dark-75 text-hover-primary font-weight-bolder font-size-h3">Properties</a>
+
+                                <!--end::Title-->
+                            </div>
+
+                            <!--end::Body-->
+                        </div>
+
+                        <!--end::Tiles Widget 3-->
+
+                        <!--[html-partial:end:{"id":"demo1/dist/inc/view/partials/content/widgets/tiles/widget-3","page":"index"}]/-->
+                    </div>
+                    <div class="col-xl-9">
+
+                        <!--[html-partial:begin:{"id":"demo1/dist/inc/view/partials/content/widgets/tiles/widget-10","page":"index"}]/-->
+
+                        <!--begin::Mixed Widget 10-->
+                        <div class="card card-custom gutter-b" style="height: 150px">
+
+                            <!--begin::Body-->
+                            <div class="card-body d-flex align-items-center justify-content-between flex-wrap">
+                                <div class="mr-2">
+                                    <h3 class="font-weight-bolder">Create CRM Reports</h3>
+                                    <div class="text-dark-50 font-size-lg mt-2">Generate the latest CRM Report</div>
+                                </div>
+                                <a href="#" class="btn btn-primary font-weight-bold py-3 px-6">Start Now</a>
+                            </div>
+
+                            <!--end::Body-->
+                        </div>
+
+                        <!--end::Mixed Widget 10-->
+
+                        <!--[html-partial:end:{"id":"demo1/dist/inc/view/partials/content/widgets/tiles/widget-10","page":"index"}]/-->
+                    </div>
+                    <div class="col-lg-12 col-xxl-12">
+
+                        <!--[html-partial:begin:{"id":"demo1/dist/inc/view/partials/content/widgets/advance-tables/widget-1","page":"index"}]/-->
+
+                        <!--begin::Advance Table Widget 1-->
+                        <div class="card card-custom card-stretch gutter-b">
+
+                            <!--begin::Header-->
+                            <div class="card-header border-0 py-5">
+                                <h3 class="card-title align-items-start flex-column">
+                                    <span class="card-label font-weight-bolder text-dark">Detalhes</span>
+                                    <!-- <span class="text-muted mt-3 font-weight-bold font-size-sm"></span> -->
+                                </h3>
+                                <div class="card-toolbar">
+
+                                </div>
+                            </div>
+
+                            <!--end::Header-->
+
+                            <!--begin::Body-->
+                            <div class="card-body py-0" style="min-height: 300px;">
+                                <div *ngIf="!processDetails" class="text-center">
+                                    <span class="svg-icon svg-icon-4x"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo2\dist/../src/media/svg/icons\Code\Warning-1-circle.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <rect x="0" y="0" width="24" height="24"/>
+                                            <circle fill="#000000" opacity="0.3" cx="12" cy="12" r="10"/>
+                                            <rect fill="#000000" x="11" y="7" width="2" height="8" rx="1"/>
+                                            <rect fill="#000000" x="11" y="16" width="2" height="2" rx="1"/>
+                                        </g>
+                                    </svg><!--end::Svg Icon--></span>
+                                    <h4 class="text-muted">Selecione algum processo para visualizar os detalhes.</h4>
+                                </div>
+                                <!--begin::Table-->
+                                <div *ngIf="processDetails">
+                                    <form class="form" #form="ngForm">
+                                        <div class="card-body">
+                                            <div class="form-group row">
+                                                <div class="col-lg-6">
+                                                    <label>Status:</label>
+                                                    <p class="form-control-plaintext text-muted">
+                                                        <span class="label label-pill label-inline mr-2" [ngClass]="{'label-light-success': processDetails.general_status == 1, 'label-light-danger': processDetails.general_status == 0}">
+                                                            {{ processDetails.status[processDetails.status.length-1].name ? processDetails.status[processDetails.status.length-1].name : processDetails.status == 1 ? 'Ativo' : 'Encerrado' }}
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label>Última atualização:</label>
+                                                    <p class="form-control-plaintext text-muted">
+                                                        <span>
+                                                            <span class="label label-light-info label-pill label-inline mr-2">-</span>
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-lg-6">
+                                                    <label>Ano orçamento:</label>
+                                                    <p class="form-control-plaintext text-muted">
+                                                        {{ processDetails.date }}
+                                                    </p>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label>Ano previsto pagamento:</label>
+                                                    <p class="form-control-plaintext text-muted">
+                                                        {{ processDetails.payment_year }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-lg-6">
+                                                    <label>Valor atualizado bruto:</label>
+                                                    <p class="form-control-plaintext text-muted">
+                                                        {{ processDetails.value_rough }}
+                                                    </p>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label>Valor autor:</label>
+                                                    <p class="form-control-plaintext text-muted">
+                                                        {{ processDetails.value_author }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-lg-6">
+                                                    <label>Despesas Operacionais:</label>
+                                                    <p class="form-control-plaintext text-muted">
+                                                        {{ processDetails.outgoing_operationals }}
+                                                    </p>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label>Despesas judiciais e cartório:</label>
+                                                    <p class="form-control-plaintext text-muted">
+                                                        {{ processDetails.outgoing_judicials }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-lg-6">
+                                                    <label>Valor total:</label>
+                                                    <p class="form-control-plaintext text-muted">
+                                                        {{ processDetails.total_value }}
+                                                    </p>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label>Ano previsto (recebimento):</label>
+                                                    <p class="form-control-plaintext text-muted">
+                                                        {{ processDetails.date_receive }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-lg-6">
+                                                    <label>Percentual de ganho (ano previsto):</label>
+                                                    <p class="form-control-plaintext text-muted">
+                                                        {{ processDetails.percentual_gain }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <!--end::Table-->
+                            </div>
+
+                            <!--end::Body-->
+                        </div>
+
+                        <!--end::Advance Table Widget 1-->
+
+                        <!--[html-partial:end:{"id":"demo1/dist/inc/view/partials/content/widgets/advance-tables/widget-1","page":"index"}]/-->
+                    </div>
+
+
+                    <div class="col-lg-12 col-xxl-12">
+
+                        <!--[html-partial:begin:{"id":"demo1/dist/inc/view/partials/content/widgets/advance-tables/widget-1","page":"index"}]/-->
+
+                        <!--begin::Advance Table Widget 1-->
+                        <div class="card card-custom card-stretch gutter-b">
+
+                            <!--begin::Header-->
+                            <div class="card-header border-0 py-5">
+                                <h3 class="card-title align-items-start flex-column">
+                                    <span class="card-label font-weight-bolder text-dark">Histórico do Processo</span>
+                                    <!-- <span class="text-muted mt-3 font-weight-bold font-size-sm"></span> -->
+                                </h3>
+                                <div class="card-toolbar">
+
+                                </div>
+                            </div>
+
+                            <!--end::Header-->
+
+                            <!--begin::Body-->
+                            <div class="card-body py-0" style="min-height: 300px;">
+                                <div *ngIf="!processDetails" class="text-center">
+                                    <span class="svg-icon svg-icon-4x"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo2\dist/../src/media/svg/icons\Code\Warning-1-circle.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <rect x="0" y="0" width="24" height="24"/>
+                                            <circle fill="#000000" opacity="0.3" cx="12" cy="12" r="10"/>
+                                            <rect fill="#000000" x="11" y="7" width="2" height="8" rx="1"/>
+                                            <rect fill="#000000" x="11" y="16" width="2" height="2" rx="1"/>
+                                        </g>
+                                    </svg><!--end::Svg Icon--></span>
+                                    <h4 class="text-muted">Selecione algum processo para visualizar os detalhes.</h4>
+                                </div>
+                                <!--begin::Table-->
+                                <div *ngIf="processDetails">
+                                    <!--begin::Body-->
+                                    <div class="card-body pt-0 pb-3">
+                                        <timeline-status [allStatus]="processDetails.status" [idProcess]="processDetails.id"></timeline-status>
+                                    </div>
+                                    <!--end::Body-->
+                                </div>
+
+                                <!--end::Table-->
+                            </div>
+
+                            <!--end::Body-->
+                        </div>
+
+                        <!--end::Advance Table Widget 1-->
+
+                        <!--[html-partial:end:{"id":"demo1/dist/inc/view/partials/content/widgets/advance-tables/widget-1","page":"index"}]/-->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!--end::Row-->
+
+
+
+
+        <!--end::Dashboard-->
+
+        <!--[html-partial:end:{"id":"demo1/dist/inc/view/partials/content/dashboards/demo2","page":"index"}]/-->
+
+        <!--[html-partial:end:{"id":"demo2/dist/inc/view/demos/pages/index","page":"index"}]/-->
+    </div>
+
+    <!--end::Container-->
+</div>
+
+<!--end::Entry-->
