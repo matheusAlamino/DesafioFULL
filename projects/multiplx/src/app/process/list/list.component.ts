@@ -5,6 +5,7 @@ import { Process } from '../../models/process.model';
 import { StatusType } from '../../models/status-type.model';
 import { ProcessService } from '../../services/process.service';
 import { StatusService } from '../../services/status.service';
+import { Swal } from '../../utils';
 
 @Component({
   selector: 'app-list',
@@ -27,7 +28,8 @@ export class ListComponent implements OnInit {
     constructor(
         private app: AppComponent,
         private processService: ProcessService,
-        private statusService: StatusService
+        private statusService: StatusService,
+        private swal: Swal
     ) { }
 
     ngOnInit(): void {
@@ -49,7 +51,6 @@ export class ListComponent implements OnInit {
         this.processService.list(this.term, this.status, this.currentPage, this.pageSize).subscribe(data => {
             this.app.toggleLoading(false)
             this.process = data.data
-            // console.log(this.process)
             this.processPag = data
         })
     }
@@ -72,5 +73,25 @@ export class ListComponent implements OnInit {
 
     getClassByStatus(status_id) {
         return this.statusType.filter(item => item.id == status_id)[0].class
+    }
+
+    onDeleteProcess(id) {
+        this.swal.confirmAlertCustom('Atenção', 'Deseja realmente remover este processo e seus dependentes? Ao selecionar esta opção não será possível recuperar o processo!', 'info', 'Sim', 'Cancelar', { callback: () => this.deleteProcess(id) })
+    }
+
+    deleteProcess(id) {
+        this.processService.deleteProcess(id).subscribe(response => {
+            if (response.ret == 1) {
+                this.swal.msgAlert('Sucesso', 'Processo removido com sucesso', 'success')
+                this.loadProcess()
+            } else {
+                this.swal.msgAlert('Atenção', response.msg, 'warning', 'Ok')
+            }
+        }, error => {
+            this.swal.msgAlert('Atenção', 'Ocorreu um problema ao tentar remover este processo!', 'error', 'Ok')
+            if (error.status == 401) {
+                this.app.logout('processos')
+            }
+        })
     }
 }

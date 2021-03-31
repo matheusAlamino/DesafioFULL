@@ -351,8 +351,4 @@ export class FormProcessComponent implements OnInit {
             this.swal.msgAlert('Atenção', 'Não possui itens para salvar na área de upload(s)!', 'error', 'Ok')
         }
     }
-
-    onDeleteFile(assignor_id) {
-        //
-    }
 }

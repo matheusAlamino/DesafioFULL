@@ -45,6 +45,10 @@ export class ProcessService {
     edit(id, data): Observable<any> {
         return this.http.put(`${this.api.mpx}process/${id}`, data).pipe(map(response => response));
     }
+
+    deleteProcess(id): Observable<any> {
+        return this.http.delete(`${this.api.mpx}process/${id}`).pipe(map(response => response));
+    }
     // END PROCESS
 
     getStatusOptions(): Observable<any> {

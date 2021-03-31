@@ -131,7 +131,7 @@
                                             </th>
                                             <th class="text-center" style="min-width: 100px">Data de Criação</th>
                                             <th class="text-center" style="min-width: 200px">Status Atual</th>
-                                            <th style="min-width: 100px">Ações</th>
+                                            <th class="text-center" style="min-width: 100px">Ações</th>
                                         </tr>
                                     </thead>
                                     <tbody *ngFor="let proc of process">
@@ -170,7 +170,7 @@
                                                 <span class="btn btn-light-{{getClassByStatus(proc.process_status?.status?.id)}} btn-text disabled btn-sm font-weight-bold" *ngIf="proc.process_status != null">{{ proc.process_status?.status?.name }}</span>
                                                 <span class="text-muted font-weight-bold" *ngIf="proc.process_status == null">-</span>
                                             </td>
-                                            <td>
+                                            <td class="text-center">
                                                 <a [routerLink]="['/processos/editar/' + proc.id]" class="btn btn-icon btn-sm btn-outline-warning mr-2" data-toggle="modal" aria-haspopup="true" aria-expanded="false" data-target="#subheader7Modal">
                                                     <span class="svg-icon"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\Design\Edit.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -180,7 +180,7 @@
                                                         </g>
                                                     </svg><!--end::Svg Icon--></span>
                                                 </a>
-                                                <a href="javascript:;" class="btn btn-icon btn-sm btn-outline-danger">
+                                                <a href="javascript:;" (click)="onDeleteProcess(proc.id)" class="btn btn-icon btn-sm btn-outline-danger">
                                                     <span class="svg-icon"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\General\Trash.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                                             <rect x="0" y="0" width="24" height="24"/>
