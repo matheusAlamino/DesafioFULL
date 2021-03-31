@@ -28,6 +28,6 @@ export class LocalStorageService {
     }
 
     async getDataStorage(token: any) {
-        return await this.http.get(`${this.api.mpx}get-storage`, {  }).toPromise()
+        return await this.http.get(`${this.api.mpx}storage/user`, {  }).toPromise()
     }
 }
