@@ -48,7 +48,9 @@ export class UploadFileComponent implements OnInit {
     }
 
     public onUploadSuccess(args: any): void {
-        this.saveFileEvent.emit(true)
+        if (this.saveFileEvent) {
+            this.saveFileEvent.emit(true)
+        }
         if (args[1].ret) {
             this.files.push(args[1].data)
         }
