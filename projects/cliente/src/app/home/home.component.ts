@@ -36,7 +36,6 @@ export class HomeComponent implements OnInit {
         this.processService.listProcess(14).subscribe(response => {
             if (response.ret == 1) {
                 this.process = response.data
-                console.log(this.process)
                 if (this.process.length > 0) {
                     this.showProcess(this.process[0].id)
                 }
@@ -44,7 +43,6 @@ export class HomeComponent implements OnInit {
                 this.swal.msgAlert('Atenção', response.msg, 'warning', 'Ok')
             }
         }, error => {
-            console.log(error)
             this.swal.msgAlert('Atenção', 'Ocorreu um problema ao tentar atualizar seus dados!', 'warning', 'Ok')
             if (error.status == 401) {
                 this.app.logout()
@@ -56,6 +54,7 @@ export class HomeComponent implements OnInit {
         this.processService.showProcess(process_id).subscribe(response => {
             if (response.ret == 1) {
                 this.processDetails = response.data
+                console.log('asd', this.processDetails)
             } else {
                 this.swal.msgAlert('Atenção', response.msg, 'warning', 'Ok')
             }

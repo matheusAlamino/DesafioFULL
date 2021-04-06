@@ -175,6 +175,25 @@ export class ClientViewComponent implements OnInit {
         }
     }
 
+    onResetPassword() {
+        this.swal.confirmAlertCustom('Atenção', 'Deseja realmente redefinir a senha do cliente? Será enviado um e-mail com a nova senha.', 'info', 'Sim', 'Não', { callback: () => this.resetPassword() })
+    }
+
+    resetPassword() {
+        this.clientService.resetPassword(this.client.id).subscribe(resp => {
+            if (resp.ret) {
+                this.swal.msgAlert('Sucesso', 'Senha foi redefinida! A nova senha foi enviada para: ' + this.client.email, 'success', 'Ok')
+            } else {
+                this.swal.msgAlert('Atenção', 'Ocorreu um problema ao tentar redefinir a senha!', 'warning', 'Ok')
+            }
+        }, error => {
+            this.swal.msgAlert('Atenção', 'Ocorreu um problema ao tentar redefinir a senha!', 'error', 'Ok')
+            if (error.status == 401) {
+                this.app.logout('clientes')
+            }
+        })
+    }
+
     setParamsClientUpload(client_id) {
         this.paramsClient = client_id
         this.$dzoneUpload.params.emit({
