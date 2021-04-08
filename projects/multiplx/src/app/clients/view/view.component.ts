@@ -27,11 +27,20 @@ export class ClientViewComponent implements OnInit {
         id: null,
         name: null,
         cpf: null,
+        rg: null,
         birth_date: null,
         phone: null,
         email: null,
         last_access: null,
-        status: null
+        status: null,
+        certificado_digital: null,
+        cep: null,
+        numero: null,
+        complemento: null,
+        logradouro: null,
+        bairro: null,
+        cidade: null,
+        uf: null,
     }
 
     public saveEvent = new EventEmitter()
@@ -192,6 +201,57 @@ export class ClientViewComponent implements OnInit {
                 this.app.logout('clientes')
             }
         })
+    }
+
+    getAddress() {
+        let msg = ''
+        if (this.client.logradouro) {
+            msg += this.client.logradouro
+        }
+
+        if (this.client.numero) {
+            if (msg != '') {
+                msg += ', '
+            }
+            msg += 'Nº ' + this.client.numero
+        }
+
+        if (this.client.bairro) {
+            if (msg != '') {
+                msg += ', '
+            }
+            msg += this.client.bairro
+        }
+
+        if (this.client.cep) {
+            if (msg != '') {
+                msg += ', '
+            }
+            msg += 'CEP ' + this.client.cep
+        }
+
+        if (this.client.cidade) {
+            if (msg != '') {
+                msg += ', '
+            }
+            msg += this.client.cidade
+        }
+
+        if (this.client.uf) {
+            if (msg != '') {
+                msg += ' - '
+            }
+            msg += this.client.uf
+        }
+
+        if (this.client.complemento) {
+            if (msg != '') {
+                msg += '<br>'
+            }
+            msg += this.client.complemento
+        }
+
+        return msg
     }
 
     setParamsClientUpload(client_id) {

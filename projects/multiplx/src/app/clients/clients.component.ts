@@ -31,11 +31,20 @@ export class ClientsComponent implements OnInit {
         id: null,
         name: null,
         cpf: null,
+        rg: null,
         birth_date: null,
         phone: null,
         email: null,
         last_access: null,
-        status: null
+        status: null,
+        certificado_digital: null,
+        cep: null,
+        numero: null,
+        complemento: null,
+        logradouro: null,
+        bairro: null,
+        cidade: null,
+        uf: null,
     }
 
     editClient: Client
@@ -211,11 +220,20 @@ export class ClientsComponent implements OnInit {
             id: client.id,
             name: client.name,
             cpf: client.cpf,
+            rg: client.rg,
             birth_date: client.birth_date,
             phone: client.phone,
             email: client.email,
             last_access: client.last_acess,
-            status: client.status
+            status: client.status,
+            certificado_digital: client.certificado_digital,
+            cep: client.cep,
+            numero: client.numero,
+            complemento: client.complemento,
+            logradouro: client.logradouro,
+            bairro: client.bairro,
+            cidade: client.cidade,
+            uf: client.uf,
         }
         if (client.id != null) {
             this.editClient = client
@@ -227,11 +245,20 @@ export class ClientsComponent implements OnInit {
             id: null,
             name: null,
             cpf: null,
+            rg: null,
             birth_date: null,
             phone: null,
             email: null,
             last_access: null,
-            status: 1
+            status: 1,
+            certificado_digital: 0,
+            cep: null,
+            numero: null,
+            complemento: null,
+            logradouro: null,
+            bairro: null,
+            cidade: null,
+            uf: null,
         }
     }
 

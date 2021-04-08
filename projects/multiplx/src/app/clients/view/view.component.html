@@ -1,3 +1,18 @@
+<div class="subheader py-5 py-lg-10 gutter-b subheader-solid" id="kt_subheader"
+    style="background-color: #127E9B; background-position: right bottom; background-size: auto 100%; background-repeat: no-repeat; background-image: url(assets/media/svg/patterns/art_barra.svg)">
+    <div class="container-fluid d-flex flex-column">
+
+        <!--begin::Title-->
+        <div class="d-flex align-items-sm-end flex-column flex-sm-row mb-5">
+            <h2 class="d-flex align-items-center text-white mr-5 mb-0">Cliente</h2>
+        </div>
+
+        <!--end::Title-->
+    </div>
+</div>
+
+<!--end::Subheader-->
+
 
 <app-client-edit [client]="client" [saveEvent]="saveEvent"></app-client-edit>
 
@@ -36,15 +51,16 @@
             <div class="col-md-7">
                 <div class="card card-custom gutter-b" style="height: 550px;">
                     <div class="card-header">
-                        <h3 class="card-title">Dados Pessoais</h3>
+                        <h3 class="card-title">Dados Gerais</h3>
                         <div class="card-toolbar">
+                            <a class="btn btn-light-success font-weight-bolder font-size-sm mr-3" (click)="onResetPassword()">Redefinir Senha</a>
                             <a class="btn btn-primary font-weight-bolder font-size-sm mr-3" data-toggle="modal" data-target="#modalClient">Editar</a>
                         </div>
                     </div>
                     <form class="form" #form="ngForm">
                         <div class="card-body">
                             <div class="form-group row">
-                                <div class="col-lg-6">
+                                <div class="col-lg-4">
                                     <label>Status:</label>
                                     <p class="form-control-plaintext text-muted">
                                         <span *ngIf="client.status == 1; else clientBloqued" class="label label-light-success label-pill label-inline mr-2">
@@ -58,7 +74,21 @@
                                         </ng-template>
                                     </p>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-lg-4">
+                                    <label>Certificado Digital:</label>
+                                    <p class="form-control-plaintext text-muted">
+                                        <span *ngIf="client.certificado_digital == 1; else certificadoDigital" class="label label-light-success label-pill label-inline mr-2">
+                                            Sim
+                                        </span>
+
+                                        <ng-template #certificadoDigital >
+                                            <span class="label label-light-danger label-pill label-inline mr-2">
+                                                Não
+                                            </span>
+                                        </ng-template>
+                                    </p>
+                                </div>
+                                <div class="col-lg-4">
                                     <label>Último acesso:</label>
                                     <p class="form-control-plaintext text-muted">
                                         <span *ngIf="client.last_access; else clientLastAccessNever">
@@ -92,22 +122,25 @@
                                     </p>
                                 </div>
                                 <div class="col-lg-6">
-                                    <label>Telefone:</label>
+                                    <label>RG:</label>
                                     <p class="form-control-plaintext text-muted">
-                                        {{ client.phone | mask: "(00) 0000-00009" }}
+                                        {{ client.rg }}
                                     </p>
                                 </div>
                             </div>
                             <div class="separator separator-dashed my-5"></div>
-                            <div class="form-group">
-                                <label>E-mail:</label>
-                                <p class="form-control-plaintext text-muted">
-                                    {{ client.email }}
-                                </p>
-                            </div>
-                            <div class="separator separator-dashed my-5"></div>
-                            <div class="form-group">
-                                <button type="button" (click)="onResetPassword()" class="btn btn-light-success font-weight-bolder font-size-sm mr-3">Redefinir Senha</button>
+                            <div class="form-group row">
+                                <div class="col-lg-6">
+                                    <label>Contatos:</label>
+                                    <p class="form-control-plaintext text-muted">
+                                        {{ client.email }}
+                                        <span *ngIf="client.phone"><br>{{ client.phone | mask: "(00) 0000-00009" }}</span>
+                                    </p>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label>Endereço:</label>
+                                    <p class="form-control-plaintext text-muted" [innerHTML]="getAddress()"></p>
+                                </div>
                             </div>
                         </div>
                     </form>

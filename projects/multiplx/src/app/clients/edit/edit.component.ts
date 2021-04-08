@@ -31,11 +31,20 @@ export class ClientEditComponent implements OnInit {
                 id: null,
                 name: null,
                 cpf: null,
+                rg: null,
                 birth_date: null,
                 phone: null,
                 email: null,
                 last_access: null,
-                status: 1
+                status: 1,
+                certificado_digital: 0,
+                cep: null,
+                numero: null,
+                complemento: null,
+                logradouro: null,
+                bairro: null,
+                cidade: null,
+                uf: null,
             }
         }
     }
@@ -64,10 +73,19 @@ export class ClientEditComponent implements OnInit {
             'id': null,
             'name': this.client.name,
             'cpf': this.client.cpf,
+            'rg': this.client.rg,
             'birth_date': this.client.birth_date,
             'phone': this.client.phone,
             'email': this.client.email,
             'status': this.client.status ? 1 : 0,
+            'certificado_digital': this.client.certificado_digital ? 1 : 0,
+            'cep': this.client.cep,
+            'numero': this.client.numero,
+            'complemento': this.client.complemento,
+            'logradouro': this.client.logradouro,
+            'bairro': this.client.bairro,
+            'cidade': this.client.cidade,
+            'uf': this.client.uf,
         }
         this.app.toggleLoading(true)
         this.clientService.save(data).subscribe(response => {
@@ -91,10 +109,19 @@ export class ClientEditComponent implements OnInit {
         let data = {
             'name': this.client.name,
             'cpf': this.client.cpf,
+            'rg': this.client.rg,
             'birth_date': this.client.birth_date,
             'phone': this.client.phone,
             'email': this.client.email,
             'status': this.client.status ? 1 : 0,
+            'certificado_digital': this.client.certificado_digital ? 1 : 0,
+            'cep': this.client.cep,
+            'numero': this.client.numero,
+            'complemento': this.client.complemento,
+            'logradouro': this.client.logradouro,
+            'bairro': this.client.bairro,
+            'cidade': this.client.cidade,
+            'uf': this.client.uf,
         }
         this.app.toggleLoading(true)
         this.clientService.update(this.client.id, data).subscribe(response => {
@@ -107,6 +134,30 @@ export class ClientEditComponent implements OnInit {
             }
         }, error => {
             this.swal.msgAlert('Atenção', 'Ocorreu um problema ao tentar atualizar os dados do cliente!', 'error', 'Ok')
+            if (error.status == 401) {
+                this.app.logout('clientes')
+            }
+        })
+    }
+
+    searchCEP() {
+        if (this.client.cep == null || this.client.cep == '') {
+            return
+        }
+
+        this.clientService.searchCEP(this.client.cep).subscribe(response => {
+            if (response.ret == 1) {
+                this.client.logradouro = response.data.logradouro
+                this.client.bairro = response.data.bairro
+                this.client.cidade = response.data.localidade
+                this.client.uf = response.data.uf
+            } else {
+                this.client.logradouro = null
+                this.client.bairro = null
+                this.client.cidade = null
+                this.client.uf = null
+            }
+        }, error => {
             if (error.status == 401) {
                 this.app.logout('clientes')
             }

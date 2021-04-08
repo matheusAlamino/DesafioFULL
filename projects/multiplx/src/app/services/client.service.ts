@@ -87,4 +87,8 @@ export class ClientService {
     resetPassword(client_id): Observable<any> {
         return this.http.get(`${this.api.mpx}clients/${client_id}/reset-password`).pipe(map(response => response));
     }
+
+    searchCEP(cep): Observable<any> {
+        return this.http.get(`${this.api.mpx}cep/${cep}`).pipe(map(response => response));
+    }
 }
