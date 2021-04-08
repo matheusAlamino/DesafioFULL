@@ -49,12 +49,20 @@
         <!--begin::Row-->
         <div class="row">
             <div class="col-md-7">
-                <div class="card card-custom gutter-b" style="height: 550px;">
+                <div class="card card-custom gutter-b" style="height: 550px; overflow-y: auto;">
                     <div class="card-header">
                         <h3 class="card-title">Dados Gerais</h3>
-                        <div class="card-toolbar">
+                        <!-- <div class="card-toolbar">
                             <a class="btn btn-light-success font-weight-bolder font-size-sm mr-3" (click)="onResetPassword()">Redefinir Senha</a>
                             <a class="btn btn-primary font-weight-bolder font-size-sm mr-3" data-toggle="modal" data-target="#modalClient">Editar</a>
+                        </div> -->
+                        <div class="card-toolbar">
+                            <a href="#" class="btn btn-icon btn-sm btn-light-info mr-1" (click)="onResetPassword()" data-card-tool="Redefinir senha" title="Redefinir senha">
+                                <i class="fas fa-lock-open"></i>
+                            </a>
+                            <a href="#" class="btn btn-icon btn-sm btn-light-success mr-1" data-toggle="modal" data-target="#modalClient" data-card-tool="Editar dados" title="Editar dados">
+                                <i class="far fa-edit"></i>
+                            </a>
                         </div>
                     </div>
                     <form class="form" #form="ngForm">
@@ -128,7 +136,6 @@
                                     </p>
                                 </div>
                             </div>
-                            <div class="separator separator-dashed my-5"></div>
                             <div class="form-group row">
                                 <div class="col-lg-6">
                                     <label>Contatos:</label>
