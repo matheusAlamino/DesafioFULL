@@ -38,13 +38,15 @@ export class ClientsComponent implements OnInit {
         last_access: null,
         status: null,
         certificado_digital: null,
-        cep: null,
-        numero: null,
-        complemento: null,
-        logradouro: null,
-        bairro: null,
-        cidade: null,
-        uf: null,
+        address: {
+            cep: null,
+            numero: null,
+            complemento: null,
+            logradouro: null,
+            bairro: null,
+            cidade: null,
+            uf: null,
+        }
     }
 
     editClient: Client
@@ -227,13 +229,15 @@ export class ClientsComponent implements OnInit {
             last_access: client.last_acess,
             status: client.status,
             certificado_digital: client.certificado_digital,
-            cep: client.cep,
-            numero: client.numero,
-            complemento: client.complemento,
-            logradouro: client.logradouro,
-            bairro: client.bairro,
-            cidade: client.cidade,
-            uf: client.uf,
+            address: {
+                cep: client.address.cep,
+                numero: client.address.numero,
+                complemento: client.address.complemento,
+                logradouro: client.address.logradouro,
+                bairro: client.address.bairro,
+                cidade: client.address.cidade,
+                uf: client.address.uf,
+            }
         }
         if (client.id != null) {
             this.editClient = client
@@ -252,13 +256,15 @@ export class ClientsComponent implements OnInit {
             last_access: null,
             status: 1,
             certificado_digital: 0,
-            cep: null,
-            numero: null,
-            complemento: null,
-            logradouro: null,
-            bairro: null,
-            cidade: null,
-            uf: null,
+            address: {
+                cep: null,
+                numero: null,
+                complemento: null,
+                logradouro: null,
+                bairro: null,
+                cidade: null,
+                uf: null,
+            }
         }
     }
 

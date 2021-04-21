@@ -34,13 +34,15 @@ export class ClientViewComponent implements OnInit {
         last_access: null,
         status: null,
         certificado_digital: null,
-        cep: null,
-        numero: null,
-        complemento: null,
-        logradouro: null,
-        bairro: null,
-        cidade: null,
-        uf: null,
+        address: {
+            cep: null,
+            numero: null,
+            complemento: null,
+            logradouro: null,
+            bairro: null,
+            cidade: null,
+            uf: null,
+        }
     }
 
     public saveEvent = new EventEmitter()
@@ -205,50 +207,50 @@ export class ClientViewComponent implements OnInit {
 
     getAddress() {
         let msg = ''
-        if (this.client.logradouro) {
-            msg += this.client.logradouro
+        if (this.client.address.logradouro) {
+            msg += this.client.address.logradouro
         }
 
-        if (this.client.numero) {
+        if (this.client.address.numero) {
             if (msg != '') {
                 msg += ', '
             }
-            msg += 'Nº ' + this.client.numero
+            msg += 'Nº ' + this.client.address.numero
         }
 
-        if (this.client.bairro) {
+        if (this.client.address.bairro) {
             if (msg != '') {
                 msg += ', '
             }
-            msg += this.client.bairro
+            msg += this.client.address.bairro
         }
 
-        if (this.client.cep) {
+        if (this.client.address.cep) {
             if (msg != '') {
                 msg += ', '
             }
-            msg += 'CEP ' + this.client.cep
+            msg += 'CEP ' + this.client.address.cep
         }
 
-        if (this.client.cidade) {
+        if (this.client.address.cidade) {
             if (msg != '') {
                 msg += ', '
             }
-            msg += this.client.cidade
+            msg += this.client.address.cidade
         }
 
-        if (this.client.uf) {
+        if (this.client.address.uf) {
             if (msg != '') {
                 msg += ' - '
             }
-            msg += this.client.uf
+            msg += this.client.address.uf
         }
 
-        if (this.client.complemento) {
+        if (this.client.address.complemento) {
             if (msg != '') {
                 msg += '<br>'
             }
-            msg += this.client.complemento
+            msg += this.client.address.complemento
         }
 
         return msg

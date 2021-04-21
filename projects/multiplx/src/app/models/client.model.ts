@@ -9,6 +9,10 @@ export interface Client {
     last_access: string,
     status: number,
     certificado_digital: number,
+    address: ClientAddress
+}
+
+export interface ClientAddress {
     cep: string,
     numero: string,
     complemento: string,

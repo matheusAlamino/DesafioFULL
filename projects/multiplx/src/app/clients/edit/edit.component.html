@@ -78,7 +78,7 @@
                                 <div class="col-lg-6">
                                     <label>CEP:</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" name="cep" mask="00000-000" #cep="ngModel" placeholder="Buscar CEP..." [(ngModel)]="client.cep" [ngClass]="{'is-invalid': !cep.valid && client.cep != null && error}">
+                                        <input type="text" class="form-control" name="cep" mask="00000-000" #cep="ngModel" placeholder="Buscar CEP..." [(ngModel)]="client.address.cep" [ngClass]="{'is-invalid': !cep.valid && client.address.cep != null && error}">
                                         <div class="input-group-append">
                                             <button class="btn btn-secondary" type="button" (click)="searchCEP()">
                                                 Buscar
@@ -90,28 +90,28 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <label>Nº:</label>
-                                    <input type="text" class="form-control" name="numero" #numero="ngModel" [(ngModel)]="client.numero" [ngClass]="{'is-invalid': !numero.valid && client.numero != null && error}"/>
+                                    <input type="text" class="form-control" name="numero" #numero="ngModel" [(ngModel)]="client.address.numero" [ngClass]="{'is-invalid': !numero.valid && client.address.numero != null && error}"/>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="col-lg-6">
                                     <label>Logradouro:</label>
-                                    <input type="text" class="form-control" name="logradouro" #logradouro="ngModel" [(ngModel)]="client.logradouro" [ngClass]="{'is-invalid': !logradouro.valid && client.logradouro != null && error}"/>
+                                    <input type="text" class="form-control" name="logradouro" #logradouro="ngModel" [(ngModel)]="client.address.logradouro" [ngClass]="{'is-invalid': !logradouro.valid && client.address.logradouro != null && error}"/>
                                 </div>
                                 <div class="col-lg-6">
                                     <label>Bairro:</label>
-                                    <input type="text" class="form-control" name="bairro" #bairro="ngModel" [(ngModel)]="client.bairro" [ngClass]="{'is-invalid': !bairro.valid && client.bairro != null && error}"/>
+                                    <input type="text" class="form-control" name="bairro" #bairro="ngModel" [(ngModel)]="client.address.bairro" [ngClass]="{'is-invalid': !bairro.valid && client.address.bairro != null && error}"/>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="col-lg-6">
                                     <label>Cidade:</label>
-                                    <input type="text" class="form-control" name="cidade" #cidade="ngModel" [(ngModel)]="client.cidade" [ngClass]="{'is-invalid': !cidade.valid && client.cidade != null && error}"/>
+                                    <input type="text" class="form-control" name="cidade" #cidade="ngModel" [(ngModel)]="client.address.cidade" [ngClass]="{'is-invalid': !cidade.valid && client.address.cidade != null && error}"/>
                                 </div>
                                 <div class="col-lg-6">
                                     <label>UF:</label>
                                     <select type="text" class="form-control" name="uf" #uf="ngModel"
-                                        [(ngModel)]="client.uf" [ngClass]="{'is-invalid': !uf.valid && client.uf != null && error}"
+                                        [(ngModel)]="client.address.uf" [ngClass]="{'is-invalid': !uf.valid && client.address.uf != null && error}"
                                         placeholder="Selecione a UF" >
                                         <option value="AC">AC</option>
                                         <option value="AL">AL</option>
@@ -146,7 +146,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Complemento:</label>
-                                <input type="text" class="form-control" name="complemento" #complemento="ngModel" [(ngModel)]="client.complemento" [ngClass]="{'is-invalid': !complemento.valid && client.complemento != null && error}" placeholder="Ex.: Apt. 999"/>
+                                <input type="text" class="form-control" name="complemento" #complemento="ngModel" [(ngModel)]="client.address.complemento" [ngClass]="{'is-invalid': !complemento.valid && client.address.complemento != null && error}" placeholder="Ex.: Apt. 999"/>
                                 <!-- <span class="form-text text-muted">Please enter your full name</span> -->
                             </div>
                         </div>

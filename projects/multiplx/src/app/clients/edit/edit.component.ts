@@ -38,13 +38,15 @@ export class ClientEditComponent implements OnInit {
                 last_access: null,
                 status: 1,
                 certificado_digital: 0,
-                cep: null,
-                numero: null,
-                complemento: null,
-                logradouro: null,
-                bairro: null,
-                cidade: null,
-                uf: null,
+                address: {
+                    cep: null,
+                    numero: null,
+                    complemento: null,
+                    logradouro: null,
+                    bairro: null,
+                    cidade: null,
+                    uf: null,
+                }
             }
         }
     }
@@ -79,13 +81,13 @@ export class ClientEditComponent implements OnInit {
             'email': this.client.email,
             'status': this.client.status ? 1 : 0,
             'certificado_digital': this.client.certificado_digital ? 1 : 0,
-            'cep': this.client.cep,
-            'numero': this.client.numero,
-            'complemento': this.client.complemento,
-            'logradouro': this.client.logradouro,
-            'bairro': this.client.bairro,
-            'cidade': this.client.cidade,
-            'uf': this.client.uf,
+            'cep': this.client.address.cep,
+            'numero': this.client.address.numero,
+            'complemento': this.client.address.complemento,
+            'logradouro': this.client.address.logradouro,
+            'bairro': this.client.address.bairro,
+            'cidade': this.client.address.cidade,
+            'uf': this.client.address.uf,
         }
         this.app.toggleLoading(true)
         this.clientService.save(data).subscribe(response => {
@@ -115,13 +117,13 @@ export class ClientEditComponent implements OnInit {
             'email': this.client.email,
             'status': this.client.status ? 1 : 0,
             'certificado_digital': this.client.certificado_digital ? 1 : 0,
-            'cep': this.client.cep,
-            'numero': this.client.numero,
-            'complemento': this.client.complemento,
-            'logradouro': this.client.logradouro,
-            'bairro': this.client.bairro,
-            'cidade': this.client.cidade,
-            'uf': this.client.uf,
+            'cep': this.client.address.cep,
+            'numero': this.client.address.numero,
+            'complemento': this.client.address.complemento,
+            'logradouro': this.client.address.logradouro,
+            'bairro': this.client.address.bairro,
+            'cidade': this.client.address.cidade,
+            'uf': this.client.address.uf,
         }
         this.app.toggleLoading(true)
         this.clientService.update(this.client.id, data).subscribe(response => {
@@ -141,21 +143,21 @@ export class ClientEditComponent implements OnInit {
     }
 
     searchCEP() {
-        if (this.client.cep == null || this.client.cep == '') {
+        if (this.client.address.cep == null || this.client.address.cep == '') {
             return
         }
 
-        this.clientService.searchCEP(this.client.cep).subscribe(response => {
+        this.clientService.searchCEP(this.client.address.cep).subscribe(response => {
             if (response.ret == 1) {
-                this.client.logradouro = response.data.logradouro
-                this.client.bairro = response.data.bairro
-                this.client.cidade = response.data.localidade
-                this.client.uf = response.data.uf
+                this.client.address.logradouro = response.data.logradouro
+                this.client.address.bairro = response.data.bairro
+                this.client.address.cidade = response.data.localidade
+                this.client.address.uf = response.data.uf
             } else {
-                this.client.logradouro = null
-                this.client.bairro = null
-                this.client.cidade = null
-                this.client.uf = null
+                this.client.address.logradouro = null
+                this.client.address.bairro = null
+                this.client.address.cidade = null
+                this.client.address.uf = null
             }
         }, error => {
             if (error.status == 401) {
