@@ -70,10 +70,10 @@
                             <a class="btn btn-primary font-weight-bolder font-size-sm mr-3" data-toggle="modal" data-target="#modalClient">Editar</a>
                         </div> -->
                         <div class="card-toolbar">
-                            <a href="#" class="btn btn-icon btn-sm btn-light-info mr-1" (click)="onResetPassword()" data-card-tool="Redefinir senha" title="Redefinir senha">
+                            <a href="javascript:;" class="btn btn-icon btn-sm btn-light-info mr-1" (click)="onResetPassword()" data-card-tool="Redefinir senha" title="Redefinir senha">
                                 <i class="fas fa-lock-open"></i>
                             </a>
-                            <a href="#" class="btn btn-icon btn-sm btn-light-success mr-1" data-toggle="modal" data-target="#modalClient" data-card-tool="Editar dados" title="Editar dados">
+                            <a [routerLink]="['/clientes/cadastro/' + client.id]" class="btn btn-icon btn-sm btn-light-success mr-1" data-toggle="modal" data-target="#modalClient" data-card-tool="Editar dados" title="Editar dados">
                                 <i class="far fa-edit"></i>
                             </a>
                         </div>
@@ -107,7 +107,7 @@
                                     </p>
                                 </div>
                                 <div class="col-lg-4">
-                                    <label>Tutelado/Curatelado/Menor:</label>
+                                    <label>Tutelado/Curatelado /Menor:</label>
                                     <p class="form-control-plaintext text-muted">
                                         <span *ngIf="client.tutelado == 1; else clientTutelado">
                                             <span class="label label-light-primary label-pill label-inline mr-2">Sim</span>
@@ -175,12 +175,12 @@
                                         {{ getCivilStatus(this.client.civil_status) }}
                                     </p>
                                 </div>
-                                <div class="col-lg-6">
-                                    <label>Profissão:</label>
+                                <!-- <div class="col-lg-6">
+                                    <label>Dados Bancários:</label>
                                     <p class="form-control-plaintext text-muted">
-                                        {{ client.profession }}
+                                        {{ getCivilStatus(this.client.civil_status) }}
                                     </p>
-                                </div>
+                                </div> -->
                             </div>
                             <div class="form-group row">
                                 <div class="col-lg-6">
