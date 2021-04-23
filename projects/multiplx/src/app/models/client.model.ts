@@ -15,6 +15,7 @@ export interface Client {
     certificado_digital: number,
     certificado_digital_type: string,
     civil_status: number,
+    conjuge_id: number,
     own_client: number,
     tutelado: number,
     bank_code: string,

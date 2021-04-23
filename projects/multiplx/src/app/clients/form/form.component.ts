@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable, Subject } from 'rxjs';
 import { AppComponent } from '../../app.component';
 import { CivilStatusEnum } from '../../enums/civil-status.enum';
 import { Client } from '../../models/client.model';
@@ -12,6 +13,7 @@ import { Swal } from '../../utils';
     templateUrl: './form.component.html'
 })
 export class ClientFormComponent implements OnInit {
+
     banks: any
     client_id: number = null
     client: Client = {
@@ -31,6 +33,7 @@ export class ClientFormComponent implements OnInit {
         certificado_digital: 0,
         certificado_digital_type: null,
         civil_status: CivilStatusEnum.naoInformado,
+        conjuge_id: null,
         own_client: 1,
         tutelado: 0,
         bank_code: null,
@@ -53,6 +56,10 @@ export class ClientFormComponent implements OnInit {
     }
     error: boolean = false
     @ViewChild("form") $form: any
+
+    // conjuges$: Observable<Client[]>;
+    // conjugeLoading = false;
+    // conjugeinput$ = new Subject<string>();
 
     constructor(
         private app: AppComponent,
@@ -97,6 +104,25 @@ export class ClientFormComponent implements OnInit {
             }
         })
     }
+
+    // loadConjuges(categorias: any = []) {
+    //     this.conjuges$ = observableConcat(
+    //         observableOf(categorias),
+    //         this.categoriainput$.pipe(
+    //             debounceTime(200),
+    //             distinctUntilChanged(),
+    //             tap(() => (this.categoriaLoading = true)),
+    //             switchMap((term) =>
+    //                 this.categoriaService
+    //                     .getCategories(this.app.storage.token, [], term)
+    //                     .pipe(
+    //                         catchError(() => observableOf([])), // empty list on error
+    //                         tap(() => (this.categoriaLoading = false))
+    //                     )
+    //             )
+    //         )
+    //     )
+    // }
 
     loadClient() {
         this.clientService.show(this.client_id).subscribe(response => {

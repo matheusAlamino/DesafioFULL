@@ -43,6 +43,7 @@ export class ClientViewComponent implements OnInit {
         certificado_digital: 0,
         certificado_digital_type: null,
         civil_status: CivilStatusEnum.naoInformado,
+        conjuge_id: null,
         own_client: 1,
         tutelado: 0,
         bank_code: null,
