@@ -17,6 +17,14 @@ export interface Client {
     civil_status: number,
     own_client: number,
     tutelado: number,
+    bank_code: string,
+    bank_account: string,
+    bank_agency: string,
+    bank_pix: string,
+    cartorio: string,
+    termo: string,
+    livro: string,
+    ato: string,
     address: ClientAddress
 }
 

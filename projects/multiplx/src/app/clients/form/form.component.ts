@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AppComponent } from '../../app.component';
 import { CivilStatusEnum } from '../../enums/civil-status.enum';
 import { Client } from '../../models/client.model';
+import { BankService } from '../../services/bank.service';
 import { ClientService } from '../../services/client.service';
 import { Swal } from '../../utils';
 
@@ -11,6 +12,7 @@ import { Swal } from '../../utils';
     templateUrl: './form.component.html'
 })
 export class ClientFormComponent implements OnInit {
+    banks: any
     client_id: number = null
     client: Client = {
         id: null,
@@ -31,6 +33,14 @@ export class ClientFormComponent implements OnInit {
         civil_status: CivilStatusEnum.naoInformado,
         own_client: 1,
         tutelado: 0,
+        bank_code: null,
+        bank_account: null,
+        bank_agency: null,
+        bank_pix: null,
+        cartorio: null,
+        termo: null,
+        livro: null,
+        ato: null,
         address: {
             cep: null,
             numero: null,
@@ -49,7 +59,8 @@ export class ClientFormComponent implements OnInit {
         private clientService: ClientService,
         private swal: Swal,
         private router: Router,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private bankService: BankService
     ) { }
 
     ngOnInit(): void {
@@ -65,6 +76,8 @@ export class ClientFormComponent implements OnInit {
     }
 
     init() {
+        this.loadBanks()
+
         this.route.params.subscribe((params: any) => {
             if (params.client_id) {
                 this.client_id = params.client_id
@@ -73,12 +86,24 @@ export class ClientFormComponent implements OnInit {
         });
     }
 
+    loadBanks() {
+        this.bankService.list().subscribe(response => {
+            this.banks = response
+        }, error => {
+            this.swal.msgAlert('Atenção', 'Ocorreu um problema ao carregar a lista de bancos!', 'warning', 'Ok')
+            this.router.navigate(['/clientes'])
+            if (error.status == 401) {
+                this.app.logout('clientes')
+            }
+        })
+    }
+
     loadClient() {
         this.clientService.show(this.client_id).subscribe(response => {
             this.app.toggleLoading(false)
             if (response.ret == 1) {
                 this.client = response.client
-                if (!this.client.address) {
+                if (this.client.address == null) {
                     this.client.address = {
                         cep: null,
                         numero: null,
@@ -104,6 +129,7 @@ export class ClientFormComponent implements OnInit {
     }
 
     onSave() {
+        console.log(this.$form)
         if (!this.$form.valid) {
             this.error = true
             return

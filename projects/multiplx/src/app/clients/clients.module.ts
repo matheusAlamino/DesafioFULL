@@ -11,6 +11,7 @@ import { ClientFileListComponent } from './files/list/list.component';
 import { ClientViewComponent } from './view/view.component';
 import { ClientEditComponent } from './edit/edit.component';
 import { ClientFormComponent } from './form/form.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 const ROUTES: Routes = [
     { path: 'cadastro', component: ClientFormComponent },
@@ -34,6 +35,7 @@ const ROUTES: Routes = [
         FormsModule,
         PaginationModule,
         ComponentsModule,
+        NgSelectModule
     ],
     providers: [
         MaskPipe,

@@ -18,14 +18,14 @@
 <div class="d-flex flex-column-fluid">
     <!--begin::Container-->
     <div class="container">
-        <!--begin::Row-->
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card card-custom gutter-b">
-                    <div class="card-header">
-                        <h3 class="card-title">Dados Gerais</h3>
-                    </div>
-                    <form class="form" #form="ngForm">
+        <form class="form" #form="ngForm">
+            <!--begin::Row-->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-custom gutter-b">
+                        <div class="card-header">
+                            <h3 class="card-title">Dados Gerais</h3>
+                        </div>
                         <div class="card-body">
                             <div class="form-group row">
                                 <div class="col-lg-3">
@@ -79,7 +79,7 @@
                                 </div>
                                 <div class="col-lg-3">
                                     <label>Data de emissão:</label>
-                                    <input type="date" class="form-control" name="rg_date" #rg_date="ngModel" [(ngModel)]="client.rg_date" [ngClass]="{'is-invalid': !rg_date.valid && client.rg_date != null && error}" required/>
+                                    <input type="date" class="form-control" name="rg_date" #rg_date="ngModel" [(ngModel)]="client.rg_date" [ngClass]="{'is-invalid': !rg_date.valid && client.rg_date != null && error}"/>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -118,7 +118,7 @@
                                 <div class="col-lg-6">
                                     <label>Estado Civil:</label>
                                     <select type="text" class="form-control" name="civil_status" #civil_status="ngModel"
-                                        [(ngModel)]="client.civil_status" [ngClass]="{'is-invalid': !civil_status.valid && client.civil_status != null && error}"
+                                        [(ngModel)]="client.civil_status"
                                         placeholder="Selecione o estado civil" >
                                         <option [value]="0">Não informado</option>
                                         <option [value]="1">Solteiro(a)</option>
@@ -139,15 +139,13 @@
                                 <!-- <span class="form-text text-muted">Please enter your full name</span> -->
                             </div>
                         </div>
-                    </form>
-                </div>
-            </div>
-            <div class="col-md-12">
-                <div class="card card-custom gutter-b">
-                    <div class="card-header">
-                        <h3 class="card-title">Endereço</h3>
                     </div>
-                    <form class="form" #form="ngForm">
+                </div>
+                <div class="col-md-12">
+                    <div class="card card-custom gutter-b">
+                        <div class="card-header">
+                            <h3 class="card-title">Endereço</h3>
+                        </div>
                         <div class="card-body">
                             <div class="form-group row">
                                 <div class="col-lg-6">
@@ -225,35 +223,71 @@
                                 <!-- <span class="form-text text-muted">Please enter your full name</span> -->
                             </div>
                         </div>
-                    </form>
-                </div>
-            </div>
-            <div class="col-md-12">
-                <div class="card card-custom gutter-b">
-                    <div class="card-header">
-                        <h3 class="card-title">Dados Bancários</h3>
                     </div>
-                    <form class="form" #form="ngForm">
-                        <div class="card-body">
-                            <label>Em Breve...</label>
-                        </div>
-                    </form>
                 </div>
-            </div>
-            <div class="col-md-12">
-                <div class="card card-custom gutter-b">
-                    <div class="card-header">
-                        <h3 class="card-title">Outogardo com Dados</h3>
+                <div class="col-md-12">
+                    <div class="card card-custom gutter-b">
+                        <div class="card-header">
+                            <h3 class="card-title">Dados Bancários</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group row">
+                                <div class="col-lg-6">
+                                    <label>Banco:</label>
+                                    <ng-select [(ngModel)]="client.bank_code" [items]="banks" bindValue="code" bindLabel="description"
+                                    name="bank_code" #bank_code="ngModel" placeholder="Selecione o banco"
+                                    notFoundText="Nenhum banco encontrado"></ng-select>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label>Pix:</label>
+                                    <input type="text" class="form-control" name="bank_pix" #bank_pix="ngModel" [(ngModel)]="client.bank_pix" [ngClass]="{'is-invalid': !bank_pix.valid && client.bank_pix != null && error}"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-6">
+                                    <label>Agência:</label>
+                                    <input type="text" class="form-control" name="bank_agency" #bank_agency="ngModel" [(ngModel)]="client.bank_agency" [ngClass]="{'is-invalid': !bank_agency.valid && client.bank_agency != null && error}"/>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label>Conta:</label>
+                                    <input type="text" class="form-control" name="bank_account" #bank_account="ngModel" [(ngModel)]="client.bank_account" [ngClass]="{'is-invalid': !bank_account.valid && client.bank_account != null && error}"/>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <form class="form" #form="ngForm">
-                        <div class="card-body">
-                            <label>Em Breve...</label>
+                </div>
+                <div class="col-md-12">
+                    <div class="card card-custom gutter-b">
+                        <div class="card-header">
+                            <h3 class="card-title">Outogardo com Dados</h3>
                         </div>
-                    </form>
+                        <div class="card-body">
+                            <div class="form-group row">
+                                <div class="col-lg-6">
+                                    <label>Cartório:</label>
+                                    <input type="text" class="form-control" name="cartorio" #cartorio="ngModel" [(ngModel)]="client.cartorio" [ngClass]="{'is-invalid': !cartorio.valid && client.cartorio != null && error}"/>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label>Livro:</label>
+                                    <input type="text" class="form-control" name="livro" #livro="ngModel" [(ngModel)]="client.livro" [ngClass]="{'is-invalid': !livro.valid && client.livro != null && error}"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-6">
+                                    <label>Ato:</label>
+                                    <input type="text" class="form-control" name="ato" #ato="ngModel" [(ngModel)]="client.ato" [ngClass]="{'is-invalid': !ato.valid && client.ato != null && error}"/>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label>Termo:</label>
+                                    <input type="text" class="form-control" name="termo" #termo="ngModel" [(ngModel)]="client.termo" [ngClass]="{'is-invalid': !termo.valid && client.termo != null && error}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <!--end::Row-->
+            <!--end::Row-->
+        </form>
     </div>
     <!--end::Container-->
 </div>
