@@ -1,5 +1,6 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { AppComponent } from 'projects/multiplx/src/app/app.component';
+import { CivilStatusEnum } from '../../enums/civil-status.enum';
 import { Client } from '../../models/client.model';
 import { ClientService } from '../../services/client.service';
 import { Swal } from '../../utils';
@@ -32,12 +33,20 @@ export class ClientEditComponent implements OnInit {
                 name: null,
                 cpf: null,
                 rg: null,
+                rg_emitter: null,
+                rg_date: null,
                 birth_date: null,
                 phone: null,
                 email: null,
+                profession: null,
+                nationality: null,
                 last_access: null,
                 status: 1,
                 certificado_digital: 0,
+                certificado_digital_type: null,
+                civil_status: CivilStatusEnum.naoInformado,
+                own_client: 1,
+                tutelado: 0,
                 address: {
                     cep: null,
                     numero: null,

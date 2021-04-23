@@ -10,9 +10,11 @@ import { UploadFileComponent } from '../components/upload-file/upload-file.compo
 import { ClientFileListComponent } from './files/list/list.component';
 import { ClientViewComponent } from './view/view.component';
 import { ClientEditComponent } from './edit/edit.component';
+import { ClientFormComponent } from './form/form.component';
 
 const ROUTES: Routes = [
-    { path: ':new', component: ClientsComponent },
+    { path: 'cadastro', component: ClientFormComponent },
+    { path: 'cadastro/:client_id', component: ClientFormComponent },
     { path: 'view/:client_id', component: ClientViewComponent },
     { path: '**', component: ClientsComponent },
 ]
@@ -22,7 +24,8 @@ const ROUTES: Routes = [
         ClientsComponent,
         ClientFileListComponent,
         ClientViewComponent,
-        ClientEditComponent
+        ClientEditComponent,
+        ClientFormComponent
     ],
     imports: [
         CommonModule,

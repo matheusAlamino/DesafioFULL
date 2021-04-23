@@ -51,7 +51,20 @@
             <div class="col-md-7">
                 <div class="card card-custom gutter-b" style="height: 550px; overflow-y: auto;">
                     <div class="card-header">
-                        <h3 class="card-title">Dados Gerais</h3>
+                        <h3 class="card-title">
+                            Dados Gerais
+                            <span class="ml-1">
+                                <p class="form-control-plaintext text-muted">
+                                    <span *ngIf="client.last_access; else clientLastAccessNever">
+                                        <span class="label label-light-info label-pill label-inline mr-2">Último acesso {{ client.last_access | date: "dd/MM/yyyy" }}</span>
+                                    </span>
+                                    <ng-template #clientLastAccessNever>
+                                        <span class="label label-light-warning label-pill label-inline mr-2">Nunca acessou</span>
+                                    </ng-template>
+                                </p>
+                            </span>
+                        </h3>
+
                         <!-- <div class="card-toolbar">
                             <a class="btn btn-light-success font-weight-bolder font-size-sm mr-3" (click)="onResetPassword()">Redefinir Senha</a>
                             <a class="btn btn-primary font-weight-bolder font-size-sm mr-3" data-toggle="modal" data-target="#modalClient">Editar</a>
@@ -83,29 +96,8 @@
                                     </p>
                                 </div>
                                 <div class="col-lg-4">
-                                    <label>Certificado Digital:</label>
-                                    <p class="form-control-plaintext text-muted">
-                                        <span *ngIf="client.certificado_digital == 1; else certificadoDigital" class="label label-light-success label-pill label-inline mr-2">
-                                            Sim
-                                        </span>
-
-                                        <ng-template #certificadoDigital >
-                                            <span class="label label-light-danger label-pill label-inline mr-2">
-                                                Não
-                                            </span>
-                                        </ng-template>
-                                    </p>
-                                </div>
-                                <div class="col-lg-4">
                                     <label>Último acesso:</label>
-                                    <p class="form-control-plaintext text-muted">
-                                        <span *ngIf="client.last_access; else clientLastAccessNever">
-                                            <span class="label label-light-info label-pill label-inline mr-2">{{ client.last_access | date: "dd/MM/yyyy h:i" }}</span>
-                                        </span>
-                                        <ng-template #clientLastAccessNever>
-                                            <span class="label label-light-warning label-pill label-inline mr-2">Nunca</span>
-                                        </ng-template>
-                                    </p>
+
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -132,7 +124,43 @@
                                 <div class="col-lg-6">
                                     <label>RG:</label>
                                     <p class="form-control-plaintext text-muted">
-                                        {{ client.rg }}
+                                        {{ client.rg }} {{ client.rg_emitter }} {{ client.rg_date | date: 'dd/mm/YYYY' }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-6">
+                                    <label>Certificado Digital:</label>
+                                    <p class="form-control-plaintext text-muted">
+                                        <span *ngIf="client.certificado_digital_type != null; else certificadoDigital">
+                                            {{ client.certificado_digital_type }}
+                                        </span>
+
+                                        <ng-template #certificadoDigital >
+                                            <span class="label label-light-danger label-pill label-inline mr-2">
+                                                Não possui
+                                            </span>
+                                        </ng-template>
+                                    </p>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label>Profissão:</label>
+                                    <p class="form-control-plaintext text-muted">
+                                        {{ client.profession }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-6">
+                                    <label>Estado Civil:</label>
+                                    <p class="form-control-plaintext text-muted">
+                                        {{ getCivilStatus(this.client.civil_status) }}
+                                    </p>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label>Profissão:</label>
+                                    <p class="form-control-plaintext text-muted">
+                                        {{ client.profession }}
                                     </p>
                                 </div>
                             </div>

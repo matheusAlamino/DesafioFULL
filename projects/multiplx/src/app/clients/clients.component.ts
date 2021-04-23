@@ -8,9 +8,8 @@ import { UploadFileComponent } from '../components/upload-file/upload-file.compo
 import { FileClient } from '../models/file-client.model';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common'
-import { Client } from '../models/client.model'
-import { ClientEditComponent } from './edit/edit.component'
 import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
+import { ClientMin } from '../models/client-min.model';
 
 @Component({
     selector: 'app-clients',
@@ -27,29 +26,18 @@ export class ClientsComponent implements OnInit {
     filter: any
     status: any
     statusLeg: any
-    client: Client = {
+    client: ClientMin = {
         id: null,
         name: null,
         cpf: null,
-        rg: null,
         birth_date: null,
         phone: null,
         email: null,
         last_access: null,
-        status: null,
-        certificado_digital: null,
-        address: {
-            cep: null,
-            numero: null,
-            complemento: null,
-            logradouro: null,
-            bairro: null,
-            cidade: null,
-            uf: null,
-        }
+        status: 1,
     }
 
-    editClient: Client
+    editClient: ClientMin
     public saveEvent = new EventEmitter()
 
     currentPage: number = 1
@@ -222,22 +210,11 @@ export class ClientsComponent implements OnInit {
             id: client.id,
             name: client.name,
             cpf: client.cpf,
-            rg: client.rg,
             birth_date: client.birth_date,
             phone: client.phone,
             email: client.email,
             last_access: client.last_acess,
             status: client.status,
-            certificado_digital: client.certificado_digital,
-            address: {
-                cep: client.address.cep,
-                numero: client.address.numero,
-                complemento: client.address.complemento,
-                logradouro: client.address.logradouro,
-                bairro: client.address.bairro,
-                cidade: client.address.cidade,
-                uf: client.address.uf,
-            }
         }
         if (client.id != null) {
             this.editClient = client
@@ -249,22 +226,11 @@ export class ClientsComponent implements OnInit {
             id: null,
             name: null,
             cpf: null,
-            rg: null,
             birth_date: null,
             phone: null,
             email: null,
             last_access: null,
-            status: 1,
-            certificado_digital: 0,
-            address: {
-                cep: null,
-                numero: null,
-                complemento: null,
-                logradouro: null,
-                bairro: null,
-                cidade: null,
-                uf: null,
-            }
+            status: 1
         }
     }
 

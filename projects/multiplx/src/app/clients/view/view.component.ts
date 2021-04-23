@@ -4,6 +4,7 @@ import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
 import { AppComponent } from 'projects/multiplx/src/app/app.component';
 import { environment } from 'projects/multiplx/src/environments/environment';
 import { UploadFileComponent } from '../../components/upload-file/upload-file.component';
+import { CivilStatusEnum } from '../../enums/civil-status.enum';
 import { Client } from '../../models/client.model';
 import { FileClient } from '../../models/file-client.model';
 import { ClientService } from '../../services/client.service';
@@ -28,12 +29,20 @@ export class ClientViewComponent implements OnInit {
         name: null,
         cpf: null,
         rg: null,
+        rg_emitter: null,
+        rg_date: null,
         birth_date: null,
         phone: null,
         email: null,
+        profession: null,
+        nationality: null,
         last_access: null,
-        status: null,
-        certificado_digital: null,
+        status: 1,
+        certificado_digital: 0,
+        certificado_digital_type: null,
+        civil_status: CivilStatusEnum.naoInformado,
+        own_client: 1,
+        tutelado: 0,
         address: {
             cep: null,
             numero: null,
@@ -268,6 +277,23 @@ export class ClientViewComponent implements OnInit {
             return 'Nunca'
         } else {
             return (new Date(last_access),'dd/MM/yyyy HH:mm')
+        }
+    }
+
+    getCivilStatus(civil_status) {
+        switch (civil_status) {
+            case 0: return 'Não informado'
+                break
+            case 1: return 'Solteiro(a)'
+                break
+            case 2: return 'Casado(a)'
+                break
+            case 3: return 'Separado(a)'
+                break
+            case 4: return 'Divorciado(a)'
+                break
+            case 5: return 'Viúvo(a)'
+                break
         }
     }
 }

@@ -9,10 +9,13 @@
     "start_cliente": "ng serve cliente --port=4202",
     "build_deploy_login": "npm run build_login && npm run deploy_login",
     "build_deploy_multiplx": "npm run build_multiplx && npm run deploy_multiplx",
+    "build_deploy_cliente": "npm run build_cliente && npm run deploy_cliente",
     "build_login": "ng build login --prod --outputPath=dist",
     "build_multiplx": "ng build multiplx --prod --outputPath=dist",
+    "build_cliente": "ng build cliente --prod --outputPath=dist",
     "deploy_login": "npx angular-cli-ghpages login --message='deploy login prod' --repo=https://github.com/matheusAlamino/multiplx-login-build --branch=producao --no-silent --dir=dist",
     "deploy_multiplx": "npx angular-cli-ghpages multiplx --message='deploy multiplx prod' --repo=https://github.com/matheusAlamino/multiplx-build --branch=producao --no-silent --dir=dist",
+    "deploy_cliente": "npx angular-cli-ghpages multiplx --message='deploy multiplx prod' --repo=https://github.com/matheusAlamino/multiplx-cliente-build --branch=producao --no-silent --dir=dist",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
