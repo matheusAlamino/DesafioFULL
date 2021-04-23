@@ -7,6 +7,7 @@ import { UploadFileComponent } from '../../components/upload-file/upload-file.co
 import { CivilStatusEnum } from '../../enums/civil-status.enum';
 import { Client } from '../../models/client.model';
 import { FileClient } from '../../models/file-client.model';
+import { BankService } from '../../services/bank.service';
 import { ClientService } from '../../services/client.service';
 import { Swal } from '../../utils';
 import { ClientEditComponent } from '../edit/edit.component';
@@ -18,6 +19,7 @@ import { ClientEditComponent } from '../edit/edit.component';
 export class ClientViewComponent implements OnInit {
     api: any = environment.api
 
+    banks: any
     client_id: number
     filesClient: FileClient[] = []
     countFiles: number = 0
@@ -82,7 +84,8 @@ export class ClientViewComponent implements OnInit {
         private route: ActivatedRoute,
         private clientService: ClientService,
         private swal: Swal,
-        private router: Router
+        private router: Router,
+        private bankService: BankService
     ) { }
 
     ngOnInit(): void {
@@ -111,12 +114,25 @@ export class ClientViewComponent implements OnInit {
         this.route.params.subscribe((params: any) => {
             if (params.client_id) {
                 this.client_id = params.client_id
-                this.loadClient()
+                this.loadBanks()
             }
         });
 
         this.loadCountFiles()
         this.loadListProcess()
+    }
+
+    loadBanks() {
+        this.bankService.list().subscribe(response => {
+            this.banks = response
+            this.loadClient()
+        }, error => {
+            this.swal.msgAlert('Atenção', 'Ocorreu um problema ao carregar a lista de bancos!', 'warning', 'Ok')
+            this.router.navigate(['/clientes'])
+            if (error.status == 401) {
+                this.app.logout('clientes')
+            }
+        })
     }
 
     loadClient() {
@@ -303,5 +319,69 @@ export class ClientViewComponent implements OnInit {
             case 5: return 'Viúvo(a)'
                 break
         }
+    }
+
+    getLegBank() {
+        let leg = ''
+        if (this.client.bank_code != null) {
+            let bank = this.banks.filter((element) => element.code == this.client.bank_code)[0];
+            leg += 'Banco ' + bank.description
+        }
+
+        if (this.client.bank_agency != null) {
+            if (leg != '') {
+                leg += ' - ';
+            }
+            leg += 'Agência ' + this.client.bank_agency
+        }
+
+        if (this.client.bank_account != null) {
+            if (leg != '') {
+                leg += ' - ';
+            }
+            leg += 'Conta ' + this.client.bank_account
+        }
+
+        if (this.client.bank_pix != null) {
+            if (leg != '') {
+                leg += ' - ';
+            }
+            leg += 'PIX ' + this.client.bank_pix
+        }
+
+        return leg;
+    }
+
+    getLegCartorio() {
+        let leg = ''
+        if (this.client.cartorio != null) {
+            if (leg != '') {
+                leg += ' - ';
+            }
+            leg += 'Cartório ' + this.client.cartorio
+        }
+
+        if (this.client.livro != null) {
+            if (leg != '') {
+                leg += ', ';
+            }
+            leg += 'Livro ' + this.client.livro
+        }
+
+        if (this.client.termo != null) {
+            if (leg != '') {
+                leg += ', ';
+            }
+            leg += 'Termo ' + this.client.termo
+        }
+
+        if (this.client.ato != null) {
+            if (leg != '') {
+                leg += ', ';
+            }
+            leg += 'Ato ' + this.client.ato
+        }
+
+        return leg;
     }
 }

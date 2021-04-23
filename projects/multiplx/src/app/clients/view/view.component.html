@@ -175,12 +175,12 @@
                                         {{ getCivilStatus(this.client.civil_status) }}
                                     </p>
                                 </div>
-                                <!-- <div class="col-lg-6">
+                                <div class="col-lg-6">
                                     <label>Dados Bancários:</label>
                                     <p class="form-control-plaintext text-muted">
-                                        {{ getCivilStatus(this.client.civil_status) }}
+                                        {{ getLegBank() }}
                                     </p>
-                                </div> -->
+                                </div>
                             </div>
                             <div class="form-group row">
                                 <div class="col-lg-6">
@@ -193,6 +193,14 @@
                                 <div class="col-lg-6">
                                     <label>Endereço:</label>
                                     <p class="form-control-plaintext text-muted" [innerHTML]="getAddress()"></p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label>Outorgado com Dados:</label>
+                                    <p class="form-control-plaintext text-muted">
+                                        {{ getLegCartorio() }}
+                                    </p>
                                 </div>
                             </div>
                         </div>

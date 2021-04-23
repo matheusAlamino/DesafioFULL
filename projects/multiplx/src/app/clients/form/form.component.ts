@@ -129,7 +129,6 @@ export class ClientFormComponent implements OnInit {
     }
 
     onSave() {
-        console.log(this.$form)
         if (!this.$form.valid) {
             this.error = true
             return
