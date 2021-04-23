@@ -96,8 +96,26 @@
                                     </p>
                                 </div>
                                 <div class="col-lg-4">
-                                    <label>Último acesso:</label>
-
+                                    <label>Cliente próprio:</label>
+                                    <p class="form-control-plaintext text-muted">
+                                        <span *ngIf="client.own_client == 1; else ownClient">
+                                            <span class="label label-light-primary label-pill label-inline mr-2">Sim</span>
+                                        </span>
+                                        <ng-template #ownClient>
+                                            <span class="label label-light-primary label-pill label-inline mr-2">Não</span>
+                                        </ng-template>
+                                    </p>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label>Tutelado/Curatelado/Menor:</label>
+                                    <p class="form-control-plaintext text-muted">
+                                        <span *ngIf="client.tutelado == 1; else clientTutelado">
+                                            <span class="label label-light-primary label-pill label-inline mr-2">Sim</span>
+                                        </span>
+                                        <ng-template #clientTutelado>
+                                            <span class="label label-light-primary label-pill label-inline mr-2">Não</span>
+                                        </ng-template>
+                                    </p>
                                 </div>
                             </div>
                             <div class="form-group row">
