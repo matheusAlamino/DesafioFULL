@@ -7,6 +7,7 @@ import { UploadFileComponent } from '../../components/upload-file/upload-file.co
 import { Client } from '../../models/client.model';
 import { FileClient } from '../../models/file-client.model';
 import { ClientService } from '../../services/client.service';
+import { FormClientsService } from '../../services/form-clients.service';
 import { Swal } from '../../utils';
 import { ClientEditComponent } from '../edit/edit.component';
 
@@ -63,7 +64,8 @@ export class ClientViewComponent implements OnInit {
         private route: ActivatedRoute,
         private clientService: ClientService,
         private swal: Swal,
-        private router: Router
+        private router: Router,
+        private formClientsService: FormClientsService
     ) { }
 
     ngOnInit(): void {
@@ -267,5 +269,9 @@ export class ClientViewComponent implements OnInit {
         } else {
             return (new Date(last_access),'dd/MM/yyyy HH:mm')
         }
+    }
+
+    generateFormClient() {
+        this.formClientsService.runAssignorForm(this.app.storage.token)
     }
 }
