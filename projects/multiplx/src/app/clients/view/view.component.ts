@@ -271,7 +271,13 @@ export class ClientViewComponent implements OnInit {
         }
     }
 
-    generateFormClient() {
-        this.formClientsService.runAssignorForm(this.app.storage.token)
+    generateFormClient(type, process_id) {
+        if (this.client_id) {
+            if (type == 0) {
+                this.formClientsService.runAssignorForm(this.app.storage.token, this.client_id, process_id)
+            } else {
+                this.formClientsService.runAssigneeForm(this.app.storage.token, this.client_id, process_id)
+            }
+        }
     }
 }
