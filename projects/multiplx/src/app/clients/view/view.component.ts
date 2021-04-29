@@ -9,6 +9,7 @@ import { Client } from '../../models/client.model';
 import { FileClient } from '../../models/file-client.model';
 import { BankService } from '../../services/bank.service';
 import { ClientService } from '../../services/client.service';
+import { FormClientsService } from '../../services/form-clients.service';
 import { Swal } from '../../utils';
 import { ClientEditComponent } from '../edit/edit.component';
 
@@ -86,7 +87,8 @@ export class ClientViewComponent implements OnInit {
         private clientService: ClientService,
         private swal: Swal,
         private router: Router,
-        private bankService: BankService
+        private bankService: BankService,
+        private formClientsService: FormClientsService
     ) { }
 
     ngOnInit(): void {
@@ -384,5 +386,15 @@ export class ClientViewComponent implements OnInit {
         }
 
         return leg;
+    }
+
+    generateFormClient(type, process_id) {
+        if (this.client_id) {
+            if (type == 0) {
+                this.formClientsService.runAssignorForm(this.app.storage.token, this.client_id, process_id)
+            } else {
+                this.formClientsService.runAssigneeForm(this.app.storage.token, this.client_id, process_id)
+            }
+        }
     }
 }

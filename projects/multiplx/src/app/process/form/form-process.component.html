@@ -46,22 +46,63 @@
         <div class="row">
             <div class="{{layoutSize.col}}">
 
-                <div class="card card-custom card-stretch gutter-b">
+                <div class="card card-custom gutter-b">
 
                     <!--begin::Header-->
-                    <div class="card-header border-0 py-5">
-                        <h3 class="card-title align-items-start flex-column">
-                            <span class="card-label font-weight-bolder text-dark">{{ titleCard }} Processo</span>
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            {{ titleCard }} Processo
                         </h3>
                     </div>
 
                     <!--end::Header-->
 
-                    <div class="card-body pt-0 pb-3">
+                    <div class="card-body pt-0 pb-3" style="height: 560px; overflow-y: auto;">
                         <!-- begin::Entry -->
                         <form class="form" novalidate #form="ngForm">
                             <div class="card-body">
                                 <div class="form-group row">
+                                    <div class="col-lg-6">
+                                        <label>Número do Processo*:</label>
+                                        <input type="text" class="form-control" [disabled]="!process.active" placeholder="0000000-00.0000.0.00.0000" mask="0000000-00.0000.0.00.0000"
+                                            name="process_number" #process_number="ngModel" [(ngModel)]="process.process_number" [dropSpecialCharacters]="true"
+                                            [ngClass]="{'is-invalid': !process_number.valid && error}" required />
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label>Vara*:</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" [disabled]="!process.active"
+                                            placeholder="Ex.: 19ª Vara Federal do Rio de Janeiro" name="vara" #vara="ngModel" [(ngModel)]="process.vara"
+                                            [ngClass]="{'is-invalid': !vara.valid && error}" required />
+                                            <!-- <div class="input-group-append"> -->
+                                                <!-- <a href="" target="_blank" class="btn btn-icon btn-sm btn-outline-dark mr-2"> -->
+                                                    <!-- <span class="input-group-text" style="cursor: pointer;">
+                                                        <span class="svg-icon svg-icon-dark svg-icon-1x">
+                                                            <svg
+                                                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px"
+                                                                viewBox="0 0 24 24" version="1.1">
+                                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                    <rect fill="#000000" x="4" y="11" width="16" height="2" rx="1" />
+                                                                    <rect fill="#000000" opacity="0.3"
+                                                                        transform="translate(12.000000, 12.000000) rotate(-270.000000) translate(-12.000000, -12.000000) " x="4"
+                                                                        y="11" width="16" height="2" rx="1" />
+                                                                </g>
+                                                            </svg>
+                                                        </span>
+                                                    </span> -->
+                                                <!-- </a> -->
+                                            <!-- </div> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-6">
+                                        <label>Número do Precatório*:</label>
+                                        <input type="text" class="form-control" [disabled]="!process.active"
+                                            mask="0*" name="precatory_number" #precatory_number="ngModel"
+                                            [(ngModel)]="process.precatory_number" [dropSpecialCharacters]="true"
+                                            [ngClass]="{'is-invalid': !precatory_number.valid && error}" required />
+                                    </div>
                                     <div class="col-lg-6">
                                         <label>Cessionários:</label>
                                         <ng-select [items]="clientsAssignees$ | async" #selectAssignees="ngModel" [disabled]="!process.active"
@@ -71,6 +112,8 @@
                                             clearAllText="Limpar busca" typeToSearchText="Digite para buscar clientes" [(ngModel)]="process.assignee_id">
                                         </ng-select>
                                     </div>
+                                </div>
+                                <div class="form-group row">
                                     <div class="col-lg-6">
                                         <label>Valor Total - Investidor*:</label>
                                         <div class="input-group">
@@ -79,6 +122,16 @@
                                                 name="total_value" #total_value="ngModel" [(ngModel)]="process.total_value" [dropSpecialCharacters]="false"
                                                 [ngClass]="{'is-invalid': !total_value.valid && error}" required />
                                         </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label>Responsável*:</label>
+                                        <ng-select [items]="clientsResponsable$ | async" #selectResponsable="ngModel" [disabled]="!process.active"
+                                            [ngClass]="{'is-invalid': !process.responsable_id && error}" bindLabel="name" bindValue="id"
+                                            name="responsable_id" [multiple]="false" [hideSelected]="true" [loading]="clientLoadingResponsable"
+                                            [typeahead]="clientinputResponsable$" notFoundText="Usuário não encontrado" loadingText="Carregando..."
+                                            clearAllText="Limpar busca" typeToSearchText="Digite para buscar usuário" [(ngModel)]="process.responsable_id"
+                                            required>
+                                        </ng-select>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -128,29 +181,73 @@
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-lg-6">
-                                        <label>Responsável*:</label>
-                                        <ng-select [items]="clientsResponsable$ | async" #selectResponsable="ngModel" [disabled]="!process.active"
-                                            [ngClass]="{'is-invalid': !process.responsable_id && error}" bindLabel="name" bindValue="id"
-                                            name="responsable_id" [multiple]="false" [hideSelected]="true" [loading]="clientLoadingResponsable"
-                                            [typeahead]="clientinputResponsable$" notFoundText="Usuário não encontrado" loadingText="Carregando..."
-                                            clearAllText="Limpar busca" typeToSearchText="Digite para buscar usuário" [(ngModel)]="process.responsable_id"
-                                            required>
-                                        </ng-select>
-                                    </div>
-                                    <div class="col-lg-6">
                                         <label>Ano Previsto Pagamento*:</label>
                                         <input type="date" class="form-control" [disabled]="!process.active" name="payment_year" #payment_year="ngModel"
                                             [(ngModel)]="process.payment_year" [ngClass]="{'is-invalid': !payment_year.valid && error}" required />
                                     </div>
+                                    <div class="col-lg-6">
+                                        <label>Valor Bruto do Precatório:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend"><span class="input-group-text">R$</span></div>
+                                            <input type="text" class="form-control" [disabled]="!process.active" [dropSpecialCharacters]="false"
+                                                placeholder="99,90" mask="0*,09" name="value_rough_precatory" #value_rough_precatory="ngModel"
+                                                [(ngModel)]="process.value_rough_precatory" [ngClass]="{'is-invalid': !value_rough_precatory.valid && error}" />
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="card-footer d-flex justify-content-end">
-                                <button type="button" (click)="saveProcess()" class="btn btn-primary mr-2" *ngIf="process.active">Salvar</button>
-                                <button type="button" (click)="reopenProcess()" class="btn btn-primary mr-2" *ngIf="!process.active">Reabrir Processo</button>
-                                <a [routerLink]="['/processos']" class="btn btn-secondary">Cancelar</a>
+                                <div class="form-group row">
+                                    <div class="col-lg-6">
+                                        <label>Valor Principal:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend"><span class="input-group-text">R$</span></div>
+                                            <input type="text" class="form-control" [disabled]="!process.active" [dropSpecialCharacters]="false"
+                                                placeholder="99,90" mask="0*,09" name="main_value" #main_value="ngModel"
+                                                [(ngModel)]="process.main_value"
+                                                [ngClass]="{'is-invalid': !main_value.valid && error}" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label>Valor Juros:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend"><span class="input-group-text">R$</span></div>
+                                            <input type="text" class="form-control" [disabled]="!process.active" [dropSpecialCharacters]="false"
+                                                placeholder="99,90" mask="0*,09" name="value_fees" #value_fees="ngModel"
+                                                [(ngModel)]="process.value_fees"
+                                                [ngClass]="{'is-invalid': !value_fees.valid && error}" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-6">
+                                        <label>Valor Mora:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend"><span class="input-group-text">R$</span></div>
+                                            <input type="text" class="form-control" [disabled]="!process.active" [dropSpecialCharacters]="false"
+                                                placeholder="99,90" mask="0*,09" name="value_arrears" #value_arrears="ngModel"
+                                                [(ngModel)]="process.value_arrears"
+                                                [ngClass]="{'is-invalid': !value_arrears.valid && error}" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label>Valor da Cessão:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend"><span class="input-group-text">R$</span></div>
+                                            <input type="text" class="form-control" [disabled]="!process.active" [dropSpecialCharacters]="false"
+                                                placeholder="99,90" mask="0*,09" name="value_assignment" #value_assignment="ngModel"
+                                                [(ngModel)]="process.value_assignment"
+                                                [ngClass]="{'is-invalid': !value_assignment.valid && error}" />
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </form>
                         <!-- end::Entry -->
+                    </div>
+                    <div class="card-footer d-flex justify-content-end">
+                        <button type="button" (click)="saveProcess()" class="btn btn-primary mr-2" *ngIf="process.active">Salvar</button>
+                        <button type="button" (click)="reopenProcess()" class="btn btn-primary mr-2" *ngIf="!process.active">Reabrir
+                            Processo</button>
+                        <a [routerLink]="['/processos']" class="btn btn-secondary">Cancelar</a>
                     </div>
                 </div>
             </div>
@@ -158,19 +255,22 @@
 
             <!--begin::Status-->
             <div class="col-md-4" *ngIf="process_id">
-                <div class="card card-custom card-stretch gutter-b">
+                <div class="card card-custom gutter-b">
                     <!--begin::Header-->
-                    <div class="card-header border-0 py-5">
-                        <h3 class="card-title align-items-start flex-column">
-                            <span class="card-label font-weight-bolder text-dark">Status</span>
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            Status
                         </h3>
                     </div>
                     <!--end::Header-->
 
                     <!--begin::Body-->
                     <div class="card-body scroll-card pt-0 pb-3">
-                        <timeline-status [allStatus]="process.status" [idProcess]="process.id" [isDone]="isDone" (closeProcess)="closeProcess($event)"></timeline-status>
+                        <div style="padding: 15px;">
+                            <timeline-status [allStatus]="process.status" [idProcess]="process.id" [isDone]="isDone" (closeProcess)="closeProcess($event)"></timeline-status>
+                        </div>
                     </div>
+                    <div class="card-footer d-flex justify-content-end" style="height: 91px;"></div>
                     <!--end::Body-->
                 </div>
             </div>
@@ -183,8 +283,8 @@
             <div class="col-md-4" *ngIf="process_id">
                 <div class="card card-custom gutter-b">
                     <!--begin::Header-->
-                    <div class="card-header border-0 py-5">
-                        <h3 class="card-title align-items-start flex-column">
+                    <div class="card-header">
+                        <h3 class="card-title">
                             <span class="card-label font-weight-bolder text-dark">Arquivos</span>
                             <span class="text-muted mt-3 font-weight-bold font-size-sm">{{ countFiles }} encontrado(s)</span>
                         </h3>

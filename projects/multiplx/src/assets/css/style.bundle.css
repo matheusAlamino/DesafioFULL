@@ -62295,7 +62295,7 @@ body {
     width: 90% !important; } }
 
 .scroll-card {
-    max-height: 625px !important;
+    max-height: 560px !important;
     overflow-y: auto;
 }
 
