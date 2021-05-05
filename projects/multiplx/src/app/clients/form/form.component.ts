@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
+import { of as observableOf, concat as observableConcat, Observable, Subject } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators'
 import { AppComponent } from '../../app.component';
 import { CivilStatusEnum } from '../../enums/civil-status.enum';
-import { Client } from '../../models/client.model';
+import { ClientMin } from '../../models/client-min.model';
+import { Client, Conjuge } from '../../models/client.model';
 import { BankService } from '../../services/bank.service';
 import { ClientService } from '../../services/client.service';
 import { Swal } from '../../utils';
@@ -57,9 +59,10 @@ export class ClientFormComponent implements OnInit {
     error: boolean = false
     @ViewChild("form") $form: any
 
-    // conjuges$: Observable<Client[]>;
-    // conjugeLoading = false;
-    // conjugeinput$ = new Subject<string>();
+    conjuges$: Observable<Conjuge[]>;
+    conjugeLoading = false;
+    conjugeinput$ = new Subject<string>();
+    clientExcluded: any = []
 
     constructor(
         private app: AppComponent,
@@ -88,7 +91,11 @@ export class ClientFormComponent implements OnInit {
         this.route.params.subscribe((params: any) => {
             if (params.client_id) {
                 this.client_id = params.client_id
+                this.clientExcluded = [this.client_id]
                 this.loadClient()
+            } else {
+                this.loadConjuges()
+                this.clientExcluded = []
             }
         });
     }
@@ -105,30 +112,34 @@ export class ClientFormComponent implements OnInit {
         })
     }
 
-    // loadConjuges(categorias: any = []) {
-    //     this.conjuges$ = observableConcat(
-    //         observableOf(categorias),
-    //         this.categoriainput$.pipe(
-    //             debounceTime(200),
-    //             distinctUntilChanged(),
-    //             tap(() => (this.categoriaLoading = true)),
-    //             switchMap((term) =>
-    //                 this.categoriaService
-    //                     .getCategories(this.app.storage.token, [], term)
-    //                     .pipe(
-    //                         catchError(() => observableOf([])), // empty list on error
-    //                         tap(() => (this.categoriaLoading = false))
-    //                     )
-    //             )
-    //         )
-    //     )
-    // }
+    loadConjuges(conjuges: any = []) {
+        this.conjuges$ = observableConcat(
+            observableOf(conjuges),
+            this.conjugeinput$.pipe(
+                debounceTime(200),
+                distinctUntilChanged(),
+                tap(() => (this.conjugeLoading = true)),
+                 switchMap((term) =>
+                    this.clientService.getClients(term, this.clientExcluded, true)
+                        .pipe(
+                            catchError(() => observableOf([])), // empty list on error
+                            tap(() => (this.conjugeLoading = false))
+                        )
+                )
+            )
+        )
+    }
 
     loadClient() {
         this.clientService.show(this.client_id).subscribe(response => {
             this.app.toggleLoading(false)
             if (response.ret == 1) {
                 this.client = response.client
+
+                if (this.client.conjuge) {
+                    this.loadConjuges([this.client.conjuge])
+                }
+
                 if (this.client.address == null) {
                     this.client.address = {
                         cep: null,
@@ -169,6 +180,8 @@ export class ClientFormComponent implements OnInit {
     }
 
     save() {
+        this.checkConjuge()
+
         this.client.status = this.client.status ? 1 : 0
         this.client.own_client = this.client.own_client ? 1 : 0
         this.client.tutelado = this.client.tutelado ? 1 : 0
@@ -240,5 +253,15 @@ export class ClientFormComponent implements OnInit {
                 this.app.logout('clientes')
             }
         })
+    }
+
+    onChangeCivilStatus() {
+        this.checkConjuge()
+    }
+
+    checkConjuge() {
+        if (this.client.civil_status != 2 && this.client.civil_status != 4 && this.client.civil_status != 4) {
+            this.client.conjuge_id = null;
+        }
     }
 }

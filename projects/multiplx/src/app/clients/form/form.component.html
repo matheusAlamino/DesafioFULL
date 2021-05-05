@@ -133,6 +133,7 @@
                                 <div class="col-lg-6">
                                     <label>Estado Civil:</label>
                                     <select type="text" class="form-control" name="civil_status" #civil_status="ngModel"
+                                        (onChange)="onChangeCivilStatus()"
                                         [(ngModel)]="client.civil_status"
                                         placeholder="Selecione o estado civil" >
                                         <option [value]="0">Não informado</option>
@@ -143,25 +144,25 @@
                                         <option [value]="5">Viúvo(a)</option>
                                     </select>
                                 </div>
-                                <!-- <div class="col-lg-6">
+                                <div class="col-lg-6">
                                     <label>Cônjuge:</label>
                                     <ng-select [items]="conjuges$ | async"
+                                        [disabled]="client.civil_status != 2 && client.civil_status != 3 && client.civil_status != 4"
                                         #selectConjuge="ngModel"
                                         bindLabel="name"
                                         bindValue ="id"
                                         name="conjuge_id"
-                                        [multiple]="true"
+                                        [multiple]="false"
                                         [hideSelected]="true"
                                         [loading]="conjugeLoading"
                                         [typeahead]="conjugeinput$"
-                                        notFoundText="Nenhum cônjuge encontrado"
+                                        notFoundText="Cônjuge não encontrado"
                                         loadingText="Carregando..."
-                                        clearAllText="Limpar buscar"
-                                        typeToSearchText="Busque o cônjuge"
-                                        [(ngModel)]="client.conjuge_id"
-                                        required>
+                                        clearAllText="Limpar busca"
+                                        typeToSearchText="Digite para buscar cônjuge"
+                                        [(ngModel)]="client.conjuge_id">
                                     </ng-select>
-                                </div> -->
+                                </div>
                             </div>
                             <div class="separator separator-dashed my-5"></div>
                             <div class="form-group">

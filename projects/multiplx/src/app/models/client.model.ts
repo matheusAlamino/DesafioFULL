@@ -15,6 +15,7 @@ export interface Client {
     certificado_digital: number,
     certificado_digital_type: string,
     civil_status: number,
+    conjuge?: Conjuge,
     conjuge_id: number,
     own_client: number,
     tutelado: number,
@@ -37,4 +38,9 @@ export interface ClientAddress {
     bairro: string,
     cidade: string,
     uf: string,
+}
+
+export interface Conjuge {
+    id: number,
+    name: string
 }
