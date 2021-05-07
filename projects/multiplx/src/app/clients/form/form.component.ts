@@ -36,6 +36,7 @@ export class ClientFormComponent implements OnInit {
         certificado_digital_type: null,
         civil_status: CivilStatusEnum.naoInformado,
         conjuge_id: null,
+        obs: null,
         own_client: 1,
         tutelado: 0,
         bank_code: null,
@@ -163,6 +164,15 @@ export class ClientFormComponent implements OnInit {
                 this.app.logout('clientes')
             }
         })
+    }
+
+    onCancel() {
+        let msg = 'Deseja realmente cancelar este cadastro? *Todos dados serão perdidos.'
+        if (this.client.id != null) {
+            msg = 'Deseja realmente cancelar edição dos dados do cliente?'
+        }
+
+        this.swal.confirmAlertCustom('Atenção', msg, 'info', 'Sim', 'Não', { callback: () => this.router.navigate(['/clientes']) })
     }
 
     onSave() {

@@ -17,6 +17,7 @@ export interface Client {
     civil_status: number,
     conjuge?: Conjuge,
     conjuge_id: number,
+    obs: string,
     own_client: number,
     tutelado: number,
     bank_code: string,
