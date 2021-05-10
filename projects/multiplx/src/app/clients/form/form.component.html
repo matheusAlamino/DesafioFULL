@@ -151,7 +151,7 @@
                             <div class="form-group row">
                                 <div class="col-lg-6">
                                     <label>Nome da mãe*:</label>
-                                    <input type="text" class="form-control" name="mother_name" #mother_name="ngModel" [(ngModel)]="client.mother_name" [ngClass]="{'is-invalid': !mother_name.valid && error}" placeholder="Informe o nome da mãe"/>
+                                    <input type="text" class="form-control" name="mother_name" #mother_name="ngModel" [(ngModel)]="client.mother_name" [ngClass]="{'is-invalid': !mother_name.valid && error}" placeholder="Informe o nome da mãe" required/>
                                     <!-- <span class="form-text text-muted">Please enter your full name</span> -->
                                 </div>
                                 <div class="col-lg-6">
