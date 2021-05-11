@@ -4,6 +4,8 @@ export interface Process {
     id: number,
     user_id: number,
     responsable_id: number,
+    type_id: number,
+    ente_devedor_id: number,
     process_number: string,
     vara: string,
     precatory_number: string,
@@ -29,7 +31,9 @@ export interface Process {
     assignee_id?: number[],
     responsable?: User,
     process_status?: PivotStatus,
-    process_files?: FileProcess[]
+    process_files?: FileProcess[],
+    type?: Type,
+    ente_devedor?: EnteDevedor
 }
 export interface Client {
     id: number,
@@ -64,4 +68,14 @@ export interface ProcessClient {
     percentual: number,
     value: number,
     valueString?: string
+}
+
+export interface Type {
+    id: number,
+    title: string
+}
+
+export interface EnteDevedor {
+    id: number,
+    name: string
 }

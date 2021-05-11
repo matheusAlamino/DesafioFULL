@@ -12,13 +12,13 @@
 
         <!--begin::Search Bar-->
         <div class="d-flex align-items-md-center mb-2 flex-column flex-md-row">
-            <div class="bg-white rounded p-4 d-flex flex-grow-1 flex-sm-grow-0">
+            <div class="bg-white rounded p-4 d-flex flex-grow-1 flex-sm-grow-0" style="min-width: 40%;">
 
                 <!--begin::Form-->
-                <form (submit)="loadProcess()" class="form d-flex align-items-md-center flex-sm-row flex-column flex-grow-1 flex-sm-grow-0" #formSearch="ngForm">
+                <form (submit)="loadProcess()" style="width: 100%" class="form d-flex align-items-md-center flex-sm-row flex-column flex-grow-1 flex-sm-grow-0" #formSearch="ngForm">
 
                     <!--begin::Input-->
-                    <div class="d-flex align-items-center py-3 py-sm-0 px-sm-3">
+                    <div class="d-flex align-items-center py-3 py-sm-0 px-sm-3" style="min-width: 45%;">
                         <span class="svg-icon svg-icon-lg">
 
                             <!--begin::Svg Icon | path:assets/media/svg/icons/General/Search.svg-->
@@ -32,14 +32,14 @@
 
                             <!--end::Svg Icon-->
                         </span>
-                        <input type="text" class="form-control border-0 font-weight-bold pl-2" placeholder="Nome ou CPF" name="nome" #nome="ngModel" [(ngModel)]="term" />
+                        <input type="text" class="form-control border-0 font-weight-bold pl-2" placeholder="Número ou tipo do processo" name="nome" #nome="ngModel" [(ngModel)]="term" />
                     </div>
 
                     <!--end::Input-->
 
                     <!--begin::Input-->
                     <span class="bullet bullet-ver h-25px d-none d-sm-flex mr-2"></span>
-                    <div class="d-flex align-items-center py-3 py-sm-0 px-sm-3">
+                    <div class="d-flex align-items-center py-3 py-sm-0 px-sm-3" style="min-width: 35%;">
                         <span class="svg-icon svg-icon-lg">
 
                             <!--begin::Svg Icon | path:assets/media/svg/icons/Layout/Layout-4-blocks.svg-->
@@ -63,7 +63,6 @@
                             </div>
                         </div>
                     </div>
-
                     <!--end::Input-->
 
                     <!--end::Input-->
@@ -129,6 +128,7 @@
                                             <th style="min-width: 200px" class="pl-7">
                                                 <span class="text-dark-75">Cessionários</span>
                                             </th> -->
+                                            <th class="text-center" style="min-width: 100px">Tipo de Processo</th>
                                             <th class="text-center" style="min-width: 100px">Data de Criação</th>
                                             <th class="text-center" style="min-width: 200px">Status Atual</th>
                                             <th class="text-center" style="min-width: 100px">Ações</th>
@@ -162,6 +162,9 @@
                                                     </div>
                                                 </div>
                                             </td> -->
+                                            <td class="text-center">
+                                                <span class="text-muted font-weight-bold">{{ proc.type.title }}</span>
+                                            </td>
                                             <td class="text-center">
                                                 <span class="text-muted font-weight-bold">{{ proc.date | date: 'dd/MM/yyyy' }}</span>
                                             </td>

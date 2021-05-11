@@ -14,6 +14,86 @@
 <!--end::Subheader-->
 
 <!--begin::Modal-->
+<div class="modal fade" id="newTypeModal" data-backdrop="static" tabindex="-1" role="dialog"
+    aria-labelledby="staticBackdrop" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Adicionar Tipo de Processo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="kt_subheader_leaflet" style="width: 100%;">
+                    <div id="kt_subheader_leaflet" style="height:100px; width: 100%;">
+                        <form class="form" #form="ngForm">
+                            <div class="card-body">
+                                <div class="form-group row">
+                                    <div class="col-lg-5">
+                                        <label>Novo tipo de processo*:</label>
+                                        <input type="text" class="form-control"
+                                            placeholder="Digite aqui o tipo de processo" name="value" #value="ngModel"
+                                            [(ngModel)]="new_type.title" />
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" #closeModalType class="btn btn-light-primary font-weight-bold"
+                    data-dismiss="modal">Cancelar</button>
+                <button type="button" (click)="onSaveType()"
+                    class="btn btn-primary font-weight-bold">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end::Modal-->
+
+<!--begin::Modal-->
+<div class="modal fade" id="newEnteDevedorModal" data-backdrop="static" tabindex="-1" role="dialog"
+    aria-labelledby="staticBackdrop" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Adicionar Ente Devedor</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="kt_subheader_leaflet" style="width: 100%;">
+                    <div id="kt_subheader_leaflet" style="height:100px; width: 100%;">
+                        <form class="form" #form="ngForm">
+                            <div class="card-body">
+                                <div class="form-group row">
+                                    <div class="col-lg-5">
+                                        <label>Ente Devedor*:</label>
+                                        <input type="text" class="form-control"
+                                            placeholder="Digite aqui o ente devedor" name="value" #value="ngModel"
+                                            [(ngModel)]="new_ente.name" />
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" #closeModalEnte class="btn btn-light-primary font-weight-bold"
+                    data-dismiss="modal">Cancelar</button>
+                <button type="button" (click)="onSaveEnte()"
+                    class="btn btn-primary font-weight-bold">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end::Modal-->
+
+<!--begin::Modal-->
 <div class="modal fade" id="filesModal" data-backdrop="static" tabindex="-1" role="dialog"
     aria-labelledby="staticBackdrop" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -74,24 +154,6 @@
                                             <input type="text" class="form-control" [disabled]="!process.active"
                                             placeholder="Ex.: 19ª Vara Federal do Rio de Janeiro" name="vara" #vara="ngModel" [(ngModel)]="process.vara"
                                             [ngClass]="{'is-invalid': !vara.valid && error}" required />
-                                            <!-- <div class="input-group-append"> -->
-                                                <!-- <a href="" target="_blank" class="btn btn-icon btn-sm btn-outline-dark mr-2"> -->
-                                                    <!-- <span class="input-group-text" style="cursor: pointer;">
-                                                        <span class="svg-icon svg-icon-dark svg-icon-1x">
-                                                            <svg
-                                                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px"
-                                                                viewBox="0 0 24 24" version="1.1">
-                                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                                    <rect fill="#000000" x="4" y="11" width="16" height="2" rx="1" />
-                                                                    <rect fill="#000000" opacity="0.3"
-                                                                        transform="translate(12.000000, 12.000000) rotate(-270.000000) translate(-12.000000, -12.000000) " x="4"
-                                                                        y="11" width="16" height="2" rx="1" />
-                                                                </g>
-                                                            </svg>
-                                                        </span>
-                                                    </span> -->
-                                                <!-- </a> -->
-                                            <!-- </div> -->
                                         </div>
                                     </div>
                                 </div>
@@ -111,6 +173,66 @@
                                             [typeahead]="clientinputAssignee$" notFoundText="Cliente não encontrado" loadingText="Carregando..."
                                             clearAllText="Limpar busca" typeToSearchText="Digite para buscar clientes" [(ngModel)]="process.assignee_id">
                                         </ng-select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-6">
+                                        <label>Tipo de Processo*:</label>
+                                        <div class="row">
+                                            <div class="col-lg-1">
+                                                <a href="javascript:;" target="_blank" class="btn btn-icon btn-sm btn-outline-dark mr-2" data-toggle="modal"
+                                                    data-target="#newTypeModal" (click)="openNewTypeModal()">
+                                                    <span class="svg-icon">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                                                            height="24px" viewBox="0 0 24 24" version="1.1">
+                                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                <rect fill="#000000" x="4" y="11" width="16" height="2" rx="1" />
+                                                                <rect fill="#000000" opacity="0.3"
+                                                                    transform="translate(12.000000, 12.000000) rotate(-270.000000) translate(-12.000000, -12.000000) "
+                                                                    x="4" y="11" width="16" height="2" rx="1" />
+                                                            </g>
+                                                        </svg>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                            <div class="col-lg-11">
+                                                <ng-select [items]="process_types$ | async" #selectType="ngModel" [disabled]="!process.active"
+                                                    [ngClass]="{'is-invalid': !process.type_id && error}" bindLabel="title" bindValue="id" name="type_id"
+                                                    [multiple]="false" [hideSelected]="true" [loading]="processLoadingType" [typeahead]="processinputType$"
+                                                    notFoundText="Tipo de processo não encontrado" loadingText="Carregando..." clearAllText="Limpar busca"
+                                                    typeToSearchText="Digite para buscar tipo de processo" [(ngModel)]="process.type_id" required>
+                                                </ng-select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label>Ente Devedor:</label>
+                                        <div class="row">
+                                            <div class="col-lg-1">
+                                                <a href="javascript:;" target="_blank" class="btn btn-icon btn-sm btn-outline-dark mr-2" data-toggle="modal"
+                                                    data-target="#newEnteDevedorModal" (click)="openNewEnteModal()">
+                                                    <span class="svg-icon">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                                                            height="24px" viewBox="0 0 24 24" version="1.1">
+                                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                <rect fill="#000000" x="4" y="11" width="16" height="2" rx="1" />
+                                                                <rect fill="#000000" opacity="0.3"
+                                                                    transform="translate(12.000000, 12.000000) rotate(-270.000000) translate(-12.000000, -12.000000) "
+                                                                    x="4" y="11" width="16" height="2" rx="1" />
+                                                            </g>
+                                                        </svg>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                            <div class="col-lg-11">
+                                                <ng-select [items]="ente_devedor$ | async" #selectEnte="ngModel" [disabled]="!process.active"
+                                                    [ngClass]="{'is-invalid': !process.ente_devedor_id && error}" bindLabel="name" bindValue="id" name="ente_devedor_id"
+                                                    [multiple]="false" [hideSelected]="true" [loading]="enteLoadingDevedor" [typeahead]="enteinputDevedor$"
+                                                    notFoundText="Ente devedor não encontrado" loadingText="Carregando..." clearAllText="Limpar busca"
+                                                    typeToSearchText="Digite para buscar ente devedor" [(ngModel)]="process.ente_devedor_id">
+                                                </ng-select>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group row">

@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Process, Client, User, PivotStatus } from '../../models/process.model';
+import { Process, Client, User, PivotStatus, Type, EnteDevedor } from '../../models/process.model';
 import {of as observableOf, concat as observableConcat,  Observable, Subject } from 'rxjs'
 import { catchError, debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import { ClientService } from '../../services/client.service';
@@ -16,6 +16,8 @@ import { UploadFileComponent } from '../../components/upload-file/upload-file.co
 import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
 import { environment } from 'projects/multiplx/src/environments/environment';
 import { ConvertNumerics } from '../../utils/convertNumerics';
+import { TypeService } from '../../services/type.service';
+import { EnteDevedorService } from '../../services/ente-devedor.service';
 
 @Component({
   selector: 'app-form-process',
@@ -37,6 +39,8 @@ export class FormProcessComponent implements OnInit {
         id: null,
         user_id: null,
         responsable_id: null,
+        type_id: null,
+        ente_devedor_id: null,
         process_number: null,
         vara: null,
         precatory_number: null,
@@ -60,6 +64,14 @@ export class FormProcessComponent implements OnInit {
         assignors: [],
         assignee_id: []
     }
+    new_type: Type = {
+        id: null,
+        title: null
+    }
+    new_ente: EnteDevedor = {
+        id: null,
+        name: null
+    }
     error: boolean = false
 
     clientsAssignees$: Observable<Client[]>;
@@ -69,6 +81,13 @@ export class FormProcessComponent implements OnInit {
     clientsResponsable$: Observable<User[]>;
     clientLoadingResponsable = false;
     clientinputResponsable$ = new Subject<string>();
+
+    process_types$: Observable<Type[]>;
+    processLoadingType = false;
+    processinputType$ = new Subject<string>();
+    ente_devedor$: Observable<EnteDevedor[]>;
+    enteLoadingDevedor = false;
+    enteinputDevedor$ = new Subject<string>();
 
     titleCard: string = "Novo"
 
@@ -85,6 +104,8 @@ export class FormProcessComponent implements OnInit {
 
     @ViewChild('dzoneUpload') $dzoneUpload: UploadFileComponent
     @ViewChild('closeModalFile') $closeModalFile: ElementRef
+    @ViewChild('closeModalType') $closeModalType: ElementRef
+    @ViewChild('closeModalEnte') $closeModalEnte: ElementRef
 
     paramsClient: any
     config: DropzoneConfigInterface = {
@@ -105,7 +126,9 @@ export class FormProcessComponent implements OnInit {
         private router: Router,
         private route: ActivatedRoute,
         private statusService: StatusService,
-        private convertNumeric: ConvertNumerics
+        private convertNumeric: ConvertNumerics,
+        private typeService: TypeService,
+        private enteDevedorService: EnteDevedorService,
     ) { }
 
     ngOnInit(): void {
@@ -136,6 +159,8 @@ export class FormProcessComponent implements OnInit {
                 this.app.loading = false
                 this.loadAssignees()
                 this.loadResponsable()
+                this.loadTypes()
+                this.loadEntes()
             }
         })
     }
@@ -154,6 +179,16 @@ export class FormProcessComponent implements OnInit {
 
             if (this.process.responsable) {
                 this.loadResponsable([this.process.responsable])
+            }
+
+            if (this.process.type) {
+                this.loadTypes([this.process.type])
+            }
+
+            if (this.process.ente_devedor) {
+                this.loadEntes([this.process.ente_devedor])
+            } else {
+                this.loadEntes()
             }
 
             if (this.process.status) {
@@ -245,6 +280,44 @@ export class FormProcessComponent implements OnInit {
                         .pipe(
                             catchError(() => observableOf([])), // empty list on error
                             tap(() => (this.clientLoadingResponsable = false))
+                        )
+                )
+            )
+        )
+    }
+
+    loadTypes(types: any = []) {
+        this.process_types$ = observableConcat(
+            observableOf(types),
+            this.processinputType$.pipe(
+                debounceTime(200),
+                distinctUntilChanged(),
+                tap(() => (this.processLoadingType = true)),
+                switchMap((term) =>
+                    this.typeService
+                        .getTypes(term)
+                        .pipe(
+                            catchError(() => observableOf([])), // empty list on error
+                            tap(() => (this.processLoadingType = false))
+                        )
+                )
+            )
+        )
+    }
+
+    loadEntes(enteDevedores: any = []) {
+        this.ente_devedor$ = observableConcat(
+            observableOf(enteDevedores),
+            this.enteinputDevedor$.pipe(
+                debounceTime(200),
+                distinctUntilChanged(),
+                tap(() => (this.enteLoadingDevedor = true)),
+                switchMap((term) =>
+                    this.enteDevedorService
+                        .getEntes(term)
+                        .pipe(
+                            catchError(() => observableOf([])), // empty list on error
+                            tap(() => (this.enteLoadingDevedor = false))
                         )
                 )
             )
@@ -356,6 +429,60 @@ export class FormProcessComponent implements OnInit {
             })
         } else {
             this.swal.msgAlert('Atenção', 'Não possui itens para salvar na área de upload(s)!', 'error', 'Ok')
+        }
+    }
+
+    openNewTypeModal() {
+        this.new_type = {
+            id: null,
+            title: null
+        }
+    }
+
+    openNewEnteModal() {
+        this.new_ente = {
+            id: null,
+            name: null
+        }
+    }
+
+    onSaveType() {
+        if (this.new_type.title) {
+            this.typeService.save(this.new_type).subscribe(resp => {
+                if (resp.ret) {
+                    this.$closeModalType.nativeElement.click()
+                    this.swal.msgAlert('Sucesso', 'Tipo de processo salvo com sucesso!', 'success')
+                } else {
+                    this.swal.msgAlert('Atenção', 'Erro ao salvar tipo de processo!', 'warning', 'Ok')
+                }
+            }, error => {
+                this.swal.msgAlert('Atenção', 'Ocorreu um problema ao tentar salvar o tipo de processo!', 'error', 'Ok')
+                if (error.status == 401) {
+                    this.app.logout('process')
+                }
+            })
+        } else {
+            this.swal.msgAlert('Atenção', 'Não possui título do tipo de processo!', 'error', 'Ok')
+        }
+    }
+
+    onSaveEnte() {
+        if (this.new_ente.name) {
+            this.enteDevedorService.save(this.new_ente).subscribe(resp => {
+                if (resp.ret) {
+                    this.$closeModalEnte.nativeElement.click()
+                    this.swal.msgAlert('Sucesso', 'Ente devedor salvo com sucesso!', 'success')
+                } else {
+                    this.swal.msgAlert('Atenção', 'Erro ao salvar ente devedor!', 'warning', 'Ok')
+                }
+            }, error => {
+                this.swal.msgAlert('Atenção', 'Ocorreu um problema ao tentar salvar o ente devedor!', 'error', 'Ok')
+                if (error.status == 401) {
+                    this.app.logout('process')
+                }
+            })
+        } else {
+            this.swal.msgAlert('Atenção', 'Não possui nome do ente devedor!', 'error', 'Ok')
         }
     }
 }
