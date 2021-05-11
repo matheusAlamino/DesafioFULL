@@ -36,6 +36,8 @@ export class ClientFormComponent implements OnInit {
         certificado_digital_type: null,
         civil_status: CivilStatusEnum.naoInformado,
         conjuge_id: null,
+        mother_name: null,
+        father_name: null,
         obs: null,
         own_client: 1,
         tutelado: 0,
