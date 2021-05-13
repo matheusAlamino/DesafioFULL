@@ -141,6 +141,8 @@ export class ClientFormComponent implements OnInit {
 
                 if (this.client.conjuge) {
                     this.loadConjuges([this.client.conjuge])
+                } else {
+                    this.loadConjuges()
                 }
 
                 if (this.client.address == null) {
